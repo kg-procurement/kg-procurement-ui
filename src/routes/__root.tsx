@@ -10,7 +10,7 @@ export default function Root() {
     <div>
       <div>Root Here</div>
       <Outlet />
-      {import.meta.env.DEV && (
+      {import.meta.env.DEV && process.env.NODE_ENV !== 'test' && (
         <TanStackRouterDevtools position="bottom-right" />
       )}
     </div>
