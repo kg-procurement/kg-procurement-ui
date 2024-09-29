@@ -21,6 +21,11 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    /* Types */
+    "types": [
+      "@types",
+      "vitest/globals"
+    ],
     "paths": {
       "@/*": [
         "./src/*"

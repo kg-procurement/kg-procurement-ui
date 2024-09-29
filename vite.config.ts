@@ -10,5 +10,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  plugins: [TanStackRouterVite(), react()],
+  plugins: [
+    process.env.NODE_ENV !== 'test' &&
+    TanStackRouterVite({ routeFileIgnorePattern: '__tests__' }),
+    react(),
+  ],
 })
