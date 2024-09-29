@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import { withWrappers } from "@/lib/testing/utils.tsx";
-import { Typography } from "../index.tsx";
+import { Typography } from "./index.tsx";
 import "@testing-library/jest-dom";
 import { createRef } from "react";
 
