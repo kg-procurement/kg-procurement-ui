@@ -27,7 +27,7 @@ describe("<Typography />", () => {
     expect(ref.current).toBeInstanceOf(HTMLParagraphElement);
     expect(ref.current?.textContent).toBe("Sample Text");
   });
-  
+
   it("should apply the custom className to the element", () => {
     const { container } = render(
       <Typography className="custom-class">Sample Text</Typography>,
@@ -37,19 +37,32 @@ describe("<Typography />", () => {
     expect(element).toHaveClass("custom-class");
   });
 
-    it("should apply additional props to the component", () => {
-      const { container } = render(
-        <Typography
-          id="test-id"
-          data-testid="typography-element"
-        >
-          Sample Text
-        </Typography>,
-      );
+  it("should apply additional props to the component", () => {
+    const { container } = render(
+      <Typography id="test-id" data-testid="typography-element">
+        Sample Text
+      </Typography>,
+    );
 
-      const element = container.querySelector("p"); // Default variant is 'p'
+    const element = container.querySelector("p");
 
-      expect(element).toHaveAttribute("id", "test-id");
-      expect(element).toHaveAttribute("data-testid", "typography-element");
-    });
+    expect(element).toHaveAttribute("id", "test-id");
+    expect(element).toHaveAttribute("data-testid", "typography-element");
+  });
+
+  it("should render as a custom element when using asChild", () => {
+    const { container } = render(
+      <Typography asChild>
+        <span data-testid="custom-element">Custom Tag</span>
+      </Typography>,
+    );
+
+    const customElement = container.querySelector(
+      '[data-testid="custom-element"]',
+    );
+
+    expect(customElement).toBeInTheDocument();
+    expect(customElement?.tagName).toBe("SPAN");
+    expect(container.textContent).toBe("Custom Tag");
+  });
 });
