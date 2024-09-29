@@ -2,6 +2,7 @@ import { render } from "@testing-library/react";
 import { withWrappers } from "@/lib/testing/utils.tsx";
 import { Typography } from "../index.tsx";
 import "@testing-library/jest-dom";
+import { createRef } from "react";
 
 describe("<Typography />", () => {
   it("should render correctly with correct children", () => {
@@ -16,4 +17,12 @@ describe("<Typography />", () => {
     );
     expect(container.querySelector("h1")).toBeInTheDocument();
   });
+    it("should forward ref to the underlying element", () => {
+      const ref = createRef<HTMLParagraphElement>();
+
+      render(<Typography ref={ref}>Sample Text</Typography>);
+
+      expect(ref.current).toBeInstanceOf(HTMLParagraphElement);
+      expect(ref.current?.textContent).toBe("Sample Text");
+    });
 });
