@@ -36,4 +36,20 @@ describe("<Typography />", () => {
     const element = container.querySelector("p");
     expect(element).toHaveClass("custom-class");
   });
+
+    it("should apply additional props to the component", () => {
+      const { container } = render(
+        <Typography
+          id="test-id"
+          data-testid="typography-element"
+        >
+          Sample Text
+        </Typography>,
+      );
+
+      const element = container.querySelector("p"); // Default variant is 'p'
+
+      expect(element).toHaveAttribute("id", "test-id");
+      expect(element).toHaveAttribute("data-testid", "typography-element");
+    });
 });
