@@ -33,11 +33,11 @@ interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 const Typography = React.forwardRef<HTMLElement, TypographyProps>(
-  ({ variant = "body2", children, ...props }, ref) => {
+  ({ variant = "body2", children }, ref) => {
     const Comp = variantToTag[variant];
 
     return (
-      <Comp {...props} ref={ref}>
+      <Comp ref={ref}>
         {children}
       </Comp>
     );

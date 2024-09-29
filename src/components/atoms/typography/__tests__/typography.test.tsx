@@ -17,12 +17,20 @@ describe("<Typography />", () => {
     );
     expect(container.querySelector("h1")).toBeInTheDocument();
   });
-    it("should forward ref to the underlying element", () => {
-      const ref = createRef<HTMLParagraphElement>();
+  it("should forward ref to the underlying element", () => {
+    const ref = createRef<HTMLParagraphElement>();
 
-      render(<Typography ref={ref}>Sample Text</Typography>);
+    render(<Typography ref={ref}>Sample Text</Typography>);
 
-      expect(ref.current).toBeInstanceOf(HTMLParagraphElement);
-      expect(ref.current?.textContent).toBe("Sample Text");
-    });
+    expect(ref.current).toBeInstanceOf(HTMLParagraphElement);
+    expect(ref.current?.textContent).toBe("Sample Text");
+  });
+  it("should apply the custom className to the element", () => {
+    const { container } = render(
+      <Typography className="custom-class">Sample Text</Typography>,
+    );
+
+    const element = container.querySelector("p");
+    expect(element).toHaveClass("custom-class");
+  });
 });
