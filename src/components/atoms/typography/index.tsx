@@ -54,13 +54,14 @@ interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 const Typography = React.forwardRef<HTMLElement, TypographyProps>(
-  ({ variant = "body2", children, className }, ref) => {
+  ({ variant = "body2", children, className, ...props }, ref) => {
     const Comp = variantToTag[variant];
 
     return (
       <Comp
         className={cn(typographyVariants({ variant, className }))}
         ref={ref}
+        {...props}
       >
         {children}
       </Comp>
