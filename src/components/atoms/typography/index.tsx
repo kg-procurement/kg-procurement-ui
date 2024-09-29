@@ -1,4 +1,5 @@
 import { cn } from "@/utils/cn";
+import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
 import React from "react";
 
@@ -51,11 +52,12 @@ interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
   variant?: VariantKey;
   children: React.ReactNode;
   className?: string;
+  asChild?: boolean;
 }
 
 const Typography = React.forwardRef<HTMLElement, TypographyProps>(
-  ({ variant = "body2", children, className, ...props }, ref) => {
-    const Comp = variantToTag[variant];
+  ({ variant = "body2", children, className, asChild, ...props }, ref) => {
+    const Comp = asChild ? Slot : variantToTag[variant];
 
     return (
       <Comp
