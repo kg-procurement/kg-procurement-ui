@@ -11,12 +11,14 @@ describe("<Typography />", () => {
     );
     expect(container.textContent).toMatchInlineSnapshot(`"Sample Text"`);
   });
+
   it('should render as an h1 tag when variant is "h1"', () => {
     const { container } = render(
       <Typography variant="h1">Heading 1</Typography>,
     );
     expect(container.querySelector("h1")).toBeInTheDocument();
   });
+
   it("should forward ref to the underlying element", () => {
     const ref = createRef<HTMLParagraphElement>();
 
@@ -25,6 +27,7 @@ describe("<Typography />", () => {
     expect(ref.current).toBeInstanceOf(HTMLParagraphElement);
     expect(ref.current?.textContent).toBe("Sample Text");
   });
+  
   it("should apply the custom className to the element", () => {
     const { container } = render(
       <Typography className="custom-class">Sample Text</Typography>,
