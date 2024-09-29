@@ -27,20 +27,22 @@ const variantToTag: Record<VariantKey, string> = {
   caption: "span",
 };
 
-interface TypographyProps {
+interface TypographyProps extends React.HTMLAttributes<HTMLElement> {
   variant?: VariantKey;
   children: React.ReactNode;
 }
 
-const Typography: React.FC<TypographyProps> = ({
-  children,
-  variant = "body2",
-}) => {
-  const Comp = variantToTag[variant];
+const Typography = React.forwardRef<HTMLElement, TypographyProps>(
+  ({ variant = "body2", children, ...props }, ref) => {
+    const Comp = variantToTag[variant];
 
-  return <Comp>{children}</Comp>;
-};
-
+    return (
+      <Comp {...props} ref={ref}>
+        {children}
+      </Comp>
+    );
+  },
+);
 Typography.displayName = "Typography";
 
 export { Typography };
