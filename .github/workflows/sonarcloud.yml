@@ -1,0 +1,86 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout Repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Step 3: Install pnpm
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      # Step 4: Install dependencies using pnpm with cache
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+        env:
+          PNPM_CACHE_FOLDER: ~/.pnpm-store
+
+      # Step 5: Run tests to generate coverage report
+      - name: Run Tests with Coverage
+        run: pnpm test:coverage
+
+      # Step 6: Prepare files for SonarCloud
+      - name: Copy Sonar Project Properties
+        run: cp sonar-project.properties coverage/
+
+      - name: Copy Source Files
+        run: mkdir -p coverage/src && cp -r src/* coverage/src/
+
+      # Step 7: Upload artifacts (optional, for debugging)
+      - name: Upload Coverage Files
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-files
+          path: coverage/
+
+  sonarcloud-analysis:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    steps:
+      # Step 1: Checkout Repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Step 2: Download coverage artifact from the previous job
+      - name: Download Coverage Files
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage-files
+          path: coverage
+
+      # Step 3: Run SonarCloud Scan
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v3.0.0
+        with:
+          args: >
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+            -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.sources=.
+            -Dsonar.tests=.
+            -Dsonar.test.inclusions=**/*_test.js
+            -Dsonar.exclusions=**/node_modules/**,**/*_mock.js
+            -Dsonar.coverage.exclusions=**/node_modules/**,**/*_test.js
+            -Dsonar.sourceEncoding=UTF-8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
