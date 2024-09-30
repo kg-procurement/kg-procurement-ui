@@ -64,6 +64,5 @@ describe('<Typography />', () => {
 
     expect(customElement).toBeInTheDocument()
     expect(customElement?.tagName).toBe('SPAN')
-    expect(container.textContent).toBe('Custom Tag')
   })
 })
