@@ -19,34 +19,38 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Step 2: Set up Node.js
+      # Step 2: Fetch all branches and tags (ensure all refs are available)
+      - name: Fetch all branches and tags
+        run: git fetch --prune --unshallow --tags
+
+      # Step 3: Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      # Step 3: Install pnpm
+      # Step 4: Install pnpm
       - name: Install pnpm
         run: npm install -g pnpm
 
-      # Step 4: Install dependencies using pnpm with cache
+      # Step 5: Install dependencies using pnpm with cache
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
         env:
           PNPM_CACHE_FOLDER: ~/.pnpm-store
 
-      # Step 5: Run tests to generate coverage report
+      # Step 6: Run tests to generate coverage report
       - name: Run Tests with Coverage
         run: pnpm test:coverage
 
-      # Step 6: Prepare files for SonarCloud
+      # Step 7: Prepare files for SonarCloud
       - name: Copy Sonar Project Properties
         run: cp sonar-project.properties coverage/
 
       - name: Copy Source Files
         run: mkdir -p coverage/src && cp -r src/* coverage/src/
 
-      # Step 7: Upload artifacts (optional, for debugging)
+      # Step 8: Upload artifacts (optional, for debugging)
       - name: Upload Coverage Files
         uses: actions/upload-artifact@v3
         with:
