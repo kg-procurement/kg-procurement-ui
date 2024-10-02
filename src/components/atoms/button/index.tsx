@@ -10,9 +10,13 @@ const buttonVariants = cva(
       variant: {
         default: 'bg-primary text-primary-foreground hover:bg-primary/90',
       },
+      size: {
+        default: 'h-10 py-2 px-4',
+      },
     },
     defaultVariants: {
       variant: 'default',
+      size: 'default',
     },
   },
 )
@@ -22,10 +26,10 @@ export interface ButtonProps
   VariantProps<typeof buttonVariants> {}
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, children }, ref) => {
+  ({ className, variant, size, children }, ref) => {
     return (
       <button
-        className={cn(buttonVariants({ variant, className }))}
+        className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
       >
         {children}
