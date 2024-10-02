@@ -53,4 +53,15 @@ describe('<Button />', () => {
     const buttonElement = getByRole('button')
     expect(buttonElement).toBeDisabled()
   })
+
+  it('should display a spinner when isLoading is true', () => {
+    const { container, getByText } = render(
+      <Button isLoading>Loading...</Button>,
+    )
+
+    const spinner = container.querySelector('svg')
+    expect(spinner).toBeInTheDocument()
+
+    expect(getByText('Loading...')).toBeInTheDocument()
+  })
 })
