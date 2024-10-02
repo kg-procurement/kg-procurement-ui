@@ -1,3 +1,4 @@
+import { SpinnerGap } from '@phosphor-icons/react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import * as React from 'react'
 
@@ -35,7 +36,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
       >
-        {children}
+        <>
+          {isLoading && (
+            <SpinnerGap
+              className={cn('h-4 w-4 animate-spin', children && 'mr-2')}
+              size={32}
+            />
+          )}
+          {children}
+        </>
       </button>
     )
   },
