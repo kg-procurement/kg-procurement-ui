@@ -27,4 +27,16 @@ describe('<Button />', () => {
     const buttonElement = container.querySelector('button')
     expect(buttonElement).toHaveClass('custom-button-class')
   })
+
+  it('should apply the correct class for the "default" variant', () => {
+    const { container } = render(
+      <Button variant="default">Default Button</Button>,
+    )
+    const buttonElement = container.querySelector('button')
+    expect(buttonElement).toHaveClass(
+      'bg-primary',
+      'text-primary-foreground',
+      'hover:bg-primary/90',
+    )
+  })
 })
