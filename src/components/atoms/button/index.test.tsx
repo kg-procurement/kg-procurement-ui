@@ -39,4 +39,12 @@ describe('<Button />', () => {
       'hover:bg-primary/90',
     )
   })
+
+  it('should apply the correct class for the "default" size', () => {
+    const { container } = render(
+      <Button size="default">Default Size Button</Button>,
+    )
+    const buttonElement = container.querySelector('button')
+    expect(buttonElement).toHaveClass('h-10', 'py-2', 'px-4')
+  })
 })
