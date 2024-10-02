@@ -37,4 +37,10 @@ it("should forward ref to the underlying element", () => {
 
   expect(ref.current).toBeInstanceOf(HTMLButtonElement);
 });
+
+  it("should apply className prop", () => {
+    render(<Checkbox className="custom-class" />);
+    const checkboxElement = screen.getByRole("checkbox");
+    expect(checkboxElement).toHaveClass("custom-class");
+  });
 })
