@@ -4,6 +4,7 @@ import '@testing-library/jest-dom'
 import { fireEvent, render, screen } from '@testing-library/react'
 
 import { Checkbox } from './index.tsx'
+import { createRef } from 'react'
 
 describe('<Checkbox />', () => {
   it('should render the checkbox', () => {
@@ -28,4 +29,12 @@ describe('<Checkbox />', () => {
       screen.getByRole("checkbox").querySelector("svg.h-4.w-4"),
     ).toBeInTheDocument();
   });
+
+it("should forward ref to the underlying element", () => {
+  const ref = createRef<HTMLButtonElement>();
+
+  render(<Checkbox ref={ref} />);
+
+  expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+});
 })
