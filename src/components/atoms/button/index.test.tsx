@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import { createRef } from 'react'
 
 import { withWrappers } from '@/lib/testing/utils.tsx'
@@ -74,5 +74,29 @@ describe('<Button />', () => {
 
     expect(element).toHaveAttribute('id', 'test-id')
     expect(element).toHaveAttribute('data-testid', 'button-element')
+  })
+
+  it('should call onClick handler when clicked', () => {
+    const handleClick = vitest.fn()
+
+    const { getByRole } = render(
+      <Button onClick={handleClick}>Click Me</Button>,
+    )
+    const buttonElement = getByRole('button')
+    fireEvent.click(buttonElement)
+    expect(handleClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('should not call onClick handler when disabled', () => {
+    const handleClick = vitest.fn()
+
+    const { getByRole } = render(
+      <Button isLoading onClick={handleClick}>
+        Click Me
+      </Button>,
+    )
+    const buttonElement = getByRole('button')
+    fireEvent.click(buttonElement)
+    expect(handleClick).not.toHaveBeenCalled()
   })
 })
