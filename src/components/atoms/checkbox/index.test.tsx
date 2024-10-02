@@ -43,4 +43,12 @@ it("should forward ref to the underlying element", () => {
     const checkboxElement = screen.getByRole("checkbox");
     expect(checkboxElement).toHaveClass("custom-class");
   });
+
+it("should apply additional props to the component", () => {
+  render(<Checkbox id="test-id" />);
+
+  const element = screen.getByRole("checkbox");
+
+  expect(element).toHaveAttribute("id", "test-id");
+});
 })
