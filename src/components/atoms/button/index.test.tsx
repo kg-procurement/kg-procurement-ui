@@ -47,4 +47,10 @@ describe('<Button />', () => {
     const buttonElement = container.querySelector('button')
     expect(buttonElement).toHaveClass('h-10', 'py-2', 'px-4')
   })
+
+  it('should be disabled when isLoading is true', () => {
+    const { getByRole } = render(<Button isLoading>Loading</Button>)
+    const buttonElement = getByRole('button')
+    expect(buttonElement).toBeDisabled()
+  })
 })
