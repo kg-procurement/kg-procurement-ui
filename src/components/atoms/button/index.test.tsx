@@ -19,4 +19,12 @@ describe('<Button />', () => {
     expect(ref.current).toBeInstanceOf(HTMLButtonElement)
     expect(ref.current?.textContent).toBe('Click Me')
   })
+
+  it('should render with a custom className', () => {
+    const { container } = render(
+      <Button className="custom-button-class">Click Me</Button>,
+    )
+    const buttonElement = container.querySelector('button')
+    expect(buttonElement).toHaveClass('custom-button-class')
+  })
 })
