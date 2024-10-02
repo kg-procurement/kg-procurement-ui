@@ -7,9 +7,7 @@ import { Button } from './index.tsx'
 
 describe('<Button />', () => {
   it('should render correctly with correct children', () => {
-    const { container } = render(
-      withWrappers(<Button>Sample Text</Button>),
-    )
+    const { container } = render(withWrappers(<Button>Sample Text</Button>))
     expect(container.textContent).toMatchInlineSnapshot(`"Sample Text"`)
   })
 
@@ -63,5 +61,18 @@ describe('<Button />', () => {
     expect(spinner).toBeInTheDocument()
 
     expect(getByText('Loading...')).toBeInTheDocument()
+  })
+
+  it('should apply additional props to the component', () => {
+    const { container } = render(
+      <Button id="test-id" data-testid="button-element">
+        Sample Text
+      </Button>,
+    )
+
+    const element = container.querySelector('button')
+
+    expect(element).toHaveAttribute('id', 'test-id')
+    expect(element).toHaveAttribute('data-testid', 'button-element')
   })
 })
