@@ -1,5 +1,5 @@
 import * as React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "./index.tsx"; // Adjust the import path
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
@@ -109,4 +109,21 @@ describe("Tabs Component", () => {
       // visible tabs should not have the hidden attribute
       expect(contentTab2).not.toHaveAttribute("hidden");
     });
+
+
+  it("should apply the custom className to TabsList", () => {
+    const { container } = render(
+      <Tabs defaultValue="tab1">
+        <TabsList className="custom-class">
+          <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+          <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+        </TabsList>
+        <TabsContent value="tab1">Content 1</TabsContent>
+        <TabsContent value="tab2">Content 2</TabsContent>
+      </Tabs>,
+    );
+
+    const tabsListElement = container.querySelector('[role="tablist"]');
+    expect(tabsListElement).toHaveClass("custom-class");
+  });
 });
