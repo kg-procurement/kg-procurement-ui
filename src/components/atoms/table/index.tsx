@@ -1,21 +1,22 @@
-const Table = () => (
+const Table = ({ ...props }) => (
   <div className="relative w-full overflow-auto">
+    <table {...props} />
   </div>
 );
 
-const TableHeader = () => <></>;
+const TableHeader = ({ ...props }) => <thead {...props} />;
 
-const TableBody = () => <></>;
+const TableBody = ({ ...props }) => <tbody {...props} />;
 
-const TableFooter = () => <></>;
+const TableFooter = ({ ...props }) => <tfoot {...props} />;
 
-const TableRow = () => <></>;
+const TableRow = ({ ...props }) => <tr {...props} />;
 
-const TableHead = () => <></>;
+const TableHead = ({ ...props }) => <th {...props} />;
 
-const TableCell = () => <></>;
+const TableCell = ({ ...props }) => <td {...props} />;
 
-const TableCaption = () => <></>;
+const TableCaption = ({ ...props }) => <caption {...props} />;
 
 Table.displayName = "Table";
 TableHeader.displayName = "TableHeader";
