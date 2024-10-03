@@ -24,11 +24,57 @@ describe("Tabs Component", () => {
         </TabsContent>
       </Tabs>,
     );
-    const contentTab2 = document.getElementById("content-tab2");
 
     expect(screen.getByText("Tab 1")).toBeInTheDocument();
     expect(screen.getByText("Tab 2")).toBeInTheDocument();
     expect(screen.getByText("Content 1")).toBeInTheDocument();
   });
-  
+
+  it("should forward ref to TabsList correctly", () => {
+    const ref = React.createRef<HTMLDivElement>();
+    render(
+      <Tabs defaultValue="tab1">
+        <TabsList ref={ref}>
+          <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+          <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+        </TabsList>
+      </Tabs>,
+    );
+
+    expect(ref.current).toBeInstanceOf(HTMLDivElement);
+  });
+
+  it("should forward ref to TabsTrigger correctly", () => {
+    const ref = React.createRef<HTMLButtonElement>(); 
+    render(
+      <Tabs defaultValue="tab1">
+        <TabsList>
+          <TabsTrigger ref={ref} value="tab1">
+            Tab 1
+          </TabsTrigger>
+          <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+        </TabsList>
+      </Tabs>,
+    );
+
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+  });
+
+  it("should forward ref to TabsContent correctly", () => {
+    const ref = React.createRef<HTMLDivElement>();
+    render(
+      <Tabs defaultValue="tab1">
+        <TabsList>
+          <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+          <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+        </TabsList>
+        <TabsContent ref={ref} value="tab1">
+          Content 1
+        </TabsContent>
+        <TabsContent value="tab2">Content 2</TabsContent>
+      </Tabs>,
+    );
+
+    expect(ref.current).toBeInstanceOf(HTMLDivElement);
+  });
 });
