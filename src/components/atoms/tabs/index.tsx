@@ -4,17 +4,16 @@ import * as TabsPrimitive from "@radix-ui/react-tabs";
 
 const Tabs = TabsPrimitive.Root;
 
-const TabsList = () => (
-  <TabsPrimitive.List />
+const TabsList = ({ ...props }: TabsPrimitive.TabsListProps) => (
+  <TabsPrimitive.List {...props} />
 );
 
-const TabsTrigger = () => (
-  <TabsPrimitive.Trigger />
+const TabsTrigger = ({ ...props }: TabsPrimitive.TabsTriggerProps) => (
+  <TabsPrimitive.Trigger {...props} />
 );
 
-// Modified TabsContent: Removed React.forwardRef
-const TabsContent = () => (
-  <TabsPrimitive.Content />
+const TabsContent = ({ ...props }: TabsPrimitive.TabsContentProps) => (
+  <TabsPrimitive.Content {...props} />
 );
 
 export { Tabs, TabsList, TabsTrigger, TabsContent };
