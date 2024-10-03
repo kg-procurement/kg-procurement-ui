@@ -25,10 +25,15 @@
     "types": [
       "@types",
       "vitest/globals"
-    ]
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
   },
   "include": [
     "src",
-    "./vitest.setup.ts"
+    "vitest.setup.ts"
   ]
 }

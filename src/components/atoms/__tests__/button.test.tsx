@@ -3,7 +3,7 @@ import { createRef } from 'react'
 
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
-import { Button } from './index.tsx'
+import { Button } from '../button.tsx'
 
 describe('<Button />', () => {
   it('should render correctly with correct children', () => {
