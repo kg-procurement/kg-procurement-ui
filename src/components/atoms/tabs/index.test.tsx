@@ -77,4 +77,36 @@ describe("Tabs Component", () => {
 
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
+
+    it("displays the correct content when a tab is clicked", async () => {
+      render(
+        <Tabs defaultValue="tab1">
+          <TabsList>
+            <TabsTrigger value="tab1" id="trigger-tab1">
+              Tab 1
+            </TabsTrigger>
+            <TabsTrigger value="tab2" id="trigger-tab2">
+              Tab 2
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="tab1" id="content-tab1">
+            Content 1
+          </TabsContent>
+          <TabsContent value="tab2" id="content-tab2">
+            Content 2
+          </TabsContent>
+        </Tabs>,
+      );
+
+      const contentTab2 = document.getElementById("content-tab2");
+
+      // hidden tabs should have the hidden attribute
+      expect(contentTab2).toHaveAttribute("hidden", "");
+
+      // change tab
+      await userEvent.click(screen.getByText("Tab 2"));
+
+      // visible tabs should not have the hidden attribute
+      expect(contentTab2).not.toHaveAttribute("hidden");
+    });
 });
