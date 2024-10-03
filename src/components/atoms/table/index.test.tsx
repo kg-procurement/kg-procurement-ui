@@ -13,13 +13,13 @@ import {
 import { createRef } from "react";
 
 describe("<Typography />", () => {
-  it("renders Table component", () => {
+  it("should renders Table component", () => {
     render(<Table />);
     const table = screen.getByRole("table");
     expect(table).toBeInTheDocument();
   });
 
-  it("renders TableHeader component", () => {
+  it("should renders TableHeader component", () => {
     render(
       <Table>
         <TableHeader />
@@ -30,7 +30,7 @@ describe("<Typography />", () => {
     expect(header).toBeInTheDocument();
   });
 
-  it("renders TableBody component", () => {
+  it("should renders TableBody component", () => {
     render(
       <Table>
         <TableBody />
@@ -41,7 +41,7 @@ describe("<Typography />", () => {
     expect(body).toBeInTheDocument();
   });
 
-  it("renders TableFooter component", () => {
+  it("should renders TableFooter component", () => {
     render(
       <Table>
         <TableFooter />
@@ -52,7 +52,7 @@ describe("<Typography />", () => {
     expect(footer).toBeInTheDocument();
   });
 
-  it("renders TableRow component", () => {
+  it("should renders TableRow component", () => {
     render(
       <Table>
         <TableBody>
@@ -65,7 +65,7 @@ describe("<Typography />", () => {
     expect(row).toBeInTheDocument();
   });
 
-  it("renders TableHead component", () => {
+  it("should renders TableHead component", () => {
     render(
       <Table>
         <TableHeader>
@@ -80,7 +80,7 @@ describe("<Typography />", () => {
     expect(head).toHaveTextContent("Header");
   });
 
-  it("renders TableCell component", () => {
+  it("should renders TableCell component", () => {
     render(
       <Table>
         <TableBody>
@@ -95,7 +95,7 @@ describe("<Typography />", () => {
     expect(cell).toHaveTextContent("Cell");
   });
 
-  it("renders TableCaption component", () => {
+  it("should renders TableCaption component", () => {
     render(
       <Table>
         <TableCaption>Caption</TableCaption>
