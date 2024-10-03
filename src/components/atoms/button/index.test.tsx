@@ -38,6 +38,31 @@ describe('<Button />', () => {
     )
   })
 
+  it('should apply the correct class for the "ghost" variant', () => {
+    const { container } = render(
+      <Button variant="ghost">Default Button</Button>,
+    )
+    const buttonElement = container.querySelector('button')
+    expect(buttonElement).toHaveClass(
+      'hover:bg-accent',
+      'hover:text-accent-foreground',
+    )
+  })
+
+  it('should apply the correct class for the "outline" variant', () => {
+    const { container } = render(
+      <Button variant="outline">Default Button</Button>,
+    )
+    const buttonElement = container.querySelector('button')
+    expect(buttonElement).toHaveClass(
+      'border',
+      'border-input',
+      'bg-background',
+      'hover:bg-accent',
+      'hover:text-accent-foreground',
+    )
+  })
+
   it('should apply the correct class for the "default" size', () => {
     const { container } = render(
       <Button size="default">Default Size Button</Button>,
