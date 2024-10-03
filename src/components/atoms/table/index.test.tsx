@@ -10,15 +10,16 @@ import {
   TableCell,
   TableCaption,
 } from "./index.tsx";
+import { createRef } from "react";
 
 describe("<Typography />", () => {
-  test("renders Table component", () => {
+  it("renders Table component", () => {
     render(<Table />);
     const table = screen.getByRole("table");
     expect(table).toBeInTheDocument();
   });
 
-  test("renders TableHeader component", () => {
+  it("renders TableHeader component", () => {
     render(
       <Table>
         <TableHeader />
@@ -29,7 +30,7 @@ describe("<Typography />", () => {
     expect(header).toBeInTheDocument();
   });
 
-  test("renders TableBody component", () => {
+  it("renders TableBody component", () => {
     render(
       <Table>
         <TableBody />
@@ -40,7 +41,7 @@ describe("<Typography />", () => {
     expect(body).toBeInTheDocument();
   });
 
-  test("renders TableFooter component", () => {
+  it("renders TableFooter component", () => {
     render(
       <Table>
         <TableFooter />
@@ -51,7 +52,7 @@ describe("<Typography />", () => {
     expect(footer).toBeInTheDocument();
   });
 
-  test("renders TableRow component", () => {
+  it("renders TableRow component", () => {
     render(
       <Table>
         <TableBody>
@@ -64,7 +65,7 @@ describe("<Typography />", () => {
     expect(row).toBeInTheDocument();
   });
 
-  test("renders TableHead component", () => {
+  it("renders TableHead component", () => {
     render(
       <Table>
         <TableHeader>
@@ -79,7 +80,7 @@ describe("<Typography />", () => {
     expect(head).toHaveTextContent("Header");
   });
 
-  test("renders TableCell component", () => {
+  it("renders TableCell component", () => {
     render(
       <Table>
         <TableBody>
@@ -94,7 +95,7 @@ describe("<Typography />", () => {
     expect(cell).toHaveTextContent("Cell");
   });
 
-  test("renders TableCaption component", () => {
+  it("renders TableCaption component", () => {
     render(
       <Table>
         <TableCaption>Caption</TableCaption>
@@ -103,5 +104,91 @@ describe("<Typography />", () => {
     const caption = screen.getByText("Caption");
     expect(caption.tagName).toBe("CAPTION");
     expect(caption).toBeInTheDocument();
+  });
+
+  it("should forward ref to the underlying element for Table", () => {
+    const ref = createRef<HTMLTableElement>();
+
+    render(<Table ref={ref} />);
+
+    expect(ref.current).toBeInstanceOf(HTMLTableElement);
+  });
+
+  it("should forward ref to the underlying element for TableHeader", () => {
+    const ref = createRef<HTMLTableSectionElement>();
+
+    render(
+      <Table>
+        <TableHeader ref={ref} />
+      </Table>,
+    );
+
+    expect(ref.current).toBeInstanceOf(HTMLTableSectionElement);
+  });
+
+  it("should forward ref to the underlying element for TableBody", () => {
+    const ref = createRef<HTMLTableSectionElement>();
+
+    render(
+      <Table>
+        <TableBody ref={ref} />
+      </Table>,
+    );
+
+    expect(ref.current).toBeInstanceOf(HTMLTableSectionElement);
+  });
+
+  it("should forward ref to the underlying element for TableFooter", () => {
+    const ref = createRef<HTMLTableSectionElement>();
+
+    render(
+      <Table>
+        <TableFooter ref={ref} />
+      </Table>,
+    );
+
+    expect(ref.current).toBeInstanceOf(HTMLTableSectionElement);
+  });
+
+  it("should forward ref to the underlying element for TableRow", () => {
+    const ref = createRef<HTMLTableRowElement>();
+
+    render(
+      <Table>
+        <TableBody>
+          <TableRow ref={ref} />
+        </TableBody>
+      </Table>,
+    );
+
+    expect(ref.current).toBeInstanceOf(HTMLTableRowElement);
+  });
+
+  it("should forward ref to the underlying element for TableCell", () => {
+    const ref = createRef<HTMLTableCellElement>();
+
+    render(
+      <Table>
+        <TableBody>
+          <TableRow>
+            <TableCell ref={ref}>Cell</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>,
+    );
+
+    expect(ref.current).toBeInstanceOf(HTMLTableCellElement);
+  });
+
+  it("should forward ref to the underlying element for TableCaption", () => {
+    const ref = createRef<HTMLTableCaptionElement>();
+
+    render(
+      <Table>
+        <TableCaption ref={ref}>Caption</TableCaption>
+      </Table>,
+    );
+
+    expect(ref.current).toBeInstanceOf(HTMLTableCaptionElement);
   });
 });
