@@ -25,12 +25,7 @@
     "types": [
       "@types",
       "vitest/globals"
-    ],
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    }
+    ]
   },
   "include": [
     "src",
