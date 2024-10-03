@@ -14,7 +14,7 @@ import {
   TableRow,
 } from './index.tsx'
 
-describe('<Typography />', () => {
+describe('<Table />', () => {
   it('should renders Table component', () => {
     render(<Table />)
     const table = screen.getByRole('table')
