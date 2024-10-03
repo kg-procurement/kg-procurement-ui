@@ -1,4 +1,4 @@
-import { Typography } from "@/components/atoms/typography";
+import { Typography } from '@/components/atoms/typography/index.tsx'
 
 const Footer = () => {
   return (
@@ -27,9 +27,9 @@ const Footer = () => {
         <Typography variant="subtitle2">Contact us (Email):</Typography>
       </div>
     </div>
-  );
-};
+  )
+}
 
-Footer.displayName = "Footer";
+Footer.displayName = 'Footer'
 
-export { Footer };
+export { Footer }
