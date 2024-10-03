@@ -191,4 +191,62 @@ describe("<Typography />", () => {
 
     expect(ref.current).toBeInstanceOf(HTMLTableCaptionElement);
   });
+
+  it("should apply custom className to the table element", () => {
+    const { container } = render(<Table className="custom-table-class" />);
+    const element = container.querySelector("table");
+    expect(element).toHaveClass("custom-table-class");
+  });
+
+  it("should apply custom className to the thead element", () => {
+    const { container } = render(
+      <TableHeader className="custom-header-class" />,
+    );
+    const element = container.querySelector("thead");
+    expect(element).toHaveClass("custom-header-class");
+  });
+
+  it("should apply custom className to the tbody element", () => {
+    const { container } = render(<TableBody className="custom-body-class" />);
+    const element = container.querySelector("tbody");
+    expect(element).toHaveClass("custom-body-class");
+  });
+
+  it("should apply custom className to the tfoot element", () => {
+    const { container } = render(
+      <TableFooter className="custom-footer-class" />,
+    );
+    const element = container.querySelector("tfoot");
+    expect(element).toHaveClass("custom-footer-class");
+  });
+
+  it("should apply custom className to the tr element", () => {
+    const { container } = render(<TableRow className="custom-row-class" />);
+    const element = container.querySelector("tr");
+    expect(element).toHaveClass("custom-row-class");
+  });
+
+  it("should apply custom className to the th element", () => {
+    const { container } = render(
+      <TableHead className="custom-head-class">Header</TableHead>,
+    );
+    const element = container.querySelector("th");
+    expect(element).toHaveClass("custom-head-class");
+  });
+
+  it("should apply custom className to the td element", () => {
+    const { container } = render(
+      <TableCell className="custom-cell-class">Cell</TableCell>,
+    );
+    const element = container.querySelector("td");
+    expect(element).toHaveClass("custom-cell-class");
+  });
+
+  it("should apply custom className to the caption element", () => {
+    const { container } = render(
+      <TableCaption className="custom-caption-class">Caption</TableCaption>,
+    );
+    const element = container.querySelector("caption");
+    expect(element).toHaveClass("custom-caption-class");
+  });
 });
