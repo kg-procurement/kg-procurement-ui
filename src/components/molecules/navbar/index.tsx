@@ -1,4 +1,4 @@
-import { Typography } from '../atoms/typography/index.tsx'
+import { Typography } from '../../atoms/typography/index.tsx'
 
 export default function Navbar() {
   return (
