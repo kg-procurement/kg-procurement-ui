@@ -1,6 +1,6 @@
 import { Typography } from '../atoms/typography/index.tsx'
 
-const Navbar = () => {
+export default function Navbar() {
   return (
     <div className="flex justify-between items-center px-5 ">
       <img
@@ -15,5 +15,3 @@ const Navbar = () => {
     </div>
   )
 }
-
-export default Navbar

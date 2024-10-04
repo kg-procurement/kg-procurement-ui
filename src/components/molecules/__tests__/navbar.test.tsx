@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react'
 
+import Navbar from '@/components/molecules/Navbar.tsx'
 import { withWrappers } from '@/lib/testing/utils.tsx'
-
-import Navbar from '../Navbar.tsx'
 
 describe('<Navbar />', () => {
   it('should render kompas gramedia image', () => {
