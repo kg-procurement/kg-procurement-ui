@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
-import Page from '../index.tsx'
+import Page from '../vendor.tsx'
 
 describe('<Page />', () => {
   it('should render correctly without crashing', () => {
