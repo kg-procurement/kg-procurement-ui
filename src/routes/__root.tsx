@@ -1,7 +1,7 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
-import Navbar from '@/components/molecules/navbar/index.tsx'
+import Navbar from '@/components/molecules/navbar.tsx'
 
 export const Route = createRootRoute({
   component: Root,

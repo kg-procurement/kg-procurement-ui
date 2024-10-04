@@ -1,8 +1,8 @@
-import PageHeader from '@/components/molecules/page-header/index.tsx'
+import PageHeader from '@/components/molecules/page-header.tsx'
 
-import { Typography } from '../atoms/typography/index.tsx'
+import { Typography } from '../atoms/typography.tsx'
 import VendorTable, { Vendor } from '../features/vendor-table.tsx'
-import { Footer } from '../molecules/footer/index.tsx'
+import { Footer } from '../molecules/footer.tsx'
 
 const VendorPage = () => {
   const sampleVendors: Vendor[] = [

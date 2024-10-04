@@ -1,4 +1,4 @@
-import { Button } from '@/components/atoms/button/index.tsx'
+import { Button } from '@/components/atoms/button.tsx'
 import {
   Table,
   TableBody,
@@ -6,8 +6,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/atoms/table/index.tsx'
-import { Typography } from '@/components/atoms/typography/index.tsx'
+} from '@/components/atoms/table.tsx'
+import { Typography } from '@/components/atoms/typography.tsx'
 import {
   Pagination,
   PaginationContent,
@@ -16,9 +16,9 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/molecules/pagination/index.tsx'
+} from '@/components/molecules/pagination.tsx'
 
-import { Checkbox } from '../atoms/checkbox/index.tsx'
+import { Checkbox } from '../atoms/checkbox.tsx'
 
 export interface Vendor {
   name: string
