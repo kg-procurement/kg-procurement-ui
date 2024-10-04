@@ -3,7 +3,7 @@ import { createRef } from 'react'
 
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
-import { Typography } from './index.tsx'
+import { Typography } from '../typography.tsx'
 
 describe('<Typography />', () => {
   it('should render correctly with correct children', () => {

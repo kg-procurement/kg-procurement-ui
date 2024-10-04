@@ -8,7 +8,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from './index.tsx'
+} from '../pagination.tsx'
 
 describe('<Pagination />', () => {
   it('should render pagination container', () => {
@@ -27,14 +27,22 @@ describe('<Pagination />', () => {
   })
 
   it('renders active PaginationLink', () => {
-    render(<PaginationLink isActive={true} data-testid="pagination-link">1</PaginationLink>)
+    render(
+      <PaginationLink isActive={true} data-testid="pagination-link">
+        1
+      </PaginationLink>,
+    )
     const link = screen.getByTestId('pagination-link')
     expect(link).toBeInTheDocument()
     expect(link).toHaveAttribute('aria-current', 'page')
   })
 
   it('renders inactive PaginationLink', () => {
-    render(<PaginationLink isActive={false} data-testid="pagination-link">2</PaginationLink>)
+    render(
+      <PaginationLink isActive={false} data-testid="pagination-link">
+        2
+      </PaginationLink>,
+    )
     const link = screen.getByTestId('pagination-link')
     expect(link).toBeInTheDocument()
     expect(link).not.toHaveAttribute('aria-current')

@@ -2,11 +2,10 @@ import { render } from '@testing-library/react'
 
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
-import Page from '../index.tsx'
+import DashboardPage from '../dashboard.tsx'
 
-describe('<Page />', () => {
+describe('<DashboardPage />', () => {
   it('should render correctly without crashing', () => {
-    const { container } = render(withWrappers(<Page />))
-    expect(container).toBeInTheDocument()
+    render(withWrappers(<DashboardPage />))
   })
 })

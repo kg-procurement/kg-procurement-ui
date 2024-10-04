@@ -12,7 +12,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from './index.tsx'
+} from '../table.tsx'
 
 describe('<Table />', () => {
   it('should renders Table component', () => {

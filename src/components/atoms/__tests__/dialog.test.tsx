@@ -8,7 +8,7 @@ import {
   DialogFooter,
   DialogTitle,
   DialogTrigger,
-} from './index.tsx'
+} from '../dialog.tsx'
 
 describe('<Dialog />', () => {
   it('should render the dialog trigger button', () => {
