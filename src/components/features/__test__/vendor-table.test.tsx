@@ -19,16 +19,19 @@ describe('<VendorTable/>', () => {
     expect(screen.getByText('Vendor Name')).toBeInTheDocument()
     expect(screen.getByText('Email')).toBeInTheDocument()
     expect(screen.getByText('Performance Score')).toBeInTheDocument()
+    const checkboxOnHeader = screen.getAllByRole('checkbox')[0]
+    expect(checkboxOnHeader).toBeInTheDocument()
   })
   it('should render table body properly', () => {
     render(withWrappers(<VendorTable vendors={mockVendorsData} />))
     expect(screen.getByText('001')).toBeInTheDocument()
     expect(screen.getByText('a@gmail.com')).toBeInTheDocument()
     expect(screen.getByText('90')).toBeInTheDocument()
+    const checkboxOnFirstRow = screen.getAllByRole('checkbox')[1]
+    expect(checkboxOnFirstRow).toBeInTheDocument()
   })
   it('should render email selected button', () => {
-    const { container } = render(withWrappers(<VendorTable vendors={mockVendorsData} />))
-    const button = container.getElementsByTagName('button')[0]
-    expect(button.textContent).toBe('Email Selected Vendor')
+    render(withWrappers(<VendorTable vendors={mockVendorsData} />))
+    expect(screen.getByRole('button', { name: 'Email Selected Vendor' })).toBeInTheDocument()
   })
 })
