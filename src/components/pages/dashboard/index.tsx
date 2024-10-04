@@ -10,16 +10,12 @@ import {
 } from '@/components/atoms/table/index.tsx'
 import { Typography } from '@/components/atoms/typography/index.tsx'
 import { Footer } from '@/components/molecules/footer/index.tsx'
+import PageHeader from '@/components/molecules/page-header/index.tsx'
 
 export default function DashboardPage() {
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <div className="relative flex h-80 w-full flex-col items-center justify-center gap-2 bg-primary">
-        <img
-          src="kompas-gramedia-logo-bg.svg"
-          alt="Kompas Gramedia Logo Background"
-          className="absolute left-0 top-0 w-96"
-        />
+      <PageHeader>
         <Typography variant="h2" className="text-white">
           Vendor A
         </Typography>
@@ -27,17 +23,16 @@ export default function DashboardPage() {
           Dashboard
         </Typography>
         <div className="mt-2 flex gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full border-2">
-            <Phone color="white" size={16} />
-          </div>
-          <div className="flex h-10 w-10 items-center justify-center rounded-full border-2">
-            <Phone color="white" size={16} />
-          </div>
-          <div className="flex h-10 w-10 items-center justify-center rounded-full border-2">
-            <Phone color="white" size={16} />
-          </div>
+          {[...Array(3)].map((_, index) => (
+            <div
+              key={index}
+              className="flex h-10 w-10 items-center justify-center rounded-full border-2"
+            >
+              <Phone color="white" size={16} />
+            </div>
+          ))}
         </div>
-      </div>
+      </PageHeader>
       <div className="flex flex-grow items-center justify-center bg-[#F8F8F8] p-16">
         <div className="grid h-full w-full flex-grow grid-cols-2 rounded-md bg-white p-4 shadow-md">
           <div className="col-span-1"></div>
