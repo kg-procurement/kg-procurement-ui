@@ -18,6 +18,8 @@ import {
   PaginationPrevious,
 } from '@/components/molecules/pagination/index.tsx'
 
+import { Checkbox } from '../atoms/checkbox/index.tsx'
+
 export interface Vendor {
   name: string
   email: string
@@ -35,6 +37,7 @@ const VendorTable = ({ vendors }: VendorTableProps) => {
         <Table className="">
           <TableHeader>
             <TableRow>
+              <TableHead className="w-[50px]"><Checkbox /></TableHead>
               <TableHead className="w-[200px]">Vendor Name</TableHead>
               <TableHead className="w-[200px]">Email</TableHead>
               <TableHead>Performance Score</TableHead>
@@ -44,6 +47,7 @@ const VendorTable = ({ vendors }: VendorTableProps) => {
           <TableBody>
             {vendors.map((vendor, i) => (
               <TableRow key={i}>
+                <TableCell className="font-medium"><Checkbox /></TableCell>
                 <TableCell className="font-medium">{vendor.name}</TableCell>
                 <TableCell>{vendor.email}</TableCell>
                 <TableCell>{vendor.performanceScore}</TableCell>
