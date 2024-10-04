@@ -25,4 +25,15 @@ describe('<VendorPage/>', () => {
     render(withWrappers(<VendorPage />))
     expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
   })
+
+  it('should render input boxes for filtering by product and location', () => {
+    render(withWrappers(<VendorPage />))
+
+    const productInput = screen.getByPlaceholderText('Filter by Product')
+    const locationInput = screen.getByPlaceholderText('Filter by Location')
+
+    expect(productInput).toBeInTheDocument()
+    expect(locationInput).toBeInTheDocument()
+  })
+
 })
