@@ -1,5 +1,8 @@
 import '@testing-library/jest-dom'
-import { render, screen, fireEvent } from '@testing-library/react'
+
+import { fireEvent, render, screen } from '@testing-library/react'
+import { createRef } from 'react'
+
 import { Input } from '../input.tsx'
 
 describe('<Input />', () => {
@@ -27,5 +30,11 @@ describe('<Input />', () => {
     const inputElement = screen.getByRole('textbox')
     expect(inputElement).toHaveClass('custom-class')
   })
-  
+
+  it('should forward ref to the underlying input element', () => {
+    const ref = createRef<HTMLInputElement>()
+    render(<Input ref={ref} />)
+    expect(ref.current).toBeInTheDocument()
+    expect(ref.current).toBeInstanceOf(HTMLInputElement)
+  })
 })
