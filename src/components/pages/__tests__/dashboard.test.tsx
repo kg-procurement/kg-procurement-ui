@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 
-import DashboardPage from './index.tsx'
+import DashboardPage from '../dashboard.tsx'
+
 describe('<DashboardPage />', () => {
   it('should render the header section with the logo', () => {
     render(<DashboardPage />)

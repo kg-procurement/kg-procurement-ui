@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as DashboardImport } from './routes/dashboard'
 import { Route as IndexImport } from './routes/index'
 import { Route as VendorIndexImport } from './routes/vendor/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
@@ -43,11 +44,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard/': {
-      id: '/dashboard/'
+    '/dashboard': {
+      id: '/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardIndexImport
+      preLoaderRoute: typeof DashboardImport
       parentRoute: typeof rootRoute
     }
     '/vendor/': {
