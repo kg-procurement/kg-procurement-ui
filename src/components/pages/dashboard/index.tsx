@@ -1,14 +1,15 @@
+import { Phone } from 'lucide-react'
+
 import {
   Table,
-  TableHeader,
-  TableRow,
-  TableHead,
   TableBody,
   TableCell,
-} from "@/components/atoms/table";
-import { Typography } from "@/components/atoms/typography";
-import { Footer } from "@/components/molecules/footer";
-import { Phone } from "lucide-react";
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/atoms/table/index.tsx'
+import { Typography } from '@/components/atoms/typography/index.tsx'
+import { Footer } from '@/components/molecules/footer/index.tsx'
 
 export default function DashboardPage() {
   return (
@@ -83,5 +84,5 @@ export default function DashboardPage() {
       </div>
       <Footer />
     </div>
-  );
+  )
 }

@@ -1,40 +1,41 @@
-import { render, screen } from "@testing-library/react";
-import DashboardPage from "./index.tsx";
-describe("<DashboardPage />", () => {
-  it("should render the header section with the logo", () => {
-    render(<DashboardPage />);
+import { render, screen } from '@testing-library/react'
 
-    const logo = screen.getByAltText("Kompas Gramedia Logo Background");
-    expect(logo).toBeInTheDocument();
-    expect(logo).toHaveAttribute("src", "kompas-gramedia-logo-bg.svg");
+import DashboardPage from './index.tsx'
+describe('<DashboardPage />', () => {
+  it('should render the header section with the logo', () => {
+    render(<DashboardPage />)
 
-    expect(screen.getByText("Vendor A")).toBeInTheDocument();
-    expect(screen.getByText("Dashboard")).toBeInTheDocument();
-  });
+    const logo = screen.getByAltText('Kompas Gramedia Logo Background')
+    expect(logo).toBeInTheDocument()
+    expect(logo).toHaveAttribute('src', 'kompas-gramedia-logo-bg.svg')
 
-  it("should render the table with correct columns and rows", () => {
-    render(<DashboardPage />);
+    expect(screen.getByText('Vendor A')).toBeInTheDocument()
+    expect(screen.getByText('Dashboard')).toBeInTheDocument()
+  })
 
-    expect(screen.getByText("Name")).toBeInTheDocument();
-    expect(screen.getByText("Description")).toBeInTheDocument();
-    expect(screen.getByText("Price")).toBeInTheDocument();
+  it('should render the table with correct columns and rows', () => {
+    render(<DashboardPage />)
 
-    const rows = screen.getAllByRole("row");
-    expect(rows).toHaveLength(6);
+    expect(screen.getByText('Name')).toBeInTheDocument()
+    expect(screen.getByText('Description')).toBeInTheDocument()
+    expect(screen.getByText('Price')).toBeInTheDocument()
 
-    expect(screen.getByText("Lorem Ipsum Amer")).toBeInTheDocument();
-    expect(screen.getByText("Rp.25000")).toBeInTheDocument();
-  });
+    const rows = screen.getAllByRole('row')
+    expect(rows).toHaveLength(6)
 
-  it("should render the footer", () => {
-    render(<DashboardPage />);
-    expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument();
-  });
+    expect(screen.getByText('Lorem Ipsum Amer')).toBeInTheDocument()
+    expect(screen.getByText('Rp.25000')).toBeInTheDocument()
+  })
 
-  it("should render icons in the header", () => {
-    render(<DashboardPage />);
+  it('should render the footer', () => {
+    render(<DashboardPage />)
+    expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
+  })
 
-    const icons = screen.getAllByRole("img");
-    expect(icons).toHaveLength(2);
-  });
-});
+  it('should render icons in the header', () => {
+    render(<DashboardPage />)
+
+    const icons = screen.getAllByRole('img')
+    expect(icons).toHaveLength(2)
+  })
+})
