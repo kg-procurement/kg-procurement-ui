@@ -2,7 +2,7 @@ import { Typography } from '../../atoms/typography/index.tsx'
 
 export default function Navbar() {
   return (
-    <div className="flex justify-between items-center px-5 ">
+    <div className="flex justify-between items-center pl-5 pr-10 ">
       <img
         src="kompas-gramedia.jpeg"
         alt="Kompas Gramedia Logo Image"
