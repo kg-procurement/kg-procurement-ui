@@ -7,5 +7,5 @@ export const Route = createFileRoute('/vendor/')({
 })
 
 export default function Page() {
-  return <></>
+  return <VendorPage />
 }
