@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 
-import { Footer } from './index.tsx'
+import { Footer } from '../footer.tsx'
 
 describe('<Footer />', () => {
   it('should render the KOMPAS logo with the correct alt text', () => {

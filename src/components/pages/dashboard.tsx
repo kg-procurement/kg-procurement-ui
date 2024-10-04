@@ -7,10 +7,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/atoms/table/index.tsx'
-import { Typography } from '@/components/atoms/typography/index.tsx'
-import { Footer } from '@/components/molecules/footer/index.tsx'
-import PageHeader from '@/components/molecules/page-header/index.tsx'
+} from '@/components/atoms/table.tsx'
+import { Typography } from '@/components/atoms/typography.tsx'
+import { Footer } from '@/components/molecules/footer.tsx'
+import PageHeader from '@/components/molecules/page-header.tsx'
 
 export default function DashboardPage() {
   return (

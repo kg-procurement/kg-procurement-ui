@@ -1,4 +1,4 @@
-import { Typography } from '@/components/atoms/typography/index.tsx'
+import { Typography } from '@/components/atoms/typography.tsx'
 
 const Footer = () => {
   return (

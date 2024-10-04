@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as React from 'react'
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './index.tsx'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../tabs.tsx'
 
 describe('Tabs Component', () => {
   it('renders Tabs, TabsList, TabsTrigger, and TabsContent correctly', () => {

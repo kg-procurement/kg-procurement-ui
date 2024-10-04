@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react'
 
-import { Typography } from '@/components/atoms/typography/index.tsx'
+import { Typography } from '@/components/atoms/typography.tsx'
 
-import PageHeader from './index.tsx'
+import PageHeader from '../page-header.tsx'
 
 describe('<PageHeader />', () => {
   it('should render the background image', () => {

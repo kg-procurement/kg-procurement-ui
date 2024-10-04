@@ -3,7 +3,7 @@ import '@testing-library/jest-dom'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { createRef } from 'react'
 
-import { Checkbox } from './index.tsx'
+import { Checkbox } from '../checkbox.tsx'
 
 describe('<Checkbox />', () => {
   it('should render the checkbox', () => {
