@@ -1,4 +1,4 @@
-import { Edit, Phone } from "lucide-react";
+import { Edit, Phone } from 'lucide-react'
 
 import {
   Table,
@@ -7,10 +7,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/atoms/table.tsx";
-import { Typography } from "@/components/atoms/typography.tsx";
-import { Footer } from "@/components/molecules/footer.tsx";
-import PageHeader from "@/components/molecules/page-header.tsx";
+} from '@/components/atoms/table.tsx'
+import { Typography } from '@/components/atoms/typography.tsx'
+import { Footer } from '@/components/molecules/footer.tsx'
+import PageHeader from '@/components/molecules/page-header.tsx'
+
+import { Button } from '../atoms/button.tsx'
 import {
   Dialog,
   DialogClose,
@@ -19,8 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../atoms/dialog";
-import { Button } from "../atoms/button";
+} from '../atoms/dialog.tsx'
 
 export default function DashboardPage() {
   return (
@@ -113,5 +114,5 @@ export default function DashboardPage() {
       </div>
       <Footer />
     </div>
-  );
+  )
 }
