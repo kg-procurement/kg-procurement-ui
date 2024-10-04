@@ -1,4 +1,4 @@
-import { Phone } from 'lucide-react'
+import { Edit, Phone } from "lucide-react";
 
 import {
   Table,
@@ -7,18 +7,52 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/atoms/table.tsx'
-import { Typography } from '@/components/atoms/typography.tsx'
-import { Footer } from '@/components/molecules/footer.tsx'
-import PageHeader from '@/components/molecules/page-header.tsx'
+} from "@/components/atoms/table.tsx";
+import { Typography } from "@/components/atoms/typography.tsx";
+import { Footer } from "@/components/molecules/footer.tsx";
+import PageHeader from "@/components/molecules/page-header.tsx";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../atoms/dialog";
+import { Button } from "../atoms/button";
 
 export default function DashboardPage() {
   return (
     <div className="flex min-h-screen w-full flex-col">
       <PageHeader>
-        <Typography variant="h2" className="text-white">
-          Vendor A
-        </Typography>
+        <div className="relative">
+          <Typography variant="h2" className="text-white">
+            Vendor A
+          </Typography>
+          <Dialog>
+            <DialogTrigger className="absolute -right-16 top-0">
+              <Edit color="white" size={24} />
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Edit Vendor</DialogTitle>
+                <DialogDescription className="flex flex-col gap-4 pt-2">
+                  <Typography variant="subtitle2">Name</Typography>
+                  <input type="text" className="w-full rounded-md border p-2" />
+
+                  <Typography variant="subtitle2">Description</Typography>
+                  <textarea className="w-full rounded-md border p-2" rows={4} />
+
+                  <div className="flex w-full items-center justify-end gap-6">
+                    <DialogClose>Cancel</DialogClose>
+                    <Button>Save</Button>
+                  </div>
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+        </div>
         <Typography variant="subtitle1" className="text-white">
           Dashboard
         </Typography>
@@ -79,5 +113,5 @@ export default function DashboardPage() {
       </div>
       <Footer />
     </div>
-  )
+  );
 }
