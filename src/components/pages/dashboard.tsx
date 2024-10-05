@@ -1,18 +1,6 @@
-import { Edit, Phone } from 'lucide-react'
+import { Edit, EllipsisVertical, Phone } from 'lucide-react'
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/atoms/table.tsx'
-import { Typography } from '@/components/atoms/typography.tsx'
-import { Footer } from '@/components/molecules/footer.tsx'
-import PageHeader from '@/components/molecules/page-header.tsx'
-
-import { Button } from '../atoms/button.tsx'
+import { Button } from '@/components/atoms/button.tsx'
 import {
   Dialog,
   DialogClose,
@@ -21,7 +9,34 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../atoms/dialog.tsx'
+} from '@/components/atoms/dialog.tsx'
+import { Input } from '@/components/atoms/input.tsx'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/atoms/popover.tsx'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/atoms/table.tsx'
+import { Typography } from '@/components/atoms/typography.tsx'
+import { Footer } from '@/components/molecules/footer.tsx'
+import PageHeader from '@/components/molecules/page-header.tsx'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/molecules/pagination.tsx'
 
 export default function DashboardPage() {
   return (
@@ -73,6 +88,7 @@ export default function DashboardPage() {
           <div className="col-span-1"></div>
           <div className="col-span-1 flex flex-col gap-4">
             <Typography variant="h6">Inventory List</Typography>
+            <Input className="text-sm" placeholder="Filter vendor ..." />
             <Table className="border">
               <TableHeader>
                 <TableRow>
@@ -86,28 +102,87 @@ export default function DashboardPage() {
                   <TableCell>Lorem Ipsum</TableCell>
                   <TableCell>Lorem Ipsum Amer</TableCell>
                   <TableCell>Rp.25000</TableCell>
+                  <TableCell>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <button>
+                          <EllipsisVertical size={16} />
+                        </button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-fit p-2">
+                        <Button
+                          className="h-fit w-full px-3 py-1"
+                          variant="ghost"
+                        >
+                          Edit
+                        </Button>
+                      </PopoverContent>
+                    </Popover>
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Lorem Ipsum2</TableCell>
                   <TableCell>Lorem Ipsum Amer2</TableCell>
                   <TableCell>Rp.30000</TableCell>
+                  <TableCell>
+                    <button>
+                      <EllipsisVertical size={16} />
+                    </button>
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Lorem Ipsum3</TableCell>
                   <TableCell>Lorem Ipsum Amer3</TableCell>
                   <TableCell>Rp.35000</TableCell>
+                  <TableCell>
+                    <button>
+                      <EllipsisVertical size={16} />
+                    </button>
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Lorem Ipsum4</TableCell>
                   <TableCell>Lorem Ipsum Amer4</TableCell>
                   <TableCell>Rp.40000</TableCell>
+                  <TableCell>
+                    <button>
+                      <EllipsisVertical size={16} />
+                    </button>
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>Lorem Ipsum5</TableCell>
                   <TableCell>Lorem Ipsum Amer5</TableCell>
                   <TableCell>Rp.45000</TableCell>
+                  <TableCell>
+                    <button>
+                      <EllipsisVertical size={16} />
+                    </button>
+                  </TableCell>
                 </TableRow>
               </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TableCell colSpan={4} className="py-2.5">
+                    <Pagination>
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious href="#" />
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationLink href="#">1</PaginationLink>
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                        <PaginationItem>
+                          <PaginationNext href="#" />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                  </TableCell>
+                </TableRow>
+              </TableFooter>
             </Table>
           </div>
         </div>
