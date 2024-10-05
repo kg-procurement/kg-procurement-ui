@@ -35,5 +35,4 @@ describe('<VendorPage/>', () => {
     expect(productInput).toBeInTheDocument()
     expect(locationInput).toBeInTheDocument()
   })
-
 })

@@ -11,7 +11,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         type="text"
         ref={ref}
-        className={`border rounded p-2 ${className}`}
+        className={`rounded border p-2 ${className}`}
         placeholder={placeholder}
         {...props}
       />
