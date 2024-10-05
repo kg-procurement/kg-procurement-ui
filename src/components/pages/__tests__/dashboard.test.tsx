@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 
 import DashboardPage from '../dashboard.tsx'
 
@@ -38,5 +38,31 @@ describe('<DashboardPage />', () => {
 
     const icons = screen.getAllByRole('img')
     expect(icons).toHaveLength(2)
+  })
+
+  it('should render the edit icon in the header', () => {
+    render(<DashboardPage />)
+
+    const editIconButton = screen.getByRole('button', { hidden: true })
+    expect(editIconButton).toBeInTheDocument()
+  })
+
+  it('should open the dialog', () => {
+    const { queryByRole } = render(<DashboardPage />)
+
+    const editIconButton = screen.getByRole('button', { hidden: true })
+    fireEvent.click(editIconButton)
+    expect(queryByRole('dialog')).toBeInTheDocument()
+  })
+
+  it('should open and close the dialog', () => {
+    const { getByText, queryByRole } = render(<DashboardPage />)
+
+    const editIconButton = screen.getByRole('button', { hidden: true })
+    fireEvent.click(editIconButton)
+    expect(queryByRole('dialog')).toBeInTheDocument()
+
+    fireEvent.click(getByText('Cancel'))
+    expect(queryByRole('dialog')).not.toBeInTheDocument()
   })
 })
