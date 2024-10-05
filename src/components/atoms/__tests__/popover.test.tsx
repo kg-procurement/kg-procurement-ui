@@ -1,5 +1,4 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import { act } from 'react'
 
 import { Popover, PopoverContent, PopoverTrigger } from '../popover.tsx'
 
