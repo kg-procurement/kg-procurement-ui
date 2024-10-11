@@ -16,10 +16,7 @@ type BaseQuery = BaseQueryFn<
 
 export const baseQueryWithZodValidation: (baseQuery: BaseQuery) => BaseQuery =
   baseQuery => async (args, api, extraOptions) => {
-    console.log(' >>', args, api, extraOptions)
     const returnValue = await baseQuery(args, api, extraOptions)
-
-    console.log(' ::', returnValue)
 
     const zodSchema = extraOptions?.dataSchema
 
