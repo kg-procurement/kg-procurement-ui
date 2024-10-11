@@ -1,32 +1,33 @@
-import React, { useState } from 'react';
-import { Input } from '@/components/atoms/input.tsx';
-import { Button } from '@/components/atoms/button.tsx';
-import { Typography } from '@/components/atoms/typography.tsx';
+import React, { useState } from 'react'
+
+import { Button } from '@/components/atoms/button.tsx'
+import { Input } from '@/components/atoms/input.tsx'
+import { Typography } from '@/components/atoms/typography.tsx'
 
 const LoginForm: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessages, setErrorMessages] = useState<string[]>([]);
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [errorMessages, setErrorMessages] = useState<string[]>([])
 
   const handleSubmit = () => {
-    const errors: string[] = [];
+    const errors: string[] = []
 
     if (!username) {
-      errors.push('Fill the username');
+      errors.push('Fill the username')
     }
     if (!password) {
-      errors.push('Fill the password');
+      errors.push('Fill the password')
     }
 
     if (errors.length > 0) {
-      setErrorMessages(errors);
-      return;
+      setErrorMessages(errors)
+      return
     }
 
-    setErrorMessages([]);
+    setErrorMessages([])
 
-    console.log('Logging in with:', { username, password });
-  };
+    console.log('Logging in with:', { username, password })
+  }
 
   return (
     <div>
@@ -37,7 +38,7 @@ const LoginForm: React.FC = () => {
           id="username"
           placeholder="Username"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={e => setUsername(e.target.value)}
           className="mb-1 w-full"
         />
       </div>
@@ -48,7 +49,7 @@ const LoginForm: React.FC = () => {
           placeholder="Password"
           isPassword
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={e => setPassword(e.target.value)}
           className="mb-1 w-full"
         />
       </div>
@@ -63,7 +64,7 @@ const LoginForm: React.FC = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

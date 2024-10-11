@@ -64,5 +64,4 @@ describe('<Input />', () => {
     const toggleButton = screen.getByRole('button')
     expect(toggleButton).toBeInTheDocument()
   })
-
 })
