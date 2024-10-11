@@ -10,11 +10,12 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, placeholder, isPassword = false, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false)
+    const inputType = isPassword ? (showPassword ? 'text' : 'password') : 'text'
 
     return (
       <div className="relative w-full">
         <input
-          type={isPassword && showPassword ? 'text' : isPassword ? 'password' : 'text'}
+          type={inputType}
           ref={ref}
           className={`rounded border p-2 ${className} ${isPassword ? 'pr-10' : ''}`}
           placeholder={placeholder}

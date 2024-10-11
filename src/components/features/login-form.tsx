@@ -58,8 +58,8 @@ const LoginForm: React.FC = () => {
       </Button>
       {errorMessages.length > 0 && (
         <div className="mt-2 text-red-500">
-          {errorMessages.map((error, index) => (
-            <p key={index} className="text-sm">{error}</p>
+          {errorMessages.map(error => (
+            <p key={error} className="text-sm">{error}</p>
           ))}
         </div>
       )}
