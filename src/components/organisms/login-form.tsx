@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import { Button } from '@/components/atoms/button.tsx'
 import { Input } from '@/components/atoms/input.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
 
-const LoginForm: React.FC = () => {
+export default function LoginForm() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessages, setErrorMessages] = useState<string[]>([])
@@ -66,5 +66,3 @@ const LoginForm: React.FC = () => {
     </div>
   )
 }
-
-export default LoginForm
