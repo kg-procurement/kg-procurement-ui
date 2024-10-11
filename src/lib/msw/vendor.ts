@@ -1,7 +1,9 @@
 import { http, HttpResponse } from 'msw'
 
+import { API_BASE_URL } from '@/env.ts'
+
 export const vendorHandlers = [
-  http.get(`${import.meta.env.VITE_API_BASE_URL}/vendor`, () => {
+  http.get(`${API_BASE_URL}/vendor`, () => {
     return HttpResponse.json({
       Vendors: [
         {
