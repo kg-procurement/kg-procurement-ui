@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
@@ -16,9 +16,14 @@ describe('<VendorPage/>', () => {
     expect(screen.getByText('Lorem Ipsum')).toBeInTheDocument()
   })
 
-  it('should render the vendors table ', () => {
-    render(withWrappers(<VendorPage />))
-    expect(screen.getByRole('table')).toBeInTheDocument()
+  it('should render the vendors table content properly', async () => {
+    const { container } = render(
+      withWrappers(<VendorPage />, { withRoot: true }),
+    )
+    await waitFor(async () => {
+      expect(screen.queryByTestId('loading-overlay')).toBeNull()
+    })
+    expect(container.innerText).toMatchSnapshot()
   })
 
   it('should render the footer', () => {
