@@ -21,7 +21,7 @@ describe('<VendorPage/>', () => {
       withWrappers(<VendorPage />, { withRoot: true }),
     )
     await waitFor(async () => {
-      expect(screen.queryByTestId('loading-overlay')).toBeNull()
+      expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument()
     })
     expect(container.innerText).toMatchSnapshot()
   })
