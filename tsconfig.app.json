@@ -23,7 +23,6 @@
     "noFallthroughCasesInSwitch": true,
     /* Types */
     "types": [
-      "@types",
       "vitest/globals"
     ],
     "paths": {
