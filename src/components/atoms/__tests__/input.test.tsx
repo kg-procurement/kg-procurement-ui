@@ -37,4 +37,32 @@ describe('<Input />', () => {
     expect(ref.current).toBeInTheDocument()
     expect(ref.current).toBeInstanceOf(HTMLInputElement)
   })
+
+  it('should render a password input field', () => {
+    render(<Input isPassword placeholder="Enter your password" />)
+    const inputElement = screen.getByPlaceholderText('Enter your password')
+    expect(inputElement).toBeInTheDocument()
+    expect(inputElement).toHaveAttribute('type', 'password')
+  })
+
+  it('should toggle password visibility', () => {
+    render(<Input isPassword placeholder="Password" />)
+    const inputElement = screen.getByPlaceholderText('Password')
+    const toggleButton = screen.getByRole('button')
+
+    expect(inputElement).toHaveAttribute('type', 'password')
+
+    fireEvent.click(toggleButton)
+    expect(inputElement).toHaveAttribute('type', 'text')
+
+    fireEvent.click(toggleButton)
+    expect(inputElement).toHaveAttribute('type', 'password')
+  })
+
+  it('should show the password visibility toggle button when isPassword is true', () => {
+    render(<Input isPassword placeholder="Password" />)
+    const toggleButton = screen.getByRole('button')
+    expect(toggleButton).toBeInTheDocument()
+  })
+
 })
