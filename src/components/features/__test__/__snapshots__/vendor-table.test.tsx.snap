@@ -1,3 +1,0 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`<VendorTable/> > should render all text provided 1`] = `"Vendor NameLocationPerformance ScoreAsaba Computer CentreIndonesia1...Best Denki Indonesia, PTIndonesia0...GitHub, IncIndonesia0...Oktirin Nindy Citrasari / Show ManagementIndonesia0...Previous123More pagesNext0 of 99 row(s) selectedEmail Selected Vendor"`;
