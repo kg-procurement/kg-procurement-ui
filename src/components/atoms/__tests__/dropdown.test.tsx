@@ -50,6 +50,7 @@ describe('<Dropdown />', () => {
     fireEvent.change(searchInput, { target: { value: 'Option 2' } });
     expect(screen.getByText('Option 2')).toBeInTheDocument();
     expect(screen.queryByText('Option 1')).not.toBeInTheDocument();
+    expect(screen.queryByText('Option 3')).not.toBeInTheDocument();
   });
 
   it('should select an option when clicked', () => {
@@ -58,15 +59,21 @@ describe('<Dropdown />', () => {
     fireEvent.focus(screen.getByPlaceholderText('Select an option'));
     fireEvent.click(screen.getByText('Option 1'));
 
-    expect(screen.getByTestId('selected-option')).toHaveTextContent('Selected: Option 1');
+    const select = screen.getByRole('listbox');
+    fireEvent.change(select, { target: { value: 'Option 1' } });
+
+    const selectedOptionElement = screen.getByTestId('selected-option');
+
+    expect(selectedOptionElement).toHaveTextContent('Selected: Option 1');
     expect(screen.getByPlaceholderText('Select an option')).toHaveValue('Option 1');
-  });
+});
 
   it('should reset selection when reset button is clicked', () => {
     render(<TestDropdown options={options} />);
 
     fireEvent.focus(screen.getByPlaceholderText('Select an option'));
-    fireEvent.click(screen.getByText('Option 1'));
+    const select = screen.getByRole('listbox');
+    fireEvent.change(select, { target: { value: 'Option 1' } });
     
     expect(screen.getByTestId('selected-option')).toHaveTextContent('Selected: Option 1');
     

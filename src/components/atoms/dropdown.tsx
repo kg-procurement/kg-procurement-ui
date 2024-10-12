@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { CaretDown, CaretUp, X } from '@phosphor-icons/react';
 
 interface DropdownProps {
-    options: string[];
-    label: string;
-    onOptionSelect: (option: string | null) => void;
+    readonly options: string[];
+    readonly label: string;
+    readonly onOptionSelect: (option: string | null) => void;
 }
 
 export default function Dropdown({ options, label, onOptionSelect }: DropdownProps) {
@@ -17,6 +17,7 @@ export default function Dropdown({ options, label, onOptionSelect }: DropdownPro
     );
 
     function handleOptionClick(option: string) {
+        console.log('Selected option:', option);
         setSearchTerm('');
         setSelectedOption(option);
         onOptionSelect(option);
@@ -41,12 +42,15 @@ export default function Dropdown({ options, label, onOptionSelect }: DropdownPro
                         readOnly
                         className="w-full p-2 border rounded focus:outline-none focus:ring focus:ring-blue-500"
                     />
-                    <span 
+                    <button
+                        type="button"
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer"
                         onClick={() => setIsOpen(!isOpen)}
+                        aria-expanded={isOpen} // Add aria-expanded for accessibility
                     >
                         {isOpen ? <CaretUp size={24} /> : <CaretDown size={24} />}
-                    </span>
+                    </button>
+
                     <button 
                         onClick={handleResetSelection} 
                         aria-label="Reset selection"
@@ -55,30 +59,33 @@ export default function Dropdown({ options, label, onOptionSelect }: DropdownPro
                         <X size={20} />
                     </button>
                     {isOpen && (
-                        <ul role="listbox" className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded shadow-lg max-h-60 overflow-y-auto">
-                            <li>
-                                <input
-                                    type="text"
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                    placeholder="Search..."
-                                    className="w-full p-2 border-b focus:outline-none"
-                                />
-                            </li>
-                            {filteredOptions.length > 0 ? (
-                                filteredOptions.map((option, index) => (
-                                    <li
-                                        key={index}
-                                        onClick={() => handleOptionClick(option)}
-                                        className="p-2 cursor-pointer hover:bg-blue-500 hover:text-white"
-                                    >
-                                        {option}
-                                    </li>
-                                ))
-                            ) : (
-                                <li className="p-2 text-gray-500">No options found</li>
-                            )}
-                        </ul>
+                        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded shadow-lg max-h-60 overflow-y-auto">
+                            {/* Search bar for filtering options */}
+                            <input
+                                type="text"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                placeholder="Search..."
+                                className="w-full p-2 border-b focus:outline-none"
+                            />
+
+                            {/* Native select element */}
+                            <select
+                                className="w-full p-2 border rounded focus:outline-none"
+                                size={Math.min(filteredOptions.length, 5)} // Limit the size of the dropdown to 5
+                                onChange={(e) => handleOptionClick(e.target.value)}
+                            >
+                                {filteredOptions.length > 0 ? (
+                                    filteredOptions.map((option) => (
+                                        <option key={option} value={option}>
+                                            {option}
+                                        </option>
+                                    ))
+                                ) : (
+                                    <option disabled>No options found</option>
+                                )}
+                            </select>
+                        </div>
                     )}
                 </div>
             </div>
