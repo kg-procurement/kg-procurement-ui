@@ -22,6 +22,7 @@ const TestDropdown: React.FC<TestDropdownProps> = ({ options }) => {
       {selectedOption && (
         <p data-testid="selected-option">
           Selected:
+          {' '}
           {selectedOption}
         </p>
       )}
