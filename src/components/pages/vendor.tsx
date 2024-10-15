@@ -1,23 +1,33 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Input } from '@/components/atoms/input.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
-import VendorTable, { Vendor } from '@/components/features/vendor-table.tsx'
+import VendorTable from '@/components/features/vendor-table.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
+import { useGetVendorsQuery } from '@/lib/redux/features/vendor/api.ts'
+import { useCommonStore } from '@/lib/zustand/common.ts'
 
-const VendorPage = () => {
+export default function VendorPage() {
+  const [page, setPage] = useState<number>(1)
   const [productFilter, setProductFilter] = useState('')
   const [locationFilter, setLocationFilter] = useState('')
+  const { setShowLoadingOverlay } = useCommonStore()
+  const { vendors, metadata, isSuccess } = useGetVendorsQuery(
+    { page, product: productFilter, location: locationFilter },
+    {
+      selectFromResult: result => ({
+        ...result,
+        vendors: result.data?.Vendors,
+        metadata: result.data?.Metadata,
+      }),
+    },
+  )
 
-  const sampleVendors: Vendor[] = [
-    { email: 'a@gmail.com', name: '001', performanceScore: '89' },
-    { email: 'a@gmail.com', name: '001', performanceScore: '89' },
-    { email: 'a@gmail.com', name: '001', performanceScore: '89' },
-    { email: 'a@gmail.com', name: '001', performanceScore: '89' },
-    { email: 'a@gmail.com', name: '001', performanceScore: '89' },
-    { email: 'a@gmail.com', name: '001', performanceScore: '89' },
-  ]
+  useEffect(() => {
+    setShowLoadingOverlay(!isSuccess)
+  }, [isSuccess, setShowLoadingOverlay])
+
   return (
     <div className="flex min-h-screen w-full flex-col gap-10">
       <PageHeader>
@@ -43,11 +53,16 @@ const VendorPage = () => {
         </div>
       </PageHeader>
       <div className="flex w-full justify-center">
-        <VendorTable vendors={sampleVendors} />
+        {vendors && metadata && isSuccess && (
+          <VendorTable
+            vendors={vendors}
+            metadata={metadata}
+            page={page}
+            setPage={setPage}
+          />
+        )}
       </div>
       <Footer />
     </div>
   )
 }
-
-export default VendorPage
