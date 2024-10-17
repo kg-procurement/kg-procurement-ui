@@ -5,7 +5,7 @@ import { API_BASE_URL } from '@/env.ts'
 import { GetProductsByVendorResponse } from '../redux/features/product/validation.ts'
 
 export const productHandlers = [
-  http.get(`${API_BASE_URL}`, () => {
+  http.get(`${API_BASE_URL}/product/vendor/:id`, () => {
     return HttpResponse.json({
       products: [
         {
