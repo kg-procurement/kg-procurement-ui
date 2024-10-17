@@ -1,10 +1,12 @@
 import { render, screen } from '@testing-library/react'
 
+import { withWrappers } from '@/lib/testing/utils.tsx'
+
 import DashboardPage from '../dashboard.tsx'
 
 describe('<DashboardPage />', () => {
   it('should render the header section with the logo', () => {
-    render(<DashboardPage />)
+    render(withWrappers(<DashboardPage />))
 
     const logo = screen.getByAltText('Kompas Gramedia Logo Background')
     expect(logo).toBeInTheDocument()
@@ -15,7 +17,7 @@ describe('<DashboardPage />', () => {
   })
 
   it('should render the table with correct columns and rows', () => {
-    render(<DashboardPage />)
+    render(withWrappers(<DashboardPage />))
 
     expect(screen.getByText('Name')).toBeInTheDocument()
     expect(screen.getByText('Description')).toBeInTheDocument()
@@ -29,12 +31,12 @@ describe('<DashboardPage />', () => {
   })
 
   it('should render the footer', () => {
-    render(<DashboardPage />)
+    render(withWrappers(<DashboardPage />))
     expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
   })
 
   it('should render icons in the header', () => {
-    render(<DashboardPage />)
+    render(withWrappers(<DashboardPage />))
 
     const icons = screen.getAllByRole('img')
     expect(icons).toHaveLength(2)

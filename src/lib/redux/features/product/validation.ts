@@ -9,3 +9,7 @@ export const getProductsByVendorResponseSchema = z.object({
 export type GetProductsByVendorResponse = z.infer<
   typeof getProductsByVendorResponseSchema
 >
+
+export interface GetProductsByVendorArgs {
+  id: string
+}

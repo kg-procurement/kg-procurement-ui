@@ -1,4 +1,5 @@
 import { Edit, EllipsisVertical, Phone } from 'lucide-react'
+import { useEffect } from 'react'
 
 import { Button } from '@/components/atoms/button.tsx'
 import {
@@ -37,8 +38,21 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/molecules/pagination.tsx'
+import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
 
 export default function DashboardPage() {
+  const { products, isSuccess } = useGetProductsByVendorQuery(
+    { id: '2550' },
+    {
+      selectFromResult: result => ({
+        ...result,
+        products: result.data?.products,
+      }),
+    },
+  )
+  useEffect(() => {
+    if (isSuccess) console.log('getting products result: ', products)
+  }, [isSuccess])
   return (
     <div className="flex min-h-screen w-full flex-col">
       <PageHeader>
