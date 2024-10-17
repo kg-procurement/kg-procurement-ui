@@ -37,6 +37,43 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/molecules/pagination.tsx'
+import { Product } from '@/schemas/product.ts'
+
+const DUMMY_DATA: Product[] = [
+  {
+    id: '35',
+    product_category_id: '38',
+    uom_id: '26',
+    income_tax_id: '0',
+    product_type_id: '3',
+    name: 'MP3 & MP4 Plyer',
+    description: 'MP3 & MP4 Plyer',
+    modified_date: '2020-11-02T07:44:58Z',
+    modified_by: '0',
+  },
+  {
+    id: '45',
+    product_category_id: '38',
+    uom_id: '26',
+    income_tax_id: '0',
+    product_type_id: '3',
+    name: 'Oven',
+    description: 'Oven',
+    modified_date: '2020-11-02T07:44:58Z',
+    modified_by: '0',
+  },
+  {
+    id: '100',
+    product_category_id: '47',
+    uom_id: '26',
+    income_tax_id: '0',
+    product_type_id: '3',
+    name: 'Sling Bag',
+    description: 'Sling Bag',
+    modified_date: '2020-11-02T07:44:58Z',
+    modified_by: '0',
+  },
+]
 
 export default function DashboardPage() {
   return (
@@ -98,68 +135,30 @@ export default function DashboardPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell>Lorem Ipsum</TableCell>
-                  <TableCell>Lorem Ipsum Amer</TableCell>
-                  <TableCell>Rp.25000</TableCell>
-                  <TableCell>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <button>
-                          <EllipsisVertical size={16} />
-                        </button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-fit p-2">
-                        <Button
-                          className="h-fit w-full px-3 py-1"
-                          variant="ghost"
-                        >
-                          Edit
-                        </Button>
-                      </PopoverContent>
-                    </Popover>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Lorem Ipsum2</TableCell>
-                  <TableCell>Lorem Ipsum Amer2</TableCell>
-                  <TableCell>Rp.30000</TableCell>
-                  <TableCell>
-                    <button>
-                      <EllipsisVertical size={16} />
-                    </button>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Lorem Ipsum3</TableCell>
-                  <TableCell>Lorem Ipsum Amer3</TableCell>
-                  <TableCell>Rp.35000</TableCell>
-                  <TableCell>
-                    <button>
-                      <EllipsisVertical size={16} />
-                    </button>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Lorem Ipsum4</TableCell>
-                  <TableCell>Lorem Ipsum Amer4</TableCell>
-                  <TableCell>Rp.40000</TableCell>
-                  <TableCell>
-                    <button>
-                      <EllipsisVertical size={16} />
-                    </button>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Lorem Ipsum5</TableCell>
-                  <TableCell>Lorem Ipsum Amer5</TableCell>
-                  <TableCell>Rp.45000</TableCell>
-                  <TableCell>
-                    <button>
-                      <EllipsisVertical size={16} />
-                    </button>
-                  </TableCell>
-                </TableRow>
+                {DUMMY_DATA.map(product => (
+                  <TableRow key={product.id}>
+                    <TableCell>{product.name}</TableCell>
+                    <TableCell>{product.description}</TableCell>
+                    <TableCell>Rp.25000</TableCell>
+                    <TableCell>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <button>
+                            <EllipsisVertical size={16} />
+                          </button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-fit p-2">
+                          <Button
+                            className="h-fit w-full px-3 py-1"
+                            variant="ghost"
+                          >
+                            Edit
+                          </Button>
+                        </PopoverContent>
+                      </Popover>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
               <TableFooter>
                 <TableRow>
