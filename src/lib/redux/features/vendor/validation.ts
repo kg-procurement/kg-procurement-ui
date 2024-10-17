@@ -4,7 +4,7 @@ import { PaginationArgs, paginationSpecSchema } from '@/schemas/common.ts'
 import { vendorSchema } from '@/schemas/vendor.ts'
 
 export const getVendorsResponseSchema = paginationSpecSchema.extend({
-  Vendors: z.array(vendorSchema),
+  vendors: z.array(vendorSchema),
 })
 
 export type GetVendorsResponse = z.infer<typeof getVendorsResponseSchema>

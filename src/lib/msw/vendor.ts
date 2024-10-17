@@ -1,11 +1,12 @@
 import { http, HttpResponse } from 'msw'
 
 import { API_BASE_URL } from '@/env.ts'
+import { GetVendorsResponse } from '@/lib/redux/features/vendor/validation.ts'
 
 export const vendorHandlers = [
   http.get(`${API_BASE_URL}/vendor`, () => {
     return HttpResponse.json({
-      Vendors: [
+      vendors: [
         {
           id: '2502',
           name: 'Adriza Nikmah, PT',
@@ -147,11 +148,11 @@ export const vendorHandlers = [
           dt: '2024-08-28T00:00:00Z',
         },
       ],
-      Metadata: {
-        TotalPage: 10,
-        CurrentPage: 1,
-        TotalEntries: 100,
+      metadata: {
+        total_page: 10,
+        current_page: 1,
+        total_entries: 100,
       },
-    })
+    } satisfies GetVendorsResponse)
   }),
 ]

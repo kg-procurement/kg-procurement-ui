@@ -1,12 +1,10 @@
 import { z } from 'zod'
 
-// PaginationSpec schema
-// TODO: Will probably have to change this to something else when the backend inevitable changes the format
 export const paginationSpecSchema = z.object({
-  Metadata: z.object({
-    TotalPage: z.number(),
-    CurrentPage: z.number(),
-    TotalEntries: z.number(),
+  metadata: z.object({
+    total_page: z.number(),
+    current_page: z.number(),
+    total_entries: z.number(),
   }),
 })
 

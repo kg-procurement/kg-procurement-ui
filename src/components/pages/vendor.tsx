@@ -18,8 +18,8 @@ export default function VendorPage() {
     {
       selectFromResult: result => ({
         ...result,
-        vendors: result.data?.Vendors,
-        metadata: result.data?.Metadata,
+        vendors: result.data?.vendors,
+        metadata: result.data?.metadata,
       }),
     },
   )
