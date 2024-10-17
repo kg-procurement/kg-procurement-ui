@@ -19,7 +19,7 @@ export const vendorApi = api.injectEndpoints({
       providesTags: resp =>
         resp
           ? [
-              ...resp.Vendors.map(vendor => ({
+              ...resp.vendors.map(vendor => ({
                 type: 'Vendor' as const,
                 id: vendor.id,
               })),

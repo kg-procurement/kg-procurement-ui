@@ -26,7 +26,7 @@ import { noop } from '@/utils/common.ts'
 
 interface VendorTableProps {
   vendors: Vendor[]
-  metadata: PaginationSpec['Metadata']
+  metadata: PaginationSpec['metadata']
   page?: number
   setPage?: Dispatch<SetStateAction<number>>
 }
@@ -97,7 +97,7 @@ function VendorTable({
               <PaginationNext
                 onClick={() =>
                   setPage(prev =>
-                    prev < metadata.TotalPage ? prev + 1 : prev,
+                    prev < metadata.total_page ? prev + 1 : prev,
                   )}
               />
             </PaginationItem>
