@@ -30,9 +30,6 @@ describe('RegisterPage', () => {
       fireEvent.click(toggleButton)
       expect(passwordInput).toHaveAttribute('type', 'password')
     }
-    else {
-      throw new Error('Toggle button not found')
-    }
   })
 
   it('should render email input', () => {
