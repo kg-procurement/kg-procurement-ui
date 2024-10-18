@@ -3,7 +3,6 @@ import '@testing-library/jest-dom/vitest'
 
 import { cleanup } from '@testing-library/react'
 import { setupServer } from 'msw/node'
-import { afterEach } from 'vitest'
 
 import { vendorHandlers } from '@/lib/msw/vendor.ts'
 
@@ -15,10 +14,9 @@ beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
 //  Close server after all tests
 afterAll(() => server.close())
 
-// Reset handlers after each test `important for test isolation`
-afterEach(() => server.resetHandlers())
-
-// Runs a clean after each test case (e.g. clearing jsdom)
 afterEach(() => {
+  // Reset handlers after each test `important for test isolation`
+  server.resetHandlers()
+  // Runs a clean after each test case (e.g. clearing jsdom)
   cleanup()
 })
