@@ -9,7 +9,7 @@ export const productApi = api.injectEndpoints({
   overrideExisting: import.meta.env.DEV,
   endpoints: builder => ({
     getProductsByVendor: builder.query<
-      GetProductsByVendorResponse,
+      GetProductsByVendorResponse | null,
       GetProductsByVendorArgs
     >({
       extraOptions: { dataSchema: getProductsByVendorResponseSchema },
@@ -18,14 +18,15 @@ export const productApi = api.injectEndpoints({
         url: `/product/vendor/${args.id}`,
       }),
       providesTags: resp =>
-        [
-          ...resp!.products.map(product => ({
-            type: 'Product' as const,
-            id: product.id,
-          })),
-          { type: 'Product', id: 'LIST' },
-        ]
-      ,
+        resp
+          ? [
+              ...resp.products.map(product => ({
+                type: 'Product' as const,
+                id: product.id,
+              })),
+              { type: 'Product', id: 'LIST' },
+            ]
+          : [],
     }),
   }),
 })

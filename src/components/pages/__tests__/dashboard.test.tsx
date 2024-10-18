@@ -1,10 +1,35 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { configureStore } from '@reduxjs/toolkit'
+import { render, renderHook, screen, waitFor } from '@testing-library/react'
+import { Provider } from 'react-redux'
 
+import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
+import { api } from '@/lib/redux/services/api.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
 import DashboardPage from '../dashboard.tsx'
 
 describe('<DashboardPage />', () => {
+  it('should handle null response in providesTags', async () => {
+    const store = configureStore({
+      reducer: {
+        [api.reducerPath]: api.reducer,
+      },
+      middleware: getDefaultMiddleware =>
+        getDefaultMiddleware().concat(api.middleware),
+    })
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <Provider store={store}>{children}</Provider>
+    )
+
+    const { result } = renderHook(() =>
+      useGetProductsByVendorQuery({ id: '-1' }), { wrapper },
+    )
+
+    await waitFor(() => expect(result.current.isFetching).toBe(false))
+    expect(result.current.data).toBeNull()
+  })
+
   it('should render the header section with the logo', () => {
     render(withWrappers(<DashboardPage />))
 
