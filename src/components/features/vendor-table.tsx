@@ -40,7 +40,7 @@ function VendorTable({
   return (
     <div className="flex w-3/4 flex-col gap-5 rounded-lg border p-6 shadow-xl">
       <div className="w-full rounded-lg border">
-        <Table className="">
+        <Table>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[50px]">

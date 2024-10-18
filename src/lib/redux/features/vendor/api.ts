@@ -10,7 +10,7 @@ export const vendorApi = api.injectEndpoints({
   overrideExisting: import.meta.env.DEV,
   endpoints: builder => ({
     getVendors: builder.query<GetVendorsResponse, GetVendorsRequestArgs>({
-      extraOptions: { dataSchema: getVendorsResponseSchema },
+      extraOptions: { responseValidator: getVendorsResponseSchema },
       query: args => ({
         method: 'GET',
         url: `/vendor`,
