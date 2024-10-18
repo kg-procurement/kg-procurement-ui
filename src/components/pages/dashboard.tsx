@@ -192,10 +192,10 @@ export default function DashboardPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {products &&
-                  products.map((product) => {
+                {products ?
+                  products.map((product, i) => {
                     return (
-                      <TableRow>
+                      <TableRow key={i}>
                         <TableCell>
                           <Checkbox />
                         </TableCell>
@@ -221,7 +221,8 @@ export default function DashboardPage() {
                         </TableCell>
                       </TableRow>
                     )
-                  })}
+                  })
+                  : <></>}
               </TableBody>
               <TableFooter>
                 <TableRow>
