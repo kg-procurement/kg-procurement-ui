@@ -19,6 +19,8 @@ export const productApi = api.injectEndpoints({
         url: `/product/${id}`,
         body: payload,
       }),
+      invalidatesTags: (resp, _, arg) =>
+        resp ? [{ type: 'Product', id: arg.id }] : [],
     }),
   }),
 })

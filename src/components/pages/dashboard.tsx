@@ -1,4 +1,5 @@
 import { Edit, EllipsisVertical, Phone } from 'lucide-react'
+import { useState } from 'react'
 
 import { Button } from '@/components/atoms/button.tsx'
 import {
@@ -37,6 +38,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/molecules/pagination.tsx'
+import ProductForm from '@/components/organisms/product/form.tsx'
 import { Product } from '@/schemas/product.ts'
 
 const DUMMY_DATA: Product[] = [
@@ -76,6 +78,9 @@ const DUMMY_DATA: Product[] = [
 ]
 
 export default function DashboardPage() {
+  const [currentlyActiveDialog, setCurrentlyActiveDialog] =
+    useState<string>('')
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <PageHeader>
@@ -137,26 +142,41 @@ export default function DashboardPage() {
               <TableBody>
                 {DUMMY_DATA.map(product => (
                   <TableRow key={product.id}>
-                    <TableCell>{product.name}</TableCell>
-                    <TableCell>{product.description}</TableCell>
-                    <TableCell>Rp.25000</TableCell>
-                    <TableCell>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <button>
-                            <EllipsisVertical size={16} />
-                          </button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-fit p-2">
-                          <Button
-                            className="h-fit w-full px-3 py-1"
-                            variant="ghost"
-                          >
-                            Edit
-                          </Button>
-                        </PopoverContent>
-                      </Popover>
-                    </TableCell>
+                    <Dialog
+                      open={currentlyActiveDialog === product.id}
+                      onOpenChange={open =>
+                        open && setCurrentlyActiveDialog(product.id)}
+                    >
+                      <DialogContent>
+                        <DialogTitle>Product Form</DialogTitle>
+                        <ProductForm
+                          initialData={product}
+                          onDone={() => setCurrentlyActiveDialog('')}
+                        />
+                      </DialogContent>
+                      <TableCell>{product.name}</TableCell>
+                      <TableCell>{product.description}</TableCell>
+                      <TableCell>Rp.25000</TableCell>
+                      <TableCell>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <button>
+                              <EllipsisVertical size={16} />
+                            </button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-fit p-2">
+                            <DialogTrigger>
+                              <Button
+                                className="h-fit w-full px-3 py-1"
+                                variant="ghost"
+                              >
+                                Edit
+                              </Button>
+                            </DialogTrigger>
+                          </PopoverContent>
+                        </Popover>
+                      </TableCell>
+                    </Dialog>
                   </TableRow>
                 ))}
               </TableBody>
