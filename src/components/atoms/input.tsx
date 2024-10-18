@@ -11,9 +11,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, placeholder, isPassword = false, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false)
 
-    let inputType = 'text';
+    let inputType = 'text'
     if (isPassword) {
-      inputType = showPassword ? 'text' : 'password';
+      inputType = showPassword ? 'text' : 'password'
     }
 
     return (

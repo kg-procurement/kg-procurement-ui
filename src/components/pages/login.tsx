@@ -1,7 +1,7 @@
 import { Typography } from '@/components/atoms/typography.tsx'
-import LoginForm from '@/components/organisms/login-form.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
+import LoginForm from '@/components/organisms/login-form.tsx'
 
 const LoginPage = () => {
   return (
