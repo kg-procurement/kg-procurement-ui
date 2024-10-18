@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
@@ -16,18 +16,23 @@ describe('<DashboardPage />', () => {
     expect(screen.getByText('Dashboard')).toBeInTheDocument()
   })
 
-  it('should render the table with correct columns and rows', () => {
+  it('should render the area chart with correct content', () => {
     render(withWrappers(<DashboardPage />))
 
-    expect(screen.getByText('Name')).toBeInTheDocument()
-    expect(screen.getByText('Description')).toBeInTheDocument()
-    expect(screen.getByText('Price')).toBeInTheDocument()
+    expect(screen.getByText(/Showing vendor performance by/i)).toBeInTheDocument()
 
-    const rows = screen.getAllByRole('row')
-    expect(rows.length).toMatchInlineSnapshot(`7`)
+    expect(screen.getByRole('charts-content')).toBeInTheDocument()
+  })
 
-    expect(screen.getByText('Lorem Ipsum Amer')).toBeInTheDocument()
-    expect(screen.getByText('Rp.25000')).toBeInTheDocument()
+  it('should render the table content properly', async () => {
+    const { container } = render(
+      withWrappers(<DashboardPage />, { withRoot: true }),
+    )
+    await waitFor(async () => {
+      expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument()
+    })
+
+    expect(container.innerText).toMatchSnapshot()
   })
 
   it('should render the footer', () => {
