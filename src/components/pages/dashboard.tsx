@@ -1,6 +1,20 @@
 import { Edit, EllipsisVertical, Phone } from 'lucide-react'
+import { useEffect } from 'react'
+import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 
 import { Button } from '@/components/atoms/button.tsx'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+} from '@/components/atoms/card.tsx'
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@/components/atoms/chart.tsx'
 import {
   Dialog,
   DialogClose,
@@ -37,8 +51,42 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/molecules/pagination.tsx'
+import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
+import { useCommonStore } from '@/lib/zustand/common.ts'
+
+import { Checkbox } from '../atoms/checkbox.tsx'
 
 export default function DashboardPage() {
+  const { products, isSuccess } = useGetProductsByVendorQuery(
+    { id: '2550' },
+    {
+      selectFromResult: result => ({
+        ...result,
+        products: result.data?.products,
+      }),
+    },
+  )
+
+  const chartConfig = {
+    desktop: {
+      label: 'Desktop',
+      color: 'hsl(var(--chart-1))',
+    },
+  } satisfies ChartConfig
+  const chartData = [
+    { month: 'January', desktop: 186 },
+    { month: 'February', desktop: 305 },
+    { month: 'March', desktop: 237 },
+    { month: 'April', desktop: 73 },
+    { month: 'May', desktop: 209 },
+    { month: 'June', desktop: 214 },
+  ]
+  const { setShowLoadingOverlay } = useCommonStore()
+
+  useEffect(() => {
+    setShowLoadingOverlay(!isSuccess)
+  }, [isSuccess, setShowLoadingOverlay])
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <PageHeader>
@@ -84,82 +132,97 @@ export default function DashboardPage() {
         </div>
       </PageHeader>
       <div className="flex flex-grow items-center justify-center bg-[#F8F8F8] p-16">
-        <div className="grid h-full w-full flex-grow grid-cols-2 rounded-md bg-white p-4 shadow-md">
-          <div className="col-span-1"></div>
+        <div className="grid h-full w-full flex-grow items-center grid-cols-2 gap-2 rounded-md bg-white p-4 shadow-md">
+          <div className="col-span-1 flex flex-col gap-4">
+            {/* <Typography variant="h6">Vendor Performance</Typography> */}
+            <Card className="border-none">
+              <CardHeader>
+                <CardDescription>
+                  Showing vendor performance by .....
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-6" role="charts-content">
+                <ChartContainer config={chartConfig} className="">
+                  <AreaChart
+                    accessibilityLayer
+                    data={chartData}
+                    margin={{
+                      left: 12,
+                      right: 12,
+                    }}
+                  >
+                    <CartesianGrid vertical={false} />
+                    <XAxis
+                      dataKey="month"
+                      tickLine={false}
+                      axisLine={false}
+                      tickMargin={8}
+                      tickFormatter={value => value.slice(0, 3)}
+                    />
+                    <ChartTooltip
+                      cursor={false}
+                      content={
+                        <ChartTooltipContent indicator="dot" hideLabel />
+                      }
+                    />
+                    <Area
+                      dataKey="desktop"
+                      type="linear"
+                      fill="var(--color-desktop)"
+                      fillOpacity={0.4}
+                      stroke="var(--color-desktop)"
+                    />
+                  </AreaChart>
+                </ChartContainer>
+              </CardContent>
+            </Card>
+          </div>
           <div className="col-span-1 flex flex-col gap-4">
             <Typography variant="h6">Inventory List</Typography>
             <Input className="text-sm" placeholder="Filter vendor ..." />
-            <Table className="border">
+            <Table className="border rounded-md">
               <TableHeader>
                 <TableRow>
+                  <TableHead>
+                    <Checkbox />
+                  </TableHead>
                   <TableHead>Name</TableHead>
                   <TableHead>Description</TableHead>
-                  <TableHead>Price</TableHead>
+                  <TableHead>Modified Date</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow>
-                  <TableCell>Lorem Ipsum</TableCell>
-                  <TableCell>Lorem Ipsum Amer</TableCell>
-                  <TableCell>Rp.25000</TableCell>
-                  <TableCell>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <button>
-                          <EllipsisVertical size={16} />
-                        </button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-fit p-2">
-                        <Button
-                          className="h-fit w-full px-3 py-1"
-                          variant="ghost"
-                        >
-                          Edit
-                        </Button>
-                      </PopoverContent>
-                    </Popover>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Lorem Ipsum2</TableCell>
-                  <TableCell>Lorem Ipsum Amer2</TableCell>
-                  <TableCell>Rp.30000</TableCell>
-                  <TableCell>
-                    <button>
-                      <EllipsisVertical size={16} />
-                    </button>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Lorem Ipsum3</TableCell>
-                  <TableCell>Lorem Ipsum Amer3</TableCell>
-                  <TableCell>Rp.35000</TableCell>
-                  <TableCell>
-                    <button>
-                      <EllipsisVertical size={16} />
-                    </button>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Lorem Ipsum4</TableCell>
-                  <TableCell>Lorem Ipsum Amer4</TableCell>
-                  <TableCell>Rp.40000</TableCell>
-                  <TableCell>
-                    <button>
-                      <EllipsisVertical size={16} />
-                    </button>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Lorem Ipsum5</TableCell>
-                  <TableCell>Lorem Ipsum Amer5</TableCell>
-                  <TableCell>Rp.45000</TableCell>
-                  <TableCell>
-                    <button>
-                      <EllipsisVertical size={16} />
-                    </button>
-                  </TableCell>
-                </TableRow>
+                {products ?
+                  products.map((product) => {
+                    return (
+                      <TableRow key={product.id}>
+                        <TableCell>
+                          <Checkbox />
+                        </TableCell>
+                        <TableCell>{product.name}</TableCell>
+                        <TableCell>{product.description}</TableCell>
+                        <TableCell>{product.modified_date}</TableCell>
+                        <TableCell>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <button>
+                                <EllipsisVertical size={16} />
+                              </button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-fit p-2">
+                              <Button
+                                className="h-fit w-full px-3 py-1"
+                                variant="ghost"
+                              >
+                                Edit
+                              </Button>
+                            </PopoverContent>
+                          </Popover>
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })
+                  : <></>}
               </TableBody>
               <TableFooter>
                 <TableRow>
