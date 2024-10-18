@@ -193,9 +193,9 @@ export default function DashboardPage() {
               </TableHeader>
               <TableBody>
                 {products ?
-                  products.map((product, i) => {
+                  products.map((product) => {
                     return (
-                      <TableRow key={i}>
+                      <TableRow key={product.id}>
                         <TableCell>
                           <Checkbox />
                         </TableCell>
