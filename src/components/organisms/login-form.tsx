@@ -25,8 +25,6 @@ export default function LoginForm() {
     }
 
     setErrorMessages([])
-
-    console.log('Logging in with:', { username, password })
   }
 
   return (
