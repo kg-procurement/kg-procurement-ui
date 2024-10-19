@@ -6,13 +6,14 @@ import {
   ToastTitle,
   ToastViewport,
 } from '@/components/atoms/toast.tsx'
+import { TOAST_REMOVE_DELAY } from '@/config/toast.ts'
 import { useToast } from '@/hooks/use-toast.ts'
 
 export function Toaster() {
   const { toasts } = useToast()
 
   return (
-    <ToastProvider>
+    <ToastProvider duration={TOAST_REMOVE_DELAY}>
       {toasts.map(function ({ id, title, description, action, ...props }) {
         return (
           <Toast key={id} {...props}>

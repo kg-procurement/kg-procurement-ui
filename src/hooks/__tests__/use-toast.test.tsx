@@ -1,9 +1,14 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { act, useState } from 'react'
 
 import { Toaster } from '@/components/atoms/toaster.tsx'
 
 import { ToasterToast, useToast } from '../use-toast.ts'
+
+vi.mock('@/config/toast.ts', async importOriginal => ({
+  ...(await importOriginal()),
+  TOAST_REMOVE_DELAY: 300,
+}))
 
 function TestComponent() {
   const { toast, dismiss } = useToast()
@@ -15,8 +20,11 @@ function TestComponent() {
   return (
     <div>
       <Toaster />
-      <button data-testid="dismiss-trigger" onClick={() => dismiss()}>
+      <button data-testid="dismiss-trigger" onClick={() => dismiss(id)}>
         Dismiss
+      </button>
+      <button data-testid="dismiss-all-trigger" onClick={() => dismiss()}>
+        Dismiss All
       </button>
       <button
         data-testid="toaster-trigger"
@@ -26,7 +34,7 @@ function TestComponent() {
             variant: 'default',
             description: 'how you doing?',
           })
-          setUpdateFn(update)
+          setUpdateFn(() => update)
           setId(toastId)
         }}
       >
@@ -65,7 +73,8 @@ describe('useToast()', () => {
     })
     expect(screen.queryAllByText('hi there')).toHaveLength(1)
   })
-  it('should remove toast content from DOM when dismiss is called', () => {
+
+  it('should remove toast content with specific ID from DOM when dismiss is called', () => {
     render(<TestComponent />)
     act(() => {
       fireEvent.click(screen.getByTestId('toaster-trigger'))
@@ -76,6 +85,33 @@ describe('useToast()', () => {
     })
     expect(screen.queryByText('hi there')).toBeNull()
   })
+
+  it('should remove all toast content with specific ID from DOM when dismiss is called', () => {
+    render(<TestComponent />)
+    act(() => {
+      fireEvent.click(screen.getByTestId('toaster-trigger'))
+    })
+    expect(screen.queryByText('hi there')).toBeInTheDocument()
+    act(() => {
+      fireEvent.click(screen.getByTestId('dismiss-all-trigger'))
+    })
+    expect(screen.queryByText('hi there')).toBeNull()
+  })
+
+  it('toast should eventually be dismissed by itself', async () => {
+    render(<TestComponent />)
+    act(() => {
+      fireEvent.click(screen.getByTestId('toaster-trigger'))
+    })
+    expect(screen.queryByText('hi there')).toBeInTheDocument()
+    await waitFor(
+      () => {
+        expect(screen.queryByText('hi there')).toBeNull()
+      },
+      { timeout: 4000 },
+    )
+  })
+
   it('should be able to update toast content', () => {
     render(<TestComponent />)
     act(() => {
@@ -86,6 +122,6 @@ describe('useToast()', () => {
       fireEvent.click(screen.getByTestId('update-title-trigger'))
     })
     expect(screen.queryByText('hi there')).toBeNull()
-    expect(screen.queryByText('updated title')).toBeNull()
+    expect(screen.queryByText('updated title')).toBeInTheDocument()
   })
 })

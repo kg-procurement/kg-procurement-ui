@@ -1,9 +1,10 @@
 import * as React from 'react'
 
-import type { ToastActionElement, ToastProps } from '@/components/atoms/toast'
-
-const TOAST_LIMIT = 1
-const TOAST_REMOVE_DELAY = 1000000
+import type {
+  ToastActionElement,
+  ToastProps,
+} from '@/components/atoms/toast.tsx'
+import { TOAST_LIMIT, TOAST_REMOVE_DELAY } from '@/config/toast.ts'
 
 export type ToasterToast = ToastProps & {
   id: string
@@ -111,12 +112,6 @@ export const reducer = (state: State, action: Action): State => {
       }
     }
     case 'REMOVE_TOAST':
-      if (action.toastId === undefined) {
-        return {
-          ...state,
-          toasts: [],
-        }
-      }
       return {
         ...state,
         toasts: state.toasts.filter(t => t.id !== action.toastId),
