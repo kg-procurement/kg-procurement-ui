@@ -82,8 +82,8 @@ jobs:
             -Dsonar.sources=.
             -Dsonar.tests=.
             -Dsonar.test.inclusions=**/*_test.js
-            -Dsonar.exclusions=**/node_modules/**,**/*_mock.js,**/msw/*,vitest.setup.*
-            -Dsonar.coverage.exclusions=**/node_modules/**,**/*_test.js,**/*.{spec,test}.{ts,tsx}
+            -Dsonar.exclusions=**/node_modules/**,**/*_mock.js,**/msw/*,vitest.setup.*,**/*.{spec,test}.{ts,tsx}
+            -Dsonar.coverage.exclusions=**/node_modules/**,**/*_test.js,vitest.setup.*,**/*.{spec,test}.{ts,tsx}
             -Dsonar.sourceEncoding=UTF-8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
