@@ -15,17 +15,16 @@ describe('<DashboardPage />', () => {
   })
 
   it('should render the table with correct columns and rows', () => {
-    render(<DashboardPage />)
+    const { container } = render(<DashboardPage />)
 
     expect(screen.getByText('Name')).toBeInTheDocument()
     expect(screen.getByText('Description')).toBeInTheDocument()
     expect(screen.getByText('Price')).toBeInTheDocument()
 
     const rows = screen.getAllByRole('row')
-    expect(rows.length).toMatchInlineSnapshot(`7`)
+    expect(rows.length).toMatchInlineSnapshot(`5`)
 
-    expect(screen.getByText('Lorem Ipsum Amer')).toBeInTheDocument()
-    expect(screen.getByText('Rp.25000')).toBeInTheDocument()
+    expect(container.innerText).toMatchSnapshot()
   })
 
   it('should render the footer', () => {

@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react'
+
 import { Button } from '@/components/atoms/button.tsx'
 import { Checkbox } from '@/components/atoms/checkbox.tsx'
 import {
@@ -18,29 +20,34 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/molecules/pagination.tsx'
-
-export interface Vendor {
-  name: string
-  email: string
-  performanceScore: string
-}
+import { PaginationSpec } from '@/schemas/common.ts'
+import { Vendor } from '@/schemas/vendor.ts'
+import { noop } from '@/utils/common.ts'
 
 interface VendorTableProps {
   vendors: Vendor[]
+  metadata: PaginationSpec['metadata']
+  page?: number
+  setPage?: Dispatch<SetStateAction<number>>
 }
 
-const VendorTable = ({ vendors }: VendorTableProps) => {
+function VendorTable({
+  vendors,
+  metadata,
+  page = 1,
+  setPage = noop,
+}: VendorTableProps) {
   return (
     <div className="flex w-3/4 flex-col gap-5 rounded-lg border p-6 shadow-xl">
       <div className="w-full rounded-lg border">
-        <Table className="">
+        <Table>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[50px]">
                 <Checkbox />
               </TableHead>
               <TableHead className="w-[200px]">Vendor Name</TableHead>
-              <TableHead className="w-[200px]">Email</TableHead>
+              <TableHead className="w-[200px]">Location</TableHead>
               <TableHead>Performance Score</TableHead>
               <TableHead className="text-right"></TableHead>
             </TableRow>
@@ -52,8 +59,8 @@ const VendorTable = ({ vendors }: VendorTableProps) => {
                   <Checkbox />
                 </TableCell>
                 <TableCell className="font-medium">{vendor.name}</TableCell>
-                <TableCell>{vendor.email}</TableCell>
-                <TableCell>{vendor.performanceScore}</TableCell>
+                <TableCell>{vendor.area_group_name}</TableCell>
+                <TableCell>{vendor.rating}</TableCell>
                 <TableCell className="text-right">...</TableCell>
               </TableRow>
             ))}
@@ -64,24 +71,35 @@ const VendorTable = ({ vendors }: VendorTableProps) => {
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious href="#" />
+              <PaginationPrevious
+                onClick={() => setPage(prev => (prev > 1 ? prev - 1 : prev))}
+              />
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
+              <PaginationLink onClick={() => setPage(1)} isActive={page === 1}>
+                1
+              </PaginationLink>
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink href="#" isActive>
+              <PaginationLink onClick={() => setPage(2)} isActive={page === 2}>
                 2
               </PaginationLink>
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
+              <PaginationLink onClick={() => setPage(3)} isActive={page === 3}>
+                3
+              </PaginationLink>
             </PaginationItem>
             <PaginationItem>
               <PaginationEllipsis />
             </PaginationItem>
             <PaginationItem>
-              <PaginationNext href="#" />
+              <PaginationNext
+                onClick={() =>
+                  setPage(prev =>
+                    prev < metadata.total_page ? prev + 1 : prev,
+                  )}
+              />
             </PaginationItem>
           </PaginationContent>
         </Pagination>
