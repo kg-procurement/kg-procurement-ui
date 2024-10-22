@@ -1,27 +1,28 @@
-import { configureStore } from '@reduxjs/toolkit'
 import { render, renderHook, screen, waitFor } from '@testing-library/react'
+import { http, HttpResponse } from 'msw'
 import { Provider } from 'react-redux'
 
+import { API_BASE_URL } from '@/env.ts'
+import { mswServer } from '@/lib/msw/index.ts'
 import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
-import { api } from '@/lib/redux/services/api.ts'
+import { configureAppStore } from '@/lib/redux/store.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
 import DashboardPage from '../dashboard.tsx'
 
 describe('<DashboardPage />', () => {
   it('should handle null response in providesTags', async () => {
-    const store = configureStore({
-      reducer: {
-        [api.reducerPath]: api.reducer,
-      },
-      middleware: getDefaultMiddleware =>
-        getDefaultMiddleware().concat(api.middleware),
+    const errorHandler = http.get(`${API_BASE_URL}/product/vendor/:id`, () => {
+      return HttpResponse.json(null, { status: 200 })
     })
+
+    mswServer.use(errorHandler)
+
+    const store = configureAppStore()
 
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <Provider store={store}>{children}</Provider>
     )
-
     const { result } = renderHook(() =>
       useGetProductsByVendorQuery({ id: '-1' }), { wrapper },
     )

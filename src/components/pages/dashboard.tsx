@@ -15,6 +15,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/atoms/chart.tsx'
+import { Checkbox } from '@/components/atoms/checkbox.tsx'
 import {
   Dialog,
   DialogClose,
@@ -53,8 +54,6 @@ import {
 } from '@/components/molecules/pagination.tsx'
 import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
-
-import { Checkbox } from '../atoms/checkbox.tsx'
 
 export default function DashboardPage() {
   const { products, isSuccess } = useGetProductsByVendorQuery(
