@@ -1,7 +1,14 @@
+import { Link } from '@tanstack/react-router'
+import { EllipsisVertical } from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
 
 import { Button } from '@/components/atoms/button.tsx'
 import { Checkbox } from '@/components/atoms/checkbox.tsx'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/atoms/popover.tsx'
 import {
   Table,
   TableBody,
@@ -61,7 +68,26 @@ function VendorTable({
                 <TableCell className="font-medium">{vendor.name}</TableCell>
                 <TableCell>{vendor.area_group_name}</TableCell>
                 <TableCell>{vendor.rating}</TableCell>
-                <TableCell className="text-right">...</TableCell>
+                <TableCell className="text-right">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button>
+                        <EllipsisVertical size={16} />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-fit p-2">
+                      <Link to="/dashboard/vendor/$vendorId" params={{ vendorId: vendor.id }}>
+                        <Button
+                          className="h-fit w-full px-3 py-1"
+                          variant="ghost"
+                          onClick={() => console.log('hai')}
+                        >
+                          Detailed View
+                        </Button>
+                      </Link>
+                    </PopoverContent>
+                  </Popover>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

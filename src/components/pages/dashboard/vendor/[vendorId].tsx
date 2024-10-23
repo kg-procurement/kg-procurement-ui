@@ -1,3 +1,4 @@
+import { useParams } from '@tanstack/react-router'
 import { Edit, EllipsisVertical, Phone } from 'lucide-react'
 import { useEffect } from 'react'
 import { useState } from 'react'
@@ -60,8 +61,9 @@ import { useCommonStore } from '@/lib/zustand/common.ts'
 export default function DashboardPage() {
   const [currentlyActiveDialog, setCurrentlyActiveDialog] =
     useState<string>('')
+  const { vendorId } = useParams({ from: '/dashboard/vendor/$vendorId' })
   const { products, isSuccess } = useGetProductsByVendorQuery(
-    { id: '2550' },
+    { id: vendorId },
     {
       selectFromResult: result => ({
         ...result,
