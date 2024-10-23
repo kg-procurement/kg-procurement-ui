@@ -17,5 +17,8 @@ afterEach(() => mswServer.resetHandlers())
 
 // Runs a clean after each test case (e.g. clearing jsdom)
 afterEach(() => {
+  // Reset handlers after each test `important for test isolation`
+  mswServer.resetHandlers()
+  // Runs a clean after each test case (e.g. clearing jsdom)
   cleanup()
 })

@@ -1,5 +1,6 @@
 import { Edit, EllipsisVertical, Phone } from 'lucide-react'
 import { useEffect } from 'react'
+import { useState } from 'react'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 
 import { Button } from '@/components/atoms/button.tsx'
@@ -52,10 +53,13 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/molecules/pagination.tsx'
+import ProductForm from '@/components/organisms/product/form.tsx'
 import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
 
 export default function DashboardPage() {
+  const [currentlyActiveDialog, setCurrentlyActiveDialog] =
+    useState<string>('')
   const { products, isSuccess } = useGetProductsByVendorQuery(
     { id: '2550' },
     {
@@ -85,7 +89,6 @@ export default function DashboardPage() {
   useEffect(() => {
     setShowLoadingOverlay(!isSuccess)
   }, [isSuccess, setShowLoadingOverlay])
-
   return (
     <div className="flex min-h-screen w-full flex-col">
       <PageHeader>
@@ -195,29 +198,44 @@ export default function DashboardPage() {
                   products.map((product) => {
                     return (
                       <TableRow key={product.id}>
-                        <TableCell>
-                          <Checkbox />
-                        </TableCell>
-                        <TableCell>{product.name}</TableCell>
-                        <TableCell>{product.description}</TableCell>
-                        <TableCell>{product.modified_date}</TableCell>
-                        <TableCell>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <button>
-                                <EllipsisVertical size={16} />
-                              </button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-fit p-2">
-                              <Button
-                                className="h-fit w-full px-3 py-1"
-                                variant="ghost"
-                              >
-                                Edit
-                              </Button>
-                            </PopoverContent>
-                          </Popover>
-                        </TableCell>
+                        <Dialog
+                          open={currentlyActiveDialog === product.id}
+                          onOpenChange={open =>
+                            open && setCurrentlyActiveDialog(product.id)}
+                        >
+                          <DialogContent>
+                            <DialogTitle>Product Form</DialogTitle>
+                            <ProductForm
+                              initialData={product}
+                              onDone={() => setCurrentlyActiveDialog('')}
+                            />
+                          </DialogContent>
+                          <TableCell>
+                            <Checkbox />
+                          </TableCell>
+                          <TableCell>{product.name}</TableCell>
+                          <TableCell>{product.description}</TableCell>
+                          <TableCell>{product.modified_date}</TableCell>
+                          <TableCell>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <button>
+                                  <EllipsisVertical size={16} />
+                                </button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-fit p-2">
+                                <DialogTrigger>
+                                  <Button
+                                    className="h-fit w-full px-3 py-1"
+                                    variant="ghost"
+                                  >
+                                    Edit
+                                  </Button>
+                                </DialogTrigger>
+                              </PopoverContent>
+                            </Popover>
+                          </TableCell>
+                        </Dialog>
                       </TableRow>
                     )
                   })

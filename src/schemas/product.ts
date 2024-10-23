@@ -8,7 +8,7 @@ export const productSchema = z.object({
   product_type_id: z.string(),
   name: z.string(),
   description: z.string(),
-  modified_date: z.string(),
+  modified_date: z.string().datetime(),
   modified_by: z.string(),
 })
 

@@ -10,7 +10,7 @@ type BaseQuery = BaseQueryFn<
   string | FetchArgs,
   unknown,
   FetchBaseQueryError,
-  { dataSchema?: ZodSchema },
+  { responseValidator?: ZodSchema },
   FetchBaseQueryMeta
 >
 
@@ -18,7 +18,7 @@ export const baseQueryWithZodValidation: (baseQuery: BaseQuery) => BaseQuery =
   baseQuery => async (args, api, extraOptions) => {
     const returnValue = await baseQuery(args, api, extraOptions)
 
-    const zodSchema = extraOptions?.dataSchema
+    const zodSchema = extraOptions?.responseValidator
 
     if (returnValue.data && zodSchema) {
       try {
