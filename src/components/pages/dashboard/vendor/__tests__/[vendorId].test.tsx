@@ -1,28 +1,15 @@
-// import { RouterProvider } from '@tanstack/react-router'
-// import { useParams } from '@tanstack/react-router'
 import { render, screen, waitFor } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
 
 import { API_BASE_URL } from '@/env.ts'
 import { mswServer } from '@/lib/msw/index.ts'
-// import { router } from '@/lib/router.ts'
-// import { http, HttpResponse } from 'msw'
-// // import { Provider } from 'react-redux'
-// import { API_BASE_URL } from '@/env.ts'
-// import { mswServer } from '@/lib/msw/index.ts'
-// import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
-// import { configureAppStore } from '@/lib/redux/store.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
 import DashboardPage from '../[vendorId].tsx'
-// import { Route } from '@/routes/__root.tsx'
-
-// import DashboardPage from '../[vendorId].tsx'
 
 describe('<DashboardPage />', () => {
   vi.mock('@tanstack/react-router', async () => {
     const actual = await vi.importActual('@tanstack/react-router') // Keep other methods intact
-    // useParams: () => ({ vendorId: '123' }), // Mock the `useParams` hook
     return {
       ...actual,
       useParams: () => ({ vendorId: '123' }),
@@ -32,7 +19,6 @@ describe('<DashboardPage />', () => {
   it('should handle null response in providesTags', async () => {
     vi.mock('@tanstack/react-router', async () => {
       const actual = await vi.importActual('@tanstack/react-router') // Keep other methods intact
-      // useParams: () => ({ vendorId: '123' }), // Mock the `useParams` hook
       return {
         ...actual,
         useParams: () => ({ vendorId: '-1' }),
