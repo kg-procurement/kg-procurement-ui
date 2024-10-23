@@ -1,8 +1,7 @@
 import { http, HttpResponse } from 'msw'
 
 import { API_BASE_URL } from '@/env.ts'
-
-import { GetProductsByVendorResponse, UpdateProductResponse } from '../redux/features/product/validation.ts'
+import { GetProductsByVendorResponse, UpdateProductResponse } from '@/lib/redux/features/product/validation.ts'
 
 export const productHandlers = [
   http.get(`${API_BASE_URL}/product/vendor/:id`, (req) => {

@@ -1,11 +1,11 @@
-import { render, renderHook, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
-import { Provider } from 'react-redux'
 
+// import { Provider } from 'react-redux'
 import { API_BASE_URL } from '@/env.ts'
 import { mswServer } from '@/lib/msw/index.ts'
-import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
-import { configureAppStore } from '@/lib/redux/store.ts'
+// import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
+// import { configureAppStore } from '@/lib/redux/store.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
 import DashboardPage from '../dashboard.tsx'
@@ -18,17 +18,28 @@ describe('<DashboardPage />', () => {
 
     mswServer.use(errorHandler)
 
-    const store = configureAppStore()
+    // const store = configureAppStore()
 
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <Provider store={store}>{children}</Provider>
-    )
-    const { result } = renderHook(() =>
-      useGetProductsByVendorQuery({ id: '-1' }), { wrapper },
-    )
+    // const wrapper = ({ children }: { children: React.ReactNode }) => (
+    //   <Provider store={store}>{children}</Provider>
+    // )
+    // const { result } = renderHook(() =>
+    //   useGetProductsByVendorQuery({ id: '-1' }), { wrapper },
+    // )
 
-    await waitFor(() => expect(result.current.isFetching).toBe(false))
-    expect(result.current.data).toBeNull()
+    // const {container} = render(withWrappers(<DashboardPage />))
+
+    // await waitFor(() => expect(result.current.isFetching).toBe(false))
+    // expect(result.current.data).toBeNull()
+
+    const { container } = render(
+      withWrappers(<DashboardPage />, { withRoot: true }),
+    )
+    await waitFor(async () => {
+      expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument()
+    })
+
+    expect(container.innerText).toMatchSnapshot()
   })
 
   it('should render the header section with the logo', () => {
