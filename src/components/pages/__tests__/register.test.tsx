@@ -1,9 +1,13 @@
+// import { RouterProvider } from '@tanstack/react-router'
 import { render, screen } from '@testing-library/react'
+// import { Provider as ReduxStoreProvider } from 'react-redux'
 import { describe, expect, it } from 'vitest'
 
+// import store from '@/lib/redux/store.ts'
+// import { router } from '@/lib/router.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
-import DashboardPage from '../dashboard.tsx'
+// import DashboardPage from '../dashboard/vendor/[vendorId].tsx'
 import RegisterPage from '../register.tsx'
 
 describe('RegisterPage', () => {
@@ -25,7 +29,7 @@ describe('RegisterPage', () => {
   })
 
   it('should render the footer', () => {
-    render(withWrappers(<DashboardPage />))
+    render(withWrappers(<RegisterPage />))
     expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
   })
 })
