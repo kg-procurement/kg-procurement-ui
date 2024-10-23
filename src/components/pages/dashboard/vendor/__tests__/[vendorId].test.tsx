@@ -28,9 +28,23 @@ describe('<DashboardPage />', () => {
       useParams: () => ({ vendorId: '123' }),
     }
   })
+
   it('should handle null response in providesTags', async () => {
-    const errorHandler = http.get(`${API_BASE_URL}/product/vendor/:id`, () => {
-      return HttpResponse.json(null, { status: 200 })
+    vi.mock('@tanstack/react-router', async () => {
+      const actual = await vi.importActual('@tanstack/react-router') // Keep other methods intact
+      // useParams: () => ({ vendorId: '123' }), // Mock the `useParams` hook
+      return {
+        ...actual,
+        useParams: () => ({ vendorId: '-1' }),
+      }
+    })
+    const errorHandler = http.get(`${API_BASE_URL}/product/vendor/:id`, (req) => {
+      const { id } = req.params
+
+      if (id === '-1') {
+        return HttpResponse.json(null, { status: 200 })
+      }
+      return HttpResponse.json('Data found', { status: 200 })
     })
 
     mswServer.use(errorHandler)
