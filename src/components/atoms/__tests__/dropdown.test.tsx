@@ -1,94 +1,94 @@
 import '@testing-library/jest-dom'
 
 import { fireEvent, render, screen } from '@testing-library/react'
-import { useState } from 'react'
 
 import Dropdown from '../dropdown.tsx'
 
-interface TestDropdownProps {
-  options: string[]
-}
-
-const TestDropdown: React.FC<TestDropdownProps> = ({ options }) => {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null)
-
-  const handleOptionSelect = (option: string | null) => {
-    setSelectedOption(option)
-  }
-
-  return (
-    <div>
-      <Dropdown options={options} label="Select an option" onOptionSelect={handleOptionSelect} />
-      {selectedOption && (
-        <p data-testid="selected-option">
-          Selected:
-          {' '}
-          {selectedOption}
-        </p>
-      )}
-    </div>
-  )
-}
+const options = [
+  { value: 'option1', label: 'Option 1' },
+  { value: 'option2', label: 'Option 2' },
+  { value: 'option3', label: 'Option 3' },
+]
 
 describe('<Dropdown />', () => {
-  const options = ['Option 1', 'Option 2', 'Option 3']
+  it('should render the dropdown button with placeholder', () => {
+    render(<Dropdown options={options} />)
 
-  it('should render the dropdown with a label', () => {
-    render(<TestDropdown options={options} />)
-
-    const labelElement = screen.getByPlaceholderText('Select an option')
-    expect(labelElement).toBeInTheDocument()
+    const buttonElement = screen.getByRole('combobox')
+    expect(buttonElement).toHaveTextContent('Select option...')
   })
 
-  it('should open the dropdown when focused', () => {
-    render(<TestDropdown options={options} />)
+  it('should open the dropdown when clicked', () => {
+    render(<Dropdown options={options} />)
 
-    const inputElement = screen.getByPlaceholderText('Select an option')
-    fireEvent.focus(inputElement)
+    const buttonElement = screen.getByRole('combobox')
+    fireEvent.click(buttonElement)
 
-    expect(screen.getByRole('listbox')).toBeInTheDocument()
+    expect(screen.getByPlaceholderText('Search option...')).toBeInTheDocument()
+  })
+
+  it('should display options in the dropdown', () => {
+    render(<Dropdown options={options} />)
+
+    const buttonElement = screen.getByRole('combobox')
+    fireEvent.click(buttonElement)
+
+    options.forEach((option) => {
+      expect(screen.getByText(option.label)).toBeInTheDocument()
+    })
   })
 
   it('should filter options based on the search term', () => {
-    render(<TestDropdown options={options} />)
+    render(<Dropdown options={options} />)
 
-    fireEvent.focus(screen.getByPlaceholderText('Select an option'))
-    const searchInput = screen.getByPlaceholderText('Search...')
+    const buttonElement = screen.getByRole('combobox')
+    fireEvent.click(buttonElement)
 
-    fireEvent.change(searchInput, { target: { value: 'Option 2' } })
+    const searchInput = screen.getByPlaceholderText('Search option...')
+    fireEvent.change(searchInput, { target: { value: 'Option2' } })
+
     expect(screen.getByText('Option 2')).toBeInTheDocument()
     expect(screen.queryByText('Option 1')).not.toBeInTheDocument()
     expect(screen.queryByText('Option 3')).not.toBeInTheDocument()
   })
 
   it('should select an option when clicked', () => {
-    render(<TestDropdown options={options} />)
+    render(<Dropdown options={options} />)
 
-    fireEvent.focus(screen.getByPlaceholderText('Select an option'))
+    const buttonElement = screen.getByRole('combobox')
+    fireEvent.click(buttonElement)
+
     fireEvent.click(screen.getByText('Option 1'))
 
-    const select = screen.getByRole('listbox')
-    fireEvent.change(select, { target: { value: 'Option 1' } })
-
-    const selectedOptionElement = screen.getByTestId('selected-option')
-
-    expect(selectedOptionElement).toHaveTextContent('Selected: Option 1')
-    expect(screen.getByPlaceholderText('Select an option')).toHaveValue('Option 1')
+    expect(buttonElement).toHaveTextContent('Option 1')
   })
 
-  it('should reset selection when reset button is clicked', () => {
-    render(<TestDropdown options={options} />)
+  it('should deselect an option when the same option is clicked again', () => {
+    render(<Dropdown options={options} />)
 
-    fireEvent.focus(screen.getByPlaceholderText('Select an option'))
-    const select = screen.getByRole('listbox')
-    fireEvent.change(select, { target: { value: 'Option 1' } })
+    const buttonElement = screen.getByRole('combobox')
+    fireEvent.click(buttonElement)
 
-    expect(screen.getByTestId('selected-option')).toHaveTextContent('Selected: Option 1')
+    fireEvent.click(screen.getByText('Option 1'))
+    expect(buttonElement).toHaveTextContent('Option 1')
 
-    const resetButton = screen.getByLabelText('Reset selection')
-    fireEvent.click(resetButton)
+    fireEvent.click(buttonElement)
 
-    expect(screen.queryByTestId('selected-option')).not.toBeInTheDocument()
-    expect(screen.getByPlaceholderText('Select an option')).toHaveValue('')
+    const selectedOptionElement = screen.getByRole('option', { name: 'Option 1' })
+    fireEvent.click(selectedOptionElement)
+
+    expect(buttonElement).toHaveTextContent('Select option...')
+  })
+
+  it('should show "No option found" when there are no matching search results', () => {
+    render(<Dropdown options={options} />)
+
+    const buttonElement = screen.getByRole('combobox')
+    fireEvent.click(buttonElement)
+
+    const searchInput = screen.getByPlaceholderText('Search option...')
+    fireEvent.change(searchInput, { target: { value: 'Non-existing option' } })
+
+    expect(screen.getByText('No option found.')).toBeInTheDocument()
   })
 })
