@@ -43,17 +43,9 @@ import {
   TableRow,
 } from '@/components/atoms/table.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
+import CustomPagination from '@/components/molecules/custom-pagination.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/molecules/pagination.tsx'
 import ProductForm from '@/components/organisms/product/form.tsx'
 import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
@@ -67,17 +59,22 @@ export default function VendorDetailPage() {
   const [currentlyActiveDialog, setCurrentlyActiveDialog] =
     useState<string>('')
   const { vendorId } = useParams({ from: '/dashboard/vendor/$vendorId' })
-  const { products, isSuccess, error } = useGetProductsByVendorQuery(
-    { id: vendorId },
+  const [page, setPage] = useState<number>(1)
+  const { products, isSuccess, error, metadata } = useGetProductsByVendorQuery(
+    { id: vendorId, limit: 1, page },
     {
       selectFromResult: result => ({
         ...result,
         products: result.data?.products,
+        metadata: result.data?.metadata,
       }),
     },
   )
   useQueryErrorHandler(error)
 
+  const handleSetPage = (page: number): void => {
+    setPage(page)
+  }
   const chartConfig = {
     desktop: {
       label: 'Desktop',
@@ -257,22 +254,13 @@ export default function VendorDetailPage() {
               <TableFooter>
                 <TableRow>
                   <TableCell colSpan={4} className="py-2.5">
-                    <Pagination>
-                      <PaginationContent>
-                        <PaginationItem>
-                          <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationNext href="#" />
-                        </PaginationItem>
-                      </PaginationContent>
-                    </Pagination>
+                    {metadata && (
+                      <CustomPagination
+                        current_page={metadata.current_page}
+                        total_page={metadata.total_page}
+                        setPage={handleSetPage}
+                      />
+                    )}
                   </TableCell>
                 </TableRow>
               </TableFooter>

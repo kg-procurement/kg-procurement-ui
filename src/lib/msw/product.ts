@@ -25,6 +25,11 @@ export const productHandlers = [
           modified_by: '1008',
         },
       ],
+      metadata: {
+        total_page: 1,
+        current_page: 1,
+        total_entries: 4,
+      },
     } satisfies GetProductsByVendorResponse)
   }),
   http.put(`${API_BASE_URL}/product/:id`, ({ params }) => {
