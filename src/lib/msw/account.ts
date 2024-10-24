@@ -6,7 +6,7 @@ import { RegisterAccountResponse } from '@/lib/redux/features/account/validation
 export const accountHandlers = [
   http.post(`${API_BASE_URL}/account/register`, () => {
     return HttpResponse.json({
-      message: 'Invalid request payload',
+      message: 'Account registered successfully',
     } satisfies RegisterAccountResponse)
   }),
 ]
