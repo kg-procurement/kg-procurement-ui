@@ -56,13 +56,14 @@ import {
 } from '@/components/molecules/pagination.tsx'
 import ProductForm from '@/components/organisms/product/form.tsx'
 import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
+import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
 
 export default function DashboardPage() {
   const [currentlyActiveDialog, setCurrentlyActiveDialog] =
     useState<string>('')
   const { vendorId } = useParams({ from: '/dashboard/vendor/$vendorId' })
-  const { products, isSuccess } = useGetProductsByVendorQuery(
+  const { products, isSuccess, error } = useGetProductsByVendorQuery(
     { id: vendorId },
     {
       selectFromResult: result => ({
@@ -71,6 +72,7 @@ export default function DashboardPage() {
       }),
     },
   )
+  useQueryErrorHandler(error)
 
   const chartConfig = {
     desktop: {
