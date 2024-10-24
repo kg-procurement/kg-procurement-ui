@@ -23,7 +23,7 @@ describe('<VendorPage/>', () => {
     await waitFor(async () => {
       expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument()
     })
-    expect(container.innerText).toMatchSnapshot()
+    expect(container.innerText.trim()).toMatchSnapshot()
   })
 
   it('should render the footer', () => {
