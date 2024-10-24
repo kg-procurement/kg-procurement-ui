@@ -99,13 +99,6 @@ export function toastForError(err: unknown) {
       description: err.stack,
     })
   }
-  else if (err instanceof Error) {
-    toast({
-      variant: 'destructive',
-      title: err.message,
-      description: err.stack,
-    })
-  }
   else {
     // This means that some other error occured
     console.error('Some unknown error occured: ', err)
