@@ -1,5 +1,6 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 
+import CustomPagination from '@/components/molecules/custom-pagination.tsx'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 import { waitForNoLoadingOverlay } from '@/lib/testing/wait-for.ts'
 
@@ -72,5 +73,20 @@ describe('<DashboardPage />', () => {
 
     const icons = screen.getAllByRole('img')
     expect(icons).toHaveLength(2)
+  })
+
+  it('should go to the next page', () => {
+    const mockHandleSetPage = vi.fn()
+    render(withWrappers(<CustomPagination current_page={1} total_page={5} setPage={mockHandleSetPage} />))
+    const nextpage = screen.getByText('2')
+    fireEvent.click(nextpage)
+    expect(mockHandleSetPage).toHaveBeenCalledWith(2)
+  })
+  it('should go to the prev page', () => {
+    const mockHandleSetPage = vi.fn()
+    render(withWrappers(<CustomPagination current_page={2} total_page={5} setPage={mockHandleSetPage} />))
+    const prevPage = screen.getByText('Previous')
+    fireEvent.click(prevPage)
+    expect(mockHandleSetPage).toHaveBeenCalledWith(1)
   })
 })
