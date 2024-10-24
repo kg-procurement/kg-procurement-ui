@@ -6,6 +6,8 @@ import {
 } from '@reduxjs/toolkit/query/react'
 import { ZodError, ZodSchema } from 'zod'
 
+import { ZodParseError } from '@/lib/redux/utils.tsx'
+
 type BaseQuery = BaseQueryFn<
   string | FetchArgs,
   unknown,
@@ -38,8 +40,8 @@ export const baseQueryWithZodValidation: (baseQuery: BaseQuery) => BaseQuery =
               data: JSON.stringify(returnValue.data),
               error: accumulatedError,
               originalStatus: returnValue.meta?.response?.status ?? 0,
-              status: 'PARSING_ERROR',
-            },
+              status: 'CUSTOM_ERROR',
+            } satisfies ZodParseError,
           }
         }
         throw error
