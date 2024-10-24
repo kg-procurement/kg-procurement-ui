@@ -19,7 +19,18 @@ vi.mock('@tanstack/react-router', async () => {
   }
 })
 
-describe('<DashboardPage />', () => {
+describe('<VendorDetailPage />', () => {
+  it('should render the table content properly', async () => {
+    const { container } = render(
+      withWrappers(<VendorDetailPage />, { withRoot: true }),
+    )
+    await waitFor(async () => {
+      expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument()
+    })
+
+    expect(container.innerText).toMatchSnapshot()
+  })
+
   it('should handle null response in providesTags', async () => {
     mockUseParams.mockReturnValue({ vendorId: '-1' })
 
@@ -52,17 +63,6 @@ describe('<DashboardPage />', () => {
     expect(screen.getByRole('charts-content')).toBeInTheDocument()
   })
 
-  it('should render the table content properly', async () => {
-    const { container } = render(
-      withWrappers(<VendorDetailPage />, { withRoot: true }),
-    )
-    await waitFor(async () => {
-      expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument()
-    })
-
-    expect(container.innerText).toMatchSnapshot()
-  })
-
   it('should render the footer', () => {
     render(withWrappers(<VendorDetailPage />))
     expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
@@ -82,6 +82,7 @@ describe('<DashboardPage />', () => {
     fireEvent.click(nextpage)
     expect(mockHandleSetPage).toHaveBeenCalledWith(2)
   })
+
   it('should go to the prev page', () => {
     const mockHandleSetPage = vi.fn()
     render(withWrappers(<CustomPagination current_page={2} total_page={5} setPage={mockHandleSetPage} />))

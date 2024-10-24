@@ -7,7 +7,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/molecules/pagination.tsx'
-interface CustomPaginationProps {
+export interface CustomPaginationProps {
   total_page: number
   current_page: number
   setPage: (page: number) => void
