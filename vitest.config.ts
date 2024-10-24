@@ -22,6 +22,8 @@ export default mergeConfig(
           './src/components/atoms/chart.tsx',
           'src/vite-env.d.ts',
           'src/main.tsx',
+          // TODO: ignore schema for now
+          '**/schemas/*',
         ],
       },
       include: ['**/*.{spec,test}.{ts,tsx}'],

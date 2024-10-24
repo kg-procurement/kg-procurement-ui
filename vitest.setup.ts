@@ -1,5 +1,5 @@
-import './src/index.css'
 import '@testing-library/jest-dom/vitest'
+import './src/index.css'
 
 import { cleanup } from '@testing-library/react'
 import { afterEach } from 'vitest'

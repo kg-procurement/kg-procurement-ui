@@ -24,7 +24,7 @@ describe('<DashboardPage />', () => {
     const rows = screen.getAllByRole('row')
     expect(rows.length).toMatchInlineSnapshot(`5`)
 
-    expect(container.innerText).toMatchSnapshot()
+    expect(container.innerText.trim()).toMatchSnapshot()
   })
 
   it('should render the footer', () => {
