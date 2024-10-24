@@ -91,6 +91,7 @@ export default function DashboardPage() {
   useEffect(() => {
     setShowLoadingOverlay(!isSuccess)
   }, [isSuccess, setShowLoadingOverlay])
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <PageHeader>

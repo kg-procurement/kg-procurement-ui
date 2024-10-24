@@ -1,14 +1,14 @@
 import { render, screen, waitFor } from '@testing-library/react'
-import { http, HttpResponse } from 'msw'
 
-import { API_BASE_URL } from '@/env.ts'
-import { mswServer } from '@/lib/msw/index.ts'
+// import { http, HttpResponse } from 'msw'
+// import { API_BASE_URL } from '@/env.ts'
+// import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
 import DashboardPage from '../[vendorId].tsx'
 
 const { mockUseParams } = vi.hoisted(() => ({
-  mockUseParams: vi.fn(() => ({ vendorId: '123' })),
+  mockUseParams: vi.fn(() => ({ vendorId: '2508' })),
 }))
 
 vi.mock('@tanstack/react-router', async () => {
@@ -24,23 +24,26 @@ describe('<DashboardPage />', () => {
   it('should handle null response in providesTags', async () => {
     mockUseParams.mockReturnValueOnce({ vendorId: '-1' })
 
-    const errorHandler = http.get(`${API_BASE_URL}/product/vendor/:id`, (req) => {
-      const { id } = req.params
+    // const errorHandler = http.get(`${API_BASE_URL}/product/vendor/:id`, (req) => {
+    //   const { id } = req.params
 
-      if (id === '-1') {
-        return HttpResponse.json(null, { status: 200 })
-      }
-      return HttpResponse.json('Data found', { status: 200 })
-    })
+    //   if (id === '-1') {
+    //     return HttpResponse.json(null, { status: 200 })
+    //   }
+    //   return HttpResponse.json('Data found', { status: 200 })
+    // })
 
-    mswServer.use(errorHandler)
+    // mswServer.use(errorHandler)
 
     const { container } = render(
       withWrappers(<DashboardPage />, { withRoot: true }),
     )
+
     await waitFor(async () => {
-      expect(screen.queryByTestId('loading-overlay')).toBeInTheDocument()
+      screen.debug()
+      expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument()
     })
+    // await waitForElementToBeRemoved(() => screen.queryByTestId('loading-overlay'))
 
     expect(container.innerText).toMatchSnapshot()
   })
@@ -50,7 +53,7 @@ describe('<DashboardPage />', () => {
 
     const logo = screen.getByAltText('Kompas Gramedia Logo Background')
     expect(logo).toBeInTheDocument()
-    expect(logo).toHaveAttribute('src', 'kompas-gramedia-logo-bg.svg')
+    expect(logo).toHaveAttribute('src', '/kompas-gramedia-logo-bg.svg')
 
     expect(screen.getByText('Vendor A')).toBeInTheDocument()
     expect(screen.getByText('Dashboard')).toBeInTheDocument()

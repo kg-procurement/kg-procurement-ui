@@ -1,4 +1,5 @@
-import { api } from '../../services/api.ts'
+import { api } from '@/lib/redux/services/api.ts'
+
 import {
   GetProductsByVendorArgs,
   GetProductsByVendorResponse,

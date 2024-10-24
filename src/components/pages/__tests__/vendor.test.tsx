@@ -10,7 +10,7 @@ describe('<VendorPage/>', () => {
 
     const logo = screen.getByAltText('Kompas Gramedia Logo Background')
     expect(logo).toBeInTheDocument()
-    expect(logo).toHaveAttribute('src', 'kompas-gramedia-logo-bg.svg')
+    expect(logo).toHaveAttribute('src', '/kompas-gramedia-logo-bg.svg')
 
     expect(screen.getByText('Search Vendor')).toBeInTheDocument()
     expect(screen.getByText('Lorem Ipsum')).toBeInTheDocument()
