@@ -1,4 +1,4 @@
-import { useParams } from '@tanstack/react-router'
+import { createFileRoute, useParams } from '@tanstack/react-router'
 import { Edit, EllipsisVertical, Phone } from 'lucide-react'
 import { useEffect } from 'react'
 import { useState } from 'react'
@@ -59,7 +59,11 @@ import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
 
-export default function VendorDashboardPage() {
+export const Route = createFileRoute('/dashboard/vendor/$vendorId')({
+  component: () => <VendorDetailPage />,
+})
+
+export default function VendorDetailPage() {
   const [currentlyActiveDialog, setCurrentlyActiveDialog] =
     useState<string>('')
   const { vendorId } = useParams({ from: '/dashboard/vendor/$vendorId' })
@@ -139,7 +143,7 @@ export default function VendorDashboardPage() {
         </div>
       </PageHeader>
       <div className="flex flex-grow items-center justify-center bg-[#F8F8F8] p-16">
-        <div className="grid h-full w-full flex-grow items-center grid-cols-2 gap-2 rounded-md bg-white p-4 shadow-md">
+        <div className="grid h-full w-full flex-grow grid-cols-2 items-center gap-2 rounded-md bg-white p-4 shadow-md">
           <div className="col-span-1 flex flex-col gap-4">
             {/* <Typography variant="h6">Vendor Performance</Typography> */}
             <Card className="border-none">
@@ -187,7 +191,7 @@ export default function VendorDashboardPage() {
           <div className="col-span-1 flex flex-col gap-4">
             <Typography variant="h6">Inventory List</Typography>
             <Input className="text-sm" placeholder="Filter vendor ..." />
-            <Table className="border rounded-md">
+            <Table className="rounded-md border">
               <TableHeader>
                 <TableRow>
                   <TableHead>
@@ -199,52 +203,56 @@ export default function VendorDashboardPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {products ?
-                  products.map((product) => {
-                    return (
-                      <TableRow key={product.id}>
-                        <Dialog
-                          open={currentlyActiveDialog === product.id}
-                          onOpenChange={open =>
-                            open && setCurrentlyActiveDialog(product.id)}
-                        >
-                          <DialogContent>
-                            <DialogTitle>Product Form</DialogTitle>
-                            <ProductForm
-                              initialData={product}
-                              onDone={() => setCurrentlyActiveDialog('')}
-                            />
-                          </DialogContent>
-                          <TableCell>
-                            <Checkbox />
-                          </TableCell>
-                          <TableCell>{product.name}</TableCell>
-                          <TableCell>{product.description}</TableCell>
-                          <TableCell>{product.modified_date}</TableCell>
-                          <TableCell>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <button>
-                                  <EllipsisVertical size={16} />
-                                </button>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-fit p-2">
-                                <DialogTrigger>
-                                  <Button
-                                    className="h-fit w-full px-3 py-1"
-                                    variant="ghost"
-                                  >
-                                    Edit
-                                  </Button>
-                                </DialogTrigger>
-                              </PopoverContent>
-                            </Popover>
-                          </TableCell>
-                        </Dialog>
-                      </TableRow>
+                {products
+                  ? (
+                      products.map((product) => {
+                        return (
+                          <TableRow key={product.id}>
+                            <Dialog
+                              open={currentlyActiveDialog === product.id}
+                              onOpenChange={open =>
+                                open && setCurrentlyActiveDialog(product.id)}
+                            >
+                              <DialogContent>
+                                <DialogTitle>Product Form</DialogTitle>
+                                <ProductForm
+                                  initialData={product}
+                                  onDone={() => setCurrentlyActiveDialog('')}
+                                />
+                              </DialogContent>
+                              <TableCell>
+                                <Checkbox />
+                              </TableCell>
+                              <TableCell>{product.name}</TableCell>
+                              <TableCell>{product.description}</TableCell>
+                              <TableCell>{product.modified_date}</TableCell>
+                              <TableCell>
+                                <Popover>
+                                  <PopoverTrigger asChild>
+                                    <button>
+                                      <EllipsisVertical size={16} />
+                                    </button>
+                                  </PopoverTrigger>
+                                  <PopoverContent className="w-fit p-2">
+                                    <DialogTrigger>
+                                      <Button
+                                        className="h-fit w-full px-3 py-1"
+                                        variant="ghost"
+                                      >
+                                        Edit
+                                      </Button>
+                                    </DialogTrigger>
+                                  </PopoverContent>
+                                </Popover>
+                              </TableCell>
+                            </Dialog>
+                          </TableRow>
+                        )
+                      })
                     )
-                  })
-                  : <></>}
+                  : (
+                      <></>
+                    )}
               </TableBody>
               <TableFooter>
                 <TableRow>

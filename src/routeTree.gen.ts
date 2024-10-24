@@ -14,7 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as VendorImport } from './routes/vendor'
 import { Route as RegisterImport } from './routes/register'
 import { Route as IndexImport } from './routes/index'
-import { Route as DashboardVendorVendorIdImport } from './routes/dashboard/vendor/$vendorId'
+import { Route as DashboardVendorVendorIdImport } from './routes/dashboard.vendor.$vendorId'
 
 // Create/Update Routes
 
@@ -148,7 +148,7 @@ export const routeTree = rootRoute
       "filePath": "vendor.tsx"
     },
     "/dashboard/vendor/$vendorId": {
-      "filePath": "dashboard/vendor/$vendorId.tsx"
+      "filePath": "dashboard.vendor.$vendorId.tsx"
     }
   }
 }
