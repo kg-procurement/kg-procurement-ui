@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
-import DashboardPage from '../[vendorId].tsx'
+import DashboardPage from '../dashboard/vendor/[vendorId].tsx'
 
 const { mockUseParams } = vi.hoisted(() => ({
   mockUseParams: vi.fn(() => ({ vendorId: '2508' })),
@@ -19,7 +19,7 @@ vi.mock('@tanstack/react-router', async () => {
 
 describe('<DashboardPage />', () => {
   it('should handle null response in providesTags', async () => {
-    mockUseParams.mockReturnValueOnce({ vendorId: '-1' })
+    mockUseParams.mockReturnValue({ vendorId: '-1' })
 
     const { container } = render(
       withWrappers(<DashboardPage />, { withRoot: true }),
