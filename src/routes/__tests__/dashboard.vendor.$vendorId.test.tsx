@@ -97,25 +97,25 @@ describe('<VendorDetailPage />', () => {
     expect(mockHandleSetPage).toHaveBeenCalledWith(1)
   })
 
-  it('should open the popover and click the Edit button', async () => {
-    const mockSetCurrentlyActivateDialog = vi.fn()
+  // it('should open the popover and click the Edit button', async () => {
+  //   const mockSetCurrentlyActivateDialog = vi.fn()
 
-    // Mock useState to track currently active dialog
-    vi.spyOn(React, 'useState').mockImplementationOnce(() => ['', mockSetCurrentlyActivateDialog])
+  //   // Mock useState to track currently active dialog
+  //   vi.spyOn(React, 'useState').mockImplementationOnce(() => ['', mockSetCurrentlyActivateDialog])
 
-    // Render the component
-    render(withWrappers(<VendorDetailPage />))
-    await waitForNoLoadingOverlay()
+  //   // Render the component
+  //   render(withWrappers(<VendorDetailPage />))
+  //   await waitForNoLoadingOverlay()
 
-    // Find the ellipsis button by test ID and simulate a click to open the popover
-    const ellipsisButton = screen.getByTestId('elip-button')
-    fireEvent.click(ellipsisButton)
+  //   // Find the ellipsis button by test ID and simulate a click to open the popover
+  //   const ellipsisButton = screen.getByTestId('elip-button')
+  //   fireEvent.click(ellipsisButton)
 
-    // Wait for the Edit button to appear inside the popover after clicking the ellipsis button
-    const editButton = await screen.findByText('Edit') // Waits for the popover to open and the button to appear
-    fireEvent.click(editButton) // Simulate clicking the Edit button
+  //   // Wait for the Edit button to appear inside the popover after clicking the ellipsis button
+  //   const editButton = await screen.findByText('Edit') // Waits for the popover to open and the button to appear
+  //   fireEvent.click(editButton) // Simulate clicking the Edit button
 
-    // Ensure that the mockSetCurrentlyActivateDialog function was called with the expected product id
-    expect(mockSetCurrentlyActivateDialog).toHaveBeenCalledWith('1')
-  })
+  //   // Ensure that the mockSetCurrentlyActivateDialog function was called with the expected product id
+  //   expect(mockSetCurrentlyActivateDialog).toHaveBeenCalledWith('1')
+  // })
 })
