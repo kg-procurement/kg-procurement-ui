@@ -56,7 +56,8 @@ function VendorProductTable({ products, total_page, current_page, setPage }: ven
               <Dialog
                 open={currentlyActiveDialog === product.id}
                 onOpenChange={open =>
-                  open && setCurrentlyActiveDialog(product.id)}
+                  open &&
+                  setCurrentlyActiveDialog(product.id)}
               >
                 <DialogContent>
                   <DialogTitle>Product Form</DialogTitle>
@@ -73,7 +74,7 @@ function VendorProductTable({ products, total_page, current_page, setPage }: ven
                 <TableCell>{product.modified_date}</TableCell>
                 <TableCell>
                   <Popover>
-                    <PopoverTrigger asChild>
+                    <PopoverTrigger data-testid="elip-button" asChild>
                       <button>
                         <EllipsisVertical size={16} />
                       </button>

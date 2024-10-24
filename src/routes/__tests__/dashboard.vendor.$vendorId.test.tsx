@@ -1,6 +1,8 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { http } from 'msw'
 
 import CustomPagination from '@/components/molecules/custom-pagination.tsx'
+import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 import { waitForNoLoadingOverlay } from '@/lib/testing/wait-for.ts'
 
@@ -21,6 +23,9 @@ vi.mock('@tanstack/react-router', async () => {
 
 describe('<VendorDetailPage />', () => {
   it('should render the table content properly', async () => {
+    mswServer.use(http.get('product/vendor/:id', () => {
+
+    }))
     const { container } = render(
       withWrappers(<VendorDetailPage />, { withRoot: true }),
     )
@@ -90,4 +95,26 @@ describe('<VendorDetailPage />', () => {
     fireEvent.click(prevPage)
     expect(mockHandleSetPage).toHaveBeenCalledWith(1)
   })
+
+  // it('should open the popover and click the Edit button', async () => {
+  //   const mockSetCurrentlyActivateDialog = vi.fn()
+
+  //   // Mock useState to track currently active dialog
+  //   vi.spyOn(React, 'useState').mockImplementationOnce(() => ['', mockSetCurrentlyActivateDialog])
+
+  //   // Render the component
+  //   render(withWrappers(<VendorDetailPage />))
+  //   await waitForNoLoadingOverlay()
+
+  //   // Find the ellipsis button by test ID and simulate a click to open the popover
+  //   const ellipsisButton = screen.getByTestId('elip-button')
+  //   fireEvent.click(ellipsisButton)
+
+  //   // Wait for the Edit button to appear inside the popover after clicking the ellipsis button
+  //   const editButton = await screen.findByText('Edit') // Waits for the popover to open and the button to appear
+  //   fireEvent.click(editButton) // Simulate clicking the Edit button
+
+  //   // Ensure that the mockSetCurrentlyActivateDialog function was called with the expected product id
+  //   expect(mockSetCurrentlyActivateDialog).toHaveBeenCalledWith('1')
+  // })
 })
