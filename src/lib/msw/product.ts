@@ -7,7 +7,6 @@ export const productHandlers = [
   http.get(`${API_BASE_URL}/product/vendor/:id`, (req) => {
     const { id } = req.params
 
-    // For example, return null for vendor with id '1234'
     if (id === '-1') {
       return HttpResponse.json(null, { status: 200 })
     }

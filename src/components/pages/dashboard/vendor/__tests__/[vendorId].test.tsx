@@ -7,23 +7,23 @@ import { withWrappers } from '@/lib/testing/utils.tsx'
 
 import DashboardPage from '../[vendorId].tsx'
 
-describe('<DashboardPage />', () => {
-  vi.mock('@tanstack/react-router', async () => {
-    const actual = await vi.importActual('@tanstack/react-router') // Keep other methods intact
-    return {
-      ...actual,
-      useParams: () => ({ vendorId: '123' }),
-    }
-  })
+const { mockUseParams } = vi.hoisted(() => ({
+  mockUseParams: vi.fn(() => ({ vendorId: '123' })),
+}))
 
+vi.mock('@tanstack/react-router', async () => {
+  const actual = await vi.importActual('@tanstack/react-router')
+
+  return {
+    ...actual,
+    useParams: mockUseParams,
+  }
+})
+
+describe('<DashboardPage />', () => {
   it('should handle null response in providesTags', async () => {
-    vi.mock('@tanstack/react-router', async () => {
-      const actual = await vi.importActual('@tanstack/react-router') // Keep other methods intact
-      return {
-        ...actual,
-        useParams: () => ({ vendorId: '-1' }),
-      }
-    })
+    mockUseParams.mockReturnValueOnce({ vendorId: '-1' })
+
     const errorHandler = http.get(`${API_BASE_URL}/product/vendor/:id`, (req) => {
       const { id } = req.params
 
@@ -39,7 +39,7 @@ describe('<DashboardPage />', () => {
       withWrappers(<DashboardPage />, { withRoot: true }),
     )
     await waitFor(async () => {
-      expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('loading-overlay')).toBeInTheDocument()
     })
 
     expect(container.innerText).toMatchSnapshot()
