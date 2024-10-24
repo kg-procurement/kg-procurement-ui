@@ -6,12 +6,8 @@ import { Typography } from '@/components/atoms/typography.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
 import { useToast } from '@/hooks/use-toast.ts'
 import { useRegisterAccountMutation } from '@/lib/redux/features/account/api.ts'
-import { RegisterAccountRequestArgs, RegisterAccountResponse } from '@/lib/redux/features/account/validation.ts'
-
-interface RegisterError {
-  status: number
-  data: Partial<RegisterAccountResponse>
-}
+import { RegisterAccountRequestArgs } from '@/lib/redux/features/account/validation.ts'
+import { toastForError } from '@/lib/redux/utils.tsx'
 
 export default function RegisterPage() {
   const initialValue = {
@@ -40,12 +36,8 @@ export default function RegisterPage() {
       })
       setAccount(initialValue)
     }
-    catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: (error as RegisterError).data.error,
-      })
+    catch (err) {
+      toastForError(err)
     }
   }
 
