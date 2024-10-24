@@ -27,14 +27,16 @@ import CustomPagination from '@/components/molecules/custom-pagination.tsx'
 import ProductForm from '@/components/organisms/product/form.tsx'
 import { Product } from '@/schemas/product.ts'
 
-interface vendorProductTableProps {
+interface VendorProductTableProps {
   products: Product[]
   total_page: number
   current_page: number
   setPage: Dispatch<SetStateAction<number>>
 }
 
-function VendorProductTable({ products, total_page, current_page, setPage }: vendorProductTableProps) {
+function VendorProductTable({
+  products, total_page, current_page, setPage,
+}: Readonly<VendorProductTableProps>) {
   const [currentlyActiveDialog, setCurrentlyActiveDialog] =
     useState<string>('')
   return (
