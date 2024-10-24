@@ -3,11 +3,8 @@ import userEvent from '@testing-library/user-event'
 import { http, HttpResponse } from 'msw'
 import { describe, expect, it } from 'vitest'
 
-<<<<<<< HEAD
-=======
 import { API_BASE_URL } from '@/env.ts'
 import { mswServer } from '@/lib/msw/index.ts'
->>>>>>> 0c2cfd3d4b4a547aac9ae52c885339812e675b65
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
 import RegisterPage from '../register.tsx'
