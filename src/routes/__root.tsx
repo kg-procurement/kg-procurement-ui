@@ -3,7 +3,6 @@ import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { LoaderCircle } from 'lucide-react'
 import { ReactNode } from 'react'
 
-import { Toaster } from '@/components/atoms/toaster.tsx'
 import Navbar from '@/components/molecules/navbar.tsx'
 import { useCommonStore } from '@/lib/zustand/common.ts'
 
@@ -37,7 +36,6 @@ export default function Root(props: RootProps) {
       )}
       <Navbar />
       {props.mock ? props.children : <Outlet />}
-      <Toaster />
       {import.meta.env.DEV && process.env.NODE_ENV !== 'test' && (
         <TanStackRouterDevtools position="bottom-right" />
       )}
