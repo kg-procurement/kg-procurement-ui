@@ -115,15 +115,20 @@ describe('Redux integration tests', () => {
     })
   })
 
-  it('should show error toast when toastForError is called', () => {
+  it('should show error toast when toastForError is called', async () => {
     mswServer.use(
       http.post(`${API_BASE_URL}/person`, () =>
-        HttpResponse.json({ error: 'Something is wrong' }, { status: 500 }),
+        HttpResponse.json({ error: 'what is happening' }, { status: 500 }),
       ),
     )
     render(withWrappers(<SomeMutationComponent />, { withRoot: true }))
     act(() => {
       fireEvent.click(screen.getByText('Trigger'))
+    })
+    await waitFor(() => {
+      const toast = screen.getByTestId('toast')
+      expect(toast.innerText).includes('500')
+      expect(toast.innerText).includes('what is happening')
     })
   })
 })
