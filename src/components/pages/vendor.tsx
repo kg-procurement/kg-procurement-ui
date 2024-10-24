@@ -6,7 +6,7 @@ import VendorTable from '@/components/features/vendor-table.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
 import { useGetVendorsQuery } from '@/lib/redux/features/vendor/api.ts'
-import { useErrorToast } from '@/lib/redux/hooks.ts'
+import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
 
 export default function VendorPage() {
@@ -25,7 +25,7 @@ export default function VendorPage() {
     },
   )
 
-  useErrorToast(error)
+  useQueryErrorHandler(error)
 
   useEffect(() => {
     setShowLoadingOverlay(!isSuccess)
