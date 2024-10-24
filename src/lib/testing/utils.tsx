@@ -1,5 +1,6 @@
-import { Provider } from 'react-redux'
+import { Provider as ReduxStoreProvider } from 'react-redux'
 
+import { Toaster } from '@/components/atoms/toaster.tsx'
 import { configureAppStore } from '@/lib/redux/store.ts'
 import Root from '@/routes/__root.tsx'
 
@@ -19,8 +20,9 @@ export function withWrappers(
   },
 ) {
   return (
-    <Provider store={configureAppStore()}>
+    <ReduxStoreProvider store={configureAppStore()}>
+      <Toaster />
       {options.withRoot ? <Root mock={true}>{component}</Root> : component}
-    </Provider>
+    </ReduxStoreProvider>
   )
 }

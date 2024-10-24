@@ -6,6 +6,7 @@ import VendorTable from '@/components/features/vendor-table.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
 import { useGetVendorsQuery } from '@/lib/redux/features/vendor/api.ts'
+import { useErrorToast } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
 
 export default function VendorPage() {
@@ -13,7 +14,7 @@ export default function VendorPage() {
   const [productFilter, setProductFilter] = useState('')
   const [locationFilter, setLocationFilter] = useState('')
   const { setShowLoadingOverlay } = useCommonStore()
-  const { vendors, metadata, isSuccess } = useGetVendorsQuery(
+  const { vendors, metadata, isSuccess, error } = useGetVendorsQuery(
     { page, product: productFilter, location: locationFilter },
     {
       selectFromResult: result => ({
@@ -23,6 +24,8 @@ export default function VendorPage() {
       }),
     },
   )
+
+  useErrorToast(error)
 
   useEffect(() => {
     setShowLoadingOverlay(!isSuccess)
