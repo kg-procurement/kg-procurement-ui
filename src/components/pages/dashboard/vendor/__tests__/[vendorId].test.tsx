@@ -1,8 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react'
 
-// import { http, HttpResponse } from 'msw'
-// import { API_BASE_URL } from '@/env.ts'
-// import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
 import DashboardPage from '../[vendorId].tsx'
@@ -23,17 +20,6 @@ vi.mock('@tanstack/react-router', async () => {
 describe('<DashboardPage />', () => {
   it('should handle null response in providesTags', async () => {
     mockUseParams.mockReturnValueOnce({ vendorId: '-1' })
-
-    // const errorHandler = http.get(`${API_BASE_URL}/product/vendor/:id`, (req) => {
-    //   const { id } = req.params
-
-    //   if (id === '-1') {
-    //     return HttpResponse.json(null, { status: 200 })
-    //   }
-    //   return HttpResponse.json('Data found', { status: 200 })
-    // })
-
-    // mswServer.use(errorHandler)
 
     const { container } = render(
       withWrappers(<DashboardPage />, { withRoot: true }),
