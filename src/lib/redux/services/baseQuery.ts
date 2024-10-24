@@ -25,15 +25,18 @@ export const baseQueryWithZodValidation: (baseQuery: BaseQuery) => BaseQuery =
         zodSchema.parse(returnValue.data)
       }
       catch (error) {
-        console.error(
-          `Error while trying to parse response from ${api.endpoint}:`,
-          error,
-        )
         if (error instanceof ZodError) {
+          let accumulatedError = ''
+          const fieldErrors = error.flatten().fieldErrors
+          for (const [fieldName, errorMessage] of Object.entries(fieldErrors)) {
+            if (errorMessage) {
+              accumulatedError += `${fieldName}: ${errorMessage?.join(' ')}\n`
+            }
+          }
           return {
             error: {
-              data: returnValue.data.toString(),
-              error: error.toString(),
+              data: JSON.stringify(returnValue.data),
+              error: accumulatedError,
               originalStatus: returnValue.meta?.response?.status ?? 0,
               status: 'PARSING_ERROR',
             },
