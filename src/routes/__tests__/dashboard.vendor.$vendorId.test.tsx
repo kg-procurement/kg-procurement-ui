@@ -1,5 +1,9 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { http, HttpResponse } from 'msw'
+import { act } from 'react'
 
+import { API_BASE_URL } from '@/env.ts'
+import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 import { waitForNoLoadingOverlay } from '@/lib/testing/wait-for.ts'
 
@@ -20,14 +24,17 @@ vi.mock('@tanstack/react-router', async () => {
 
 describe('<DashboardPage />', () => {
   it('should handle null response in providesTags', async () => {
-    mockUseParams.mockReturnValue({ vendorId: '-1' })
-
-    const { container } = render(
-      withWrappers(<VendorDetailPage />, { withRoot: true }),
+    mockUseParams.mockReturnValueOnce({ vendorId: '-1' })
+    mswServer.use(
+      http.get(`${API_BASE_URL}/product/vendor/:id`, () =>
+        HttpResponse.json({ error: 'Id cannot be negative' }, { status: 500 }),
+      ),
     )
 
-    await waitForNoLoadingOverlay()
-    expect(container.innerText).toMatchSnapshot()
+    render(withWrappers(<VendorDetailPage />, { withRoot: true }))
+    await waitFor(() => {
+      expect(screen.queryByText('Id cannot be negative')).toBeInTheDocument()
+    })
   })
 
   it('should render the header section with the logo', () => {
@@ -52,14 +59,11 @@ describe('<DashboardPage />', () => {
   })
 
   it('should render the table content properly', async () => {
-    const { container } = render(
-      withWrappers(<VendorDetailPage />, { withRoot: true }),
-    )
-    await waitFor(async () => {
-      expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument()
-    })
+    render(withWrappers(<VendorDetailPage />, { withRoot: true }))
+    await waitForNoLoadingOverlay()
 
-    expect(container.innerText).toMatchSnapshot()
+    const table = screen.getByTestId('vendor-inventory-table')
+    expect(table.innerText).toMatchSnapshot()
   })
 
   it('should render the footer', () => {
@@ -72,5 +76,18 @@ describe('<DashboardPage />', () => {
 
     const icons = screen.getAllByRole('img')
     expect(icons).toHaveLength(2)
+  })
+
+  it('should refetch data when name filter is set', () => {
+    render(withWrappers(<VendorDetailPage />))
+
+    act(() => {
+      fireEvent.change(screen.getByPlaceholderText('Filter vendor ...'), {
+        target: { value: 'bumi' },
+      })
+    })
+
+    const table = screen.getByTestId('vendor-inventory-table')
+    expect(table.innerText).toMatchSnapshot()
   })
 })
