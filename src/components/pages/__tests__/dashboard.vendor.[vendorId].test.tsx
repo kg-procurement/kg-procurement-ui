@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
-import DashboardPage from '../dashboard/vendor/[vendorId].tsx'
+import VendorDashboardPage from '../dashboard/vendor/[vendorId].tsx'
 
 const { mockUseParams } = vi.hoisted(() => ({
   mockUseParams: vi.fn(() => ({ vendorId: '2508' })),
@@ -22,7 +22,7 @@ describe('<DashboardPage />', () => {
     mockUseParams.mockReturnValue({ vendorId: '-1' })
 
     const { container } = render(
-      withWrappers(<DashboardPage />, { withRoot: true }),
+      withWrappers(<VendorDashboardPage />, { withRoot: true }),
     )
 
     await waitFor(async () => {
@@ -35,7 +35,7 @@ describe('<DashboardPage />', () => {
   })
 
   it('should render the header section with the logo', () => {
-    render(withWrappers(<DashboardPage />))
+    render(withWrappers(<VendorDashboardPage />))
 
     const logo = screen.getByAltText('Kompas Gramedia Logo Background')
     expect(logo).toBeInTheDocument()
@@ -46,7 +46,7 @@ describe('<DashboardPage />', () => {
   })
 
   it('should render the area chart with correct content', () => {
-    render(withWrappers(<DashboardPage />))
+    render(withWrappers(<VendorDashboardPage />))
 
     expect(screen.getByText(/Showing vendor performance by/i)).toBeInTheDocument()
 
@@ -55,7 +55,7 @@ describe('<DashboardPage />', () => {
 
   it('should render the table content properly', async () => {
     const { container } = render(
-      withWrappers(<DashboardPage />, { withRoot: true }),
+      withWrappers(<VendorDashboardPage />, { withRoot: true }),
     )
     await waitFor(async () => {
       expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument()
@@ -65,12 +65,12 @@ describe('<DashboardPage />', () => {
   })
 
   it('should render the footer', () => {
-    render(withWrappers(<DashboardPage />))
+    render(withWrappers(<VendorDashboardPage />))
     expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
   })
 
   it('should render icons in the header', () => {
-    render(withWrappers(<DashboardPage />))
+    render(withWrappers(<VendorDashboardPage />))
 
     const icons = screen.getAllByRole('img')
     expect(icons).toHaveLength(2)

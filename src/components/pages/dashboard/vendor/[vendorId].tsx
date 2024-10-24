@@ -59,7 +59,7 @@ import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
 
-export default function DashboardPage() {
+export default function VendorDashboardPage() {
   const [currentlyActiveDialog, setCurrentlyActiveDialog] =
     useState<string>('')
   const { vendorId } = useParams({ from: '/dashboard/vendor/$vendorId' })
