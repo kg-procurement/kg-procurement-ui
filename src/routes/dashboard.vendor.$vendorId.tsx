@@ -66,9 +66,10 @@ export const Route = createFileRoute('/dashboard/vendor/$vendorId')({
 export default function VendorDetailPage() {
   const [currentlyActiveDialog, setCurrentlyActiveDialog] =
     useState<string>('')
+  const [filter, setFilter] = useState<string>('')
   const { vendorId } = useParams({ from: '/dashboard/vendor/$vendorId' })
   const { products, isSuccess, error } = useGetProductsByVendorQuery(
-    { id: vendorId },
+    { id: vendorId, name: filter },
     {
       selectFromResult: result => ({
         ...result,
@@ -190,8 +191,16 @@ export default function VendorDetailPage() {
           </div>
           <div className="col-span-1 flex flex-col gap-4">
             <Typography variant="h6">Inventory List</Typography>
-            <Input className="text-sm" placeholder="Filter vendor ..." />
-            <Table className="rounded-md border">
+            <Input
+              className="text-sm"
+              placeholder="Filter vendor ..."
+              onChange={e => setFilter(e.target.value)}
+              value={filter}
+            />
+            <Table
+              data-testid="vendor-inventory-table"
+              className="rounded-md border"
+            >
               <TableHeader>
                 <TableRow>
                   <TableHead>
@@ -203,56 +212,51 @@ export default function VendorDetailPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {products
-                  ? (
-                      products.map((product) => {
-                        return (
-                          <TableRow key={product.id}>
-                            <Dialog
-                              open={currentlyActiveDialog === product.id}
-                              onOpenChange={open =>
-                                open && setCurrentlyActiveDialog(product.id)}
-                            >
-                              <DialogContent>
-                                <DialogTitle>Product Form</DialogTitle>
-                                <ProductForm
-                                  initialData={product}
-                                  onDone={() => setCurrentlyActiveDialog('')}
-                                />
-                              </DialogContent>
-                              <TableCell>
-                                <Checkbox />
-                              </TableCell>
-                              <TableCell>{product.name}</TableCell>
-                              <TableCell>{product.description}</TableCell>
-                              <TableCell>{product.modified_date}</TableCell>
-                              <TableCell>
-                                <Popover>
-                                  <PopoverTrigger asChild>
-                                    <button>
-                                      <EllipsisVertical size={16} />
-                                    </button>
-                                  </PopoverTrigger>
-                                  <PopoverContent className="w-fit p-2">
-                                    <DialogTrigger>
-                                      <Button
-                                        className="h-fit w-full px-3 py-1"
-                                        variant="ghost"
-                                      >
-                                        Edit
-                                      </Button>
-                                    </DialogTrigger>
-                                  </PopoverContent>
-                                </Popover>
-                              </TableCell>
-                            </Dialog>
-                          </TableRow>
-                        )
-                      })
+                {products &&
+                  products.map((product) => {
+                    return (
+                      <TableRow key={product.id}>
+                        <Dialog
+                          open={currentlyActiveDialog === product.id}
+                          onOpenChange={open =>
+                            open && setCurrentlyActiveDialog(product.id)}
+                        >
+                          <DialogContent>
+                            <DialogTitle>Product Form</DialogTitle>
+                            <ProductForm
+                              initialData={product}
+                              onDone={() => setCurrentlyActiveDialog('')}
+                            />
+                          </DialogContent>
+                          <TableCell>
+                            <Checkbox />
+                          </TableCell>
+                          <TableCell>{product.name}</TableCell>
+                          <TableCell>{product.description}</TableCell>
+                          <TableCell>{product.modified_date}</TableCell>
+                          <TableCell>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <button>
+                                  <EllipsisVertical size={16} />
+                                </button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-fit p-2">
+                                <DialogTrigger>
+                                  <Button
+                                    className="h-fit w-full px-3 py-1"
+                                    variant="ghost"
+                                  >
+                                    Edit
+                                  </Button>
+                                </DialogTrigger>
+                              </PopoverContent>
+                            </Popover>
+                          </TableCell>
+                        </Dialog>
+                      </TableRow>
                     )
-                  : (
-                      <></>
-                    )}
+                  })}
               </TableBody>
               <TableFooter>
                 <TableRow>
