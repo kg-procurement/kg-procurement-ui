@@ -20,6 +20,7 @@ export const productApi = api.injectEndpoints({
       query: args => ({
         method: 'GET',
         url: `/product/vendor/${args.id}`,
+        params: args,
       }),
       providesTags: resp =>
         resp
