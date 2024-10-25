@@ -12,14 +12,14 @@ const options = [
 
 describe('<Dropdown />', () => {
   it('should render the dropdown button with placeholder', () => {
-    render(<Dropdown options={options} />)
+    render(<Dropdown options={options} name="option" onSelect={() => {}} />)
 
     const buttonElement = screen.getByRole('combobox')
     expect(buttonElement).toHaveTextContent('Select option...')
   })
 
   it('should open the dropdown when clicked', () => {
-    render(<Dropdown options={options} />)
+    render(<Dropdown options={options} name="option" onSelect={() => {}} />)
 
     const buttonElement = screen.getByRole('combobox')
     fireEvent.click(buttonElement)
@@ -28,7 +28,7 @@ describe('<Dropdown />', () => {
   })
 
   it('should display options in the dropdown', () => {
-    render(<Dropdown options={options} />)
+    render(<Dropdown options={options} name="option" onSelect={() => {}} />)
 
     const buttonElement = screen.getByRole('combobox')
     fireEvent.click(buttonElement)
@@ -39,7 +39,7 @@ describe('<Dropdown />', () => {
   })
 
   it('should filter options based on the search term', () => {
-    render(<Dropdown options={options} />)
+    render(<Dropdown options={options} name="option" onSelect={() => {}} />)
 
     const buttonElement = screen.getByRole('combobox')
     fireEvent.click(buttonElement)
@@ -53,7 +53,7 @@ describe('<Dropdown />', () => {
   })
 
   it('should select an option when clicked', () => {
-    render(<Dropdown options={options} />)
+    render(<Dropdown options={options} name="option" onSelect={() => {}} />)
 
     const buttonElement = screen.getByRole('combobox')
     fireEvent.click(buttonElement)
@@ -64,7 +64,7 @@ describe('<Dropdown />', () => {
   })
 
   it('should deselect an option when the same option is clicked again', () => {
-    render(<Dropdown options={options} />)
+    render(<Dropdown options={options} name="option" onSelect={() => {}} />)
 
     const buttonElement = screen.getByRole('combobox')
     fireEvent.click(buttonElement)
@@ -81,7 +81,7 @@ describe('<Dropdown />', () => {
   })
 
   it('should show "No option found" when there are no matching search results', () => {
-    render(<Dropdown options={options} />)
+    render(<Dropdown options={options} name="option" onSelect={() => {}} />)
 
     const buttonElement = screen.getByRole('combobox')
     fireEvent.click(buttonElement)
