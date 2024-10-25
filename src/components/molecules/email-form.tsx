@@ -25,7 +25,7 @@ export function EmailForm({ selectedVendors, onClose, defaultContent = '' }: Ema
   const [emailContent, setEmailContent] = useState(defaultContent)
   const [showPopover, setShowPopover] = useState(false)
 
-  const handleSendEmail = () => { // Note: Replace the simulated email sending logic with a real implementation
+  const handleSendEmail = () => { // TODO: Replace the simulated email sending logic with a real implementation
     selectedVendors.forEach((vendor) => {
       console.log(`Sending email to ${vendor.name}:`, emailContent)
     })

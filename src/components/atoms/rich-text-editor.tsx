@@ -1,7 +1,7 @@
 import 'ckeditor5/ckeditor5.css'
 
 import { CKEditor, CKEditorContext } from '@ckeditor/ckeditor5-react'
-import { Alignment, Bold, ClassicEditor, Context, ContextWatchdog, Essentials, Italic, Link, List, Paragraph, Underline } from 'ckeditor5' // Added Underline, Link, and List
+import { Alignment, Bold, ClassicEditor, Context, ContextWatchdog, Essentials, Italic, Link, List, Paragraph, Underline } from 'ckeditor5'
 
 interface RichTextEditorProps {
   content: string

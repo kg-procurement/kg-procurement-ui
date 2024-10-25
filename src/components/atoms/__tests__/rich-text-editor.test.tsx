@@ -2,7 +2,7 @@ import 'ckeditor5/ckeditor5.css'
 
 import { render, screen, waitFor } from '@testing-library/react'
 
-import { RichTextEditor } from '../rich-text-editor.tsx' // Adjust the import path as necessary
+import { RichTextEditor } from '../rich-text-editor.tsx'
 
 // Mock for ResizeObserver
 class ResizeObserver {
