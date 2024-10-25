@@ -6,7 +6,7 @@ export function Footer() {
       <div className="flex flex-col justify-between">
         <div>
           <img
-            src="kompas-gramedia.jpeg"
+            src="/kompas-gramedia.jpeg"
             alt="Kompas Gramedia"
             className="h-16"
           />

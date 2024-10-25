@@ -6,6 +6,8 @@ import { Provider as ReduxStoreProvider } from 'react-redux'
 import { configureAppStore } from '@/lib/redux/store.ts'
 import { router } from '@/lib/router.ts'
 
+import { Toaster } from './components/atoms/toaster.tsx'
+
 describe('App root test', () => {
   it('should render correctly without crashing', async () => {
     const store = configureAppStore()
@@ -18,6 +20,7 @@ describe('App root test', () => {
       render(
         <StrictMode>
           <ReduxStoreProvider store={store}>
+            <Toaster />
             <RouterProvider router={router} />
           </ReduxStoreProvider>
         </StrictMode>,

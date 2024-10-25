@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as VendorImport } from './routes/vendor'
 import { Route as RegisterImport } from './routes/register'
 import { Route as IndexImport } from './routes/index'
+import { Route as DashboardVendorVendorIdImport } from './routes/dashboard.vendor.$vendorId'
 
 // Create/Update Routes
 
@@ -29,6 +30,11 @@ const RegisterRoute = RegisterImport.update({
 
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardVendorVendorIdRoute = DashboardVendorVendorIdImport.update({
+  path: '/dashboard/vendor/$vendorId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -57,6 +63,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VendorImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard/vendor/$vendorId': {
+      id: '/dashboard/vendor/$vendorId'
+      path: '/dashboard/vendor/$vendorId'
+      fullPath: '/dashboard/vendor/$vendorId'
+      preLoaderRoute: typeof DashboardVendorVendorIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -66,12 +79,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/register': typeof RegisterRoute
   '/vendor': typeof VendorRoute
+  '/dashboard/vendor/$vendorId': typeof DashboardVendorVendorIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/register': typeof RegisterRoute
   '/vendor': typeof VendorRoute
+  '/dashboard/vendor/$vendorId': typeof DashboardVendorVendorIdRoute
 }
 
 export interface FileRoutesById {
@@ -79,14 +94,15 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/register': typeof RegisterRoute
   '/vendor': typeof VendorRoute
+  '/dashboard/vendor/$vendorId': typeof DashboardVendorVendorIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/register' | '/vendor'
+  fullPaths: '/' | '/register' | '/vendor' | '/dashboard/vendor/$vendorId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/register' | '/vendor'
-  id: '__root__' | '/' | '/register' | '/vendor'
+  to: '/' | '/register' | '/vendor' | '/dashboard/vendor/$vendorId'
+  id: '__root__' | '/' | '/register' | '/vendor' | '/dashboard/vendor/$vendorId'
   fileRoutesById: FileRoutesById
 }
 
@@ -94,12 +110,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   RegisterRoute: typeof RegisterRoute
   VendorRoute: typeof VendorRoute
+  DashboardVendorVendorIdRoute: typeof DashboardVendorVendorIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   RegisterRoute: RegisterRoute,
   VendorRoute: VendorRoute,
+  DashboardVendorVendorIdRoute: DashboardVendorVendorIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -116,7 +134,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/register",
-        "/vendor"
+        "/vendor",
+        "/dashboard/vendor/$vendorId"
       ]
     },
     "/": {
@@ -127,6 +146,9 @@ export const routeTree = rootRoute
     },
     "/vendor": {
       "filePath": "vendor.tsx"
+    },
+    "/dashboard/vendor/$vendorId": {
+      "filePath": "dashboard.vendor.$vendorId.tsx"
     }
   }
 }

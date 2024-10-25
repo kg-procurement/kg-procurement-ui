@@ -18,7 +18,7 @@ describe('<PageHeader />', () => {
     expect(backgroundImage).toBeInTheDocument()
     expect(backgroundImage).toHaveAttribute(
       'src',
-      'kompas-gramedia-logo-bg.svg',
+      '/kompas-gramedia-logo-bg.svg',
     )
   })
 

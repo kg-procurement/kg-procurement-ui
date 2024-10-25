@@ -23,4 +23,5 @@ export interface PaginationArgs {
    */
   order?: string
   order_by?: string
+  limit?: number
 }

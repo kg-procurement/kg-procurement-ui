@@ -1,6 +1,9 @@
 import { api } from '@/lib/redux/services/api.ts'
 
 import {
+  GetProductsByVendorArgs,
+  GetProductsByVendorResponse,
+  getProductsByVendorResponseSchema,
   UpdateProductRequestArgs,
   UpdateProductResponse,
   updateProductResponseSchema,
@@ -9,6 +12,27 @@ import {
 export const productApi = api.injectEndpoints({
   overrideExisting: import.meta.env.DEV,
   endpoints: builder => ({
+    getProductsByVendor: builder.query<
+      GetProductsByVendorResponse | null,
+      GetProductsByVendorArgs
+    >({
+      extraOptions: { responseValidator: getProductsByVendorResponseSchema },
+      query: args => ({
+        method: 'GET',
+        url: `/product/vendor/${args.id}`,
+        params: args,
+      }),
+      providesTags: resp =>
+        resp
+          ? [
+              ...resp.products.map(product => ({
+                type: 'Product' as const,
+                id: product.id,
+              })),
+              { type: 'Product', id: 'LIST' },
+            ]
+          : [],
+    }),
     updateProduct: builder.mutation<
       UpdateProductResponse,
       UpdateProductRequestArgs
@@ -25,4 +49,4 @@ export const productApi = api.injectEndpoints({
   }),
 })
 
-export const { useUpdateProductMutation } = productApi
+export const { useGetProductsByVendorQuery, useUpdateProductMutation } = productApi
