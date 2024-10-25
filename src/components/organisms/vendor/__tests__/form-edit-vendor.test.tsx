@@ -2,24 +2,24 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { act } from 'react'
 
 import { withWrappers } from '@/lib/testing/utils.tsx'
+import { Vendor } from '@/schemas/vendor.ts'
 
-import EditVendorForm from "../form-edit-vendor.tsx";
-import { Vendor } from '@/schemas/vendor';
+import EditVendorForm from '../form-edit-vendor.tsx'
 
 const DUMMY_VENDOR: Vendor = {
-  id: "2502",
-  name: "Adriza Nikmah, PT",
-  description: "Headset , alat elektronik, dan lainnya",
-  bp_id: "2502",
-  bp_name: "PT Adriza Nikmah",
+  id: '2502',
+  name: 'Adriza Nikmah, PT',
+  description: 'Headset , alat elektronik, dan lainnya',
+  bp_id: '2502',
+  bp_name: 'PT Adriza Nikmah',
   rating: 5,
-  area_group_id: "1",
-  area_group_name: "Indonesia",
-  sap_code: "None",
-  modified_date: "2024-10-25T13:19:55.95969Z",
-  modified_by: "0",
-  dt: "2024-08-28T00:00:00Z",
-};
+  area_group_id: '1',
+  area_group_name: 'Indonesia',
+  sap_code: 'None',
+  modified_date: '2024-10-25T13:19:55.95969Z',
+  modified_by: '0',
+  dt: '2024-08-28T00:00:00Z',
+}
 
 describe('<EditVendorForm />', () => {
   it('should render properly without crashing', () => {

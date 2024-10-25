@@ -1,48 +1,50 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { Button } from "@/components/atoms/button.tsx";
-import { Input } from "@/components/atoms/input.tsx";
-import { Label } from "@/components/atoms/label.tsx";
-import { useUpdateVendorMutation } from "@/lib/redux/features/vendor/api.ts";
-import { Vendor } from "@/schemas/vendor.ts";
+import { Button } from '@/components/atoms/button.tsx'
+import { Input } from '@/components/atoms/input.tsx'
+import { Label } from '@/components/atoms/label.tsx'
+import { useUpdateVendorMutation } from '@/lib/redux/features/vendor/api.ts'
+import { Vendor } from '@/schemas/vendor.ts'
 
 export interface VendorFormProps {
-  initialData: Vendor;
-  onDone?: () => void;
+  initialData: Vendor
+  onDone?: () => void
 }
 
 export default function EditVendorForm({
   initialData,
   onDone,
 }: VendorFormProps) {
-  const onDoneRef = useRef<() => void>();
+  const onDoneRef = useRef<() => void>()
 
   useEffect(() => {
-    onDoneRef.current = onDone;
-  }, [onDone]);
+    onDoneRef.current = onDone
+  }, [onDone])
 
-  const [updateVendor, { isLoading }] = useUpdateVendorMutation();
+  const [updateVendor, { isLoading }] = useUpdateVendorMutation()
 
   const [data, setData] = useState<
-    Pick<Vendor, "name" | "description" | "rating">
+    Pick<Vendor, 'name' | 'description' | 'rating'>
   >({
     name: initialData.name,
     description: initialData.description,
     rating: initialData.rating,
-  });
+  })
 
   const handleSave = useCallback(async () => {
     try {
       await updateVendor({
         id: initialData.id,
         payload: { ...initialData, ...data },
-      }).unwrap();
-    } catch (e) {
-      console.error("Something went wrong when trying to update vendor:", e);
-    } finally {
-      onDoneRef.current?.();
+      }).unwrap()
     }
-  }, [data, initialData, updateVendor]);
+    catch (e) {
+      console.error('Something went wrong when trying to update vendor:', e)
+    }
+    finally {
+      onDoneRef.current?.()
+    }
+  }, [data, initialData, updateVendor])
 
   return (
     <div className="flex w-full flex-col">
@@ -104,12 +106,11 @@ export default function EditVendorForm({
             name="rating"
             type="number"
             value={data.rating}
-            onChange={(e) =>
-              setData((prev) => ({
+            onChange={e =>
+              setData(prev => ({
                 ...prev,
                 rating: parseFloat(e.target.value),
-              }))
-            }
+              }))}
           />
         </div>
         <div>
@@ -120,9 +121,8 @@ export default function EditVendorForm({
             data-testid="name-input"
             name="name"
             value={data.name}
-            onChange={(e) =>
-              setData((prev) => ({ ...prev, name: e.target.value }))
-            }
+            onChange={e =>
+              setData(prev => ({ ...prev, name: e.target.value }))}
           />
         </div>
         <div>
@@ -132,9 +132,8 @@ export default function EditVendorForm({
           <Input
             name="description"
             value={data.description}
-            onChange={(e) =>
-              setData((prev) => ({ ...prev, description: e.target.value }))
-            }
+            onChange={e =>
+              setData(prev => ({ ...prev, description: e.target.value }))}
           />
         </div>
         <div>
@@ -156,5 +155,5 @@ export default function EditVendorForm({
         </Button>
       </div>
     </div>
-  );
+  )
 }

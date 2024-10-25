@@ -27,11 +27,11 @@ import { Typography } from '@/components/atoms/typography.tsx'
 import VendorProductTable from '@/components/features/vendor-product-table.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
+import EditVendorForm from '@/components/organisms/vendor/form-edit-vendor.tsx'
 import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
 import { useGetVendorByIdQuery } from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
-import EditVendorForm from '@/components/organisms/vendor/form-edit-vendor'
 
 export const Route = createFileRoute('/dashboard/vendor/$vendorId')({
   component: () => <VendorDetailPage />,
@@ -105,7 +105,9 @@ export default function VendorDetailPage() {
         </Typography>
         <div className="mt-2 flex gap-2">
           <Typography variant="subtitle2" className="text-white">
-            Rating: {vendorData?.rating}
+            Rating:
+            {' '}
+            {vendorData?.rating}
           </Typography>
         </div>
       </PageHeader>
@@ -135,7 +137,7 @@ export default function VendorDetailPage() {
                       tickLine={false}
                       axisLine={false}
                       tickMargin={8}
-                      tickFormatter={(value) => value.slice(0, 3)}
+                      tickFormatter={value => value.slice(0, 3)}
                     />
                     <ChartTooltip
                       cursor={false}
@@ -171,5 +173,5 @@ export default function VendorDetailPage() {
       </div>
       <Footer />
     </div>
-  );
+  )
 }
