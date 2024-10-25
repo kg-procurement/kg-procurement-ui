@@ -8,7 +8,7 @@ interface RichTextEditorProps {
   setContent: (content: string) => void
 }
 
-export function RichTextEditor({ content, setContent }: RichTextEditorProps) {
+export function RichTextEditor({ content, setContent }: Readonly<RichTextEditorProps>) {
   return (
     <div className="rich-text-editor-container" data-testid="rich-text-editor">
       <CKEditorContext

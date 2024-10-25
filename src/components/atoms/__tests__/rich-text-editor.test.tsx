@@ -4,17 +4,6 @@ import { render, screen, waitFor } from '@testing-library/react'
 
 import { RichTextEditor } from '../rich-text-editor.tsx'
 
-// Mock for ResizeObserver
-class ResizeObserver {
-  observe() {}
-  unobserve() {}
-  disconnect() {}
-}
-
-Object.defineProperty(window, 'ResizeObserver', {
-  value: ResizeObserver,
-})
-
 // Unit test for rendering the RichTextEditor
 describe('RichTextEditor', () => {
   it('renders with initial content', async () => {
