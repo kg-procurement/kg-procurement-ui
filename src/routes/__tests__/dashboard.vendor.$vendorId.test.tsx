@@ -95,22 +95,13 @@ describe('<VendorDetailPage />', () => {
   })
 
   it('should open and close edit dialog properly', async () => {
-    // const mockOnChange = vi.fn()
     render(withWrappers(<VendorDetailPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()
     const firstEllipsisButton = screen.getAllByTestId('elip-button')[0]
     await userEvent.click(firstEllipsisButton)
     const editButton = screen.getAllByTestId('edit-button')[0]
-    // expect(editButton).toBeInTheDocument()
-    // console.log('VALENCIUS APRIADY:', editButton)
     await userEvent.click(editButton)
     const closeButton = screen.getByText('Close')
     await userEvent.click(closeButton)
-    screen.debug(undefined, 100000)
-    // const closeButton = await waitFor(() => screen.getByRole('button', { name: 'Close' }))
-    // act(() => {
-    //   userEvent.click(closeButton)
-    // })
-    // expect(mockOnChange).toHaveBeenCalledOnce()
   })
 })
