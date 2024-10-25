@@ -46,21 +46,21 @@ function CustomPagination(
         <PaginationItem>
           <PaginationLink isActive>{current_page}</PaginationLink>
         </PaginationItem>
-        {current_page + 1 < total_page
+        {current_page + 1 <= total_page
           ? (
               <PaginationItem>
                 <PaginationLink className="cursor-pointer hover:border" onClick={() => setPage(current_page + 1)}>{current_page + 1}</PaginationLink>
               </PaginationItem>
             )
           : ''}
-        {current_page + 2 < total_page
+        {current_page + 2 <= total_page
           ? (
               <PaginationItem>
                 <PaginationEllipsis />
               </PaginationItem>
             )
           : ''}
-        {current_page + 1 < total_page
+        {current_page + 1 <= total_page
           ? (
               <PaginationItem>
                 <PaginationNext className="cursor-pointer hover:border" onClick={() => setPage(current_page + 1)} />
