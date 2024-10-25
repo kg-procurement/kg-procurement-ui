@@ -103,7 +103,9 @@ export default function VendorDetailPage() {
         </Typography>
         <div className="mt-2 flex gap-2">
           <Typography variant="subtitle2" className="text-white">
-            Rating: {vendorData?.rating}
+            Rating:
+            {' '}
+            {vendorData?.rating}
           </Typography>
         </div>
       </PageHeader>
@@ -133,7 +135,7 @@ export default function VendorDetailPage() {
                       tickLine={false}
                       axisLine={false}
                       tickMargin={8}
-                      tickFormatter={(value) => value.slice(0, 3)}
+                      tickFormatter={value => value.slice(0, 3)}
                     />
                     <ChartTooltip
                       cursor={false}
@@ -169,5 +171,5 @@ export default function VendorDetailPage() {
       </div>
       <Footer />
     </div>
-  );
+  )
 }
