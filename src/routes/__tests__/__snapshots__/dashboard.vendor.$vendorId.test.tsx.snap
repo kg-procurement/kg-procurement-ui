@@ -4,7 +4,6 @@ exports[`<VendorDetailPage /> > should handle null response in providesTags 1`] 
 "Evaluation Form
 Search
 undefined
-
 Rating: 
 Showing vendor performance by .....
 
@@ -17,8 +16,7 @@ Contact us (Email):"
 exports[`<VendorDetailPage /> > should render the table content properly 1`] = `
 "Evaluation Form
 Search
-Adriza Nikmah, PTundefined
-Headset dll
+Adriza Nikmah, PTundefinedHeadset dll
 Rating: 0
 Showing vendor performance by .....
 
