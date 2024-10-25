@@ -1,3 +1,4 @@
+import { CheckedState } from '@radix-ui/react-checkbox'
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 
@@ -6,7 +7,9 @@ import { Typography } from '@/components/atoms/typography.tsx'
 import VendorTable from '@/components/features/vendor-table.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
-import { useGetVendorsQuery } from '@/lib/redux/features/vendor/api.ts'
+import { useToast } from '@/hooks/use-toast.ts'
+import { useBlastEmailMutation, useGetVendorsQuery } from '@/lib/redux/features/vendor/api.ts'
+import { EmailVendorsArgs } from '@/lib/redux/features/vendor/validation.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
 
@@ -29,6 +32,49 @@ export default function VendorPage() {
       }),
     },
   )
+
+  const { toast } = useToast()
+
+  const [blastEmail] = useBlastEmailMutation()
+  const [vendorIds, setVendorIds] = useState<string[]>([])
+  const handleEmailVendors = async () => {
+    try {
+      const args: EmailVendorsArgs = {
+        vendor_ids: vendorIds,
+        email_template: {
+          body: 'Body of email blast',
+          subject: 'Subject of email blast',
+        },
+      }
+      toast({
+        title: 'On Progress',
+        description: 'Executing email blast',
+        duration: 2000,
+      })
+      await blastEmail(args).unwrap()
+      toast({
+        title: 'Success',
+        description: 'Email blast has successfully executed',
+        duration: 2000,
+
+      })
+    }
+    catch (_) {
+      toast({
+        title: 'Error',
+        description: 'Email blast failed to be executed',
+        duration: 2000,
+
+      })
+    }
+  }
+
+  const handleUpdateChosenVendor = (checked: CheckedState, vendorId: string) => {
+    if (checked)
+      setVendorIds([...vendorIds, vendorId])
+    else
+      setVendorIds([...vendorIds.filter(id => id !== vendorId)])
+  }
 
   useQueryErrorHandler(error)
 
@@ -67,6 +113,8 @@ export default function VendorPage() {
             metadata={metadata}
             page={page}
             setPage={setPage}
+            handleEmailVendors={handleEmailVendors}
+            handleUpdateChosenVendor={handleUpdateChosenVendor}
           />
         )}
       </div>

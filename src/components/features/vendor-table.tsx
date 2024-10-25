@@ -1,3 +1,4 @@
+import { CheckedState } from '@radix-ui/react-checkbox'
 import { Link } from '@tanstack/react-router'
 import { EllipsisVertical } from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
@@ -36,6 +37,8 @@ interface VendorTableProps {
   metadata: PaginationSpec['metadata']
   page?: number
   setPage?: Dispatch<SetStateAction<number>>
+  handleEmailVendors: () => void
+  handleUpdateChosenVendor: (checked: CheckedState, id: string) => void
 }
 
 function VendorTable({
@@ -43,6 +46,8 @@ function VendorTable({
   metadata,
   page = 1,
   setPage = noop,
+  handleEmailVendors,
+  handleUpdateChosenVendor,
 }: VendorTableProps) {
   return (
     <div className="flex w-3/4 flex-col gap-5 rounded-lg border p-6 shadow-xl">
@@ -63,7 +68,7 @@ function VendorTable({
             {vendors.map((vendor, i) => (
               <TableRow key={i}>
                 <TableCell className="font-medium">
-                  <Checkbox />
+                  <Checkbox onCheckedChange={event => handleUpdateChosenVendor(event, vendor.id)} />
                 </TableCell>
                 <TableCell className="font-medium">{vendor.name}</TableCell>
                 <TableCell>{vendor.area_group_name}</TableCell>
@@ -134,7 +139,7 @@ function VendorTable({
         <Typography variant="body2" className="text- text-[#71717A]">
           0 of 99 row(s) selected
         </Typography>
-        <Button>Email Selected Vendor</Button>
+        <Button onClick={handleEmailVendors}>Email Selected Vendor</Button>
       </div>
     </div>
   )

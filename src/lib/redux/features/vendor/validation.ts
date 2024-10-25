@@ -13,3 +13,11 @@ export interface GetVendorsRequestArgs extends PaginationArgs {
   location: string
   product: string
 }
+
+export interface EmailVendorsArgs {
+  vendor_ids: string[]
+  email_template: {
+    subject: string
+    body: string
+  }
+}
