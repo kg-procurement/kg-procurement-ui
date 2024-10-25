@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { http } from 'msw'
 
 import CustomPagination from '@/components/molecules/custom-pagination.tsx'
@@ -37,7 +38,7 @@ describe('<VendorDetailPage />', () => {
   })
 
   it('should handle null response in providesTags', async () => {
-    mockUseParams.mockReturnValue({ vendorId: '-1' })
+    mockUseParams.mockReturnValueOnce({ vendorId: '-1' })
 
     const { container } = render(
       withWrappers(<VendorDetailPage />, { withRoot: true }),
@@ -94,5 +95,25 @@ describe('<VendorDetailPage />', () => {
     const prevPage = screen.getByText('Previous')
     fireEvent.click(prevPage)
     expect(mockHandleSetPage).toHaveBeenCalledWith(1)
+  })
+
+  it('should mock onchange', async () => {
+    // const mockOnChange = vi.fn()
+    render(withWrappers(<VendorDetailPage />, { withRoot: true }))
+    await waitForNoLoadingOverlay()
+    const firstEllipsisButton = screen.getAllByTestId('elip-button')[0]
+    await userEvent.click(firstEllipsisButton)
+    const editButton = screen.getAllByTestId('edit-button')[0]
+    // expect(editButton).toBeInTheDocument()
+    // console.log('VALENCIUS APRIADY:', editButton)
+    await userEvent.click(editButton)
+    const closeButton = screen.getByText('Close')
+    await userEvent.click(closeButton)
+    screen.debug(undefined, 100000)
+    // const closeButton = await waitFor(() => screen.getByRole('button', { name: 'Close' }))
+    // act(() => {
+    //   userEvent.click(closeButton)
+    // })
+    // expect(mockOnChange).toHaveBeenCalledOnce()
   })
 })

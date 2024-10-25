@@ -41,6 +41,7 @@ export const Route = createFileRoute('/dashboard/vendor/$vendorId')({
 
 export default function VendorDetailPage() {
   const { vendorId } = useParams({ from: '/dashboard/vendor/$vendorId' })
+  console.log('ENDRU:', vendorId)
   const [page, setPage] = useState<number>(1)
   const { products, isSuccess, error, metadata } = useGetProductsByVendorQuery(
     { id: vendorId, limit: 1, page },
