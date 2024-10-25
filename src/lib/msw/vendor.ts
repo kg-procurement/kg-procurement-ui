@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw'
 
 import { API_BASE_URL } from '@/env.ts'
-import { GetVendorByIdResponse, GetVendorsResponse } from '@/lib/redux/features/vendor/validation.ts'
+import { GetVendorByIdResponse, GetVendorsResponse, UpdateVendorResponse } from '@/lib/redux/features/vendor/validation.ts'
 
 export const vendorHandlers = [
   http.get(`${API_BASE_URL}/vendor`, () => {
@@ -162,8 +162,27 @@ export const vendorHandlers = [
     }
 
     return HttpResponse.json(
-    {
-      id: '2502',
+      {
+        id: '2502',
+        name: 'Adriza Nikmah, PT',
+        description: 'Headset dll',
+        bp_id: '2502',
+        bp_name: 'Adriza Nikmah, PT',
+        rating: 0,
+        area_group_id: '1',
+        area_group_name: 'Indonesia',
+        sap_code: 'None',
+        modified_date: '2020-10-29T13:39:12Z',
+        modified_by: '0',
+        dt: '2024-08-28T00:00:00Z',
+      } satisfies GetVendorByIdResponse,
+      { status: 200 },
+    )
+  }),
+  http.put(`${API_BASE_URL}/vendor/:id`, ({ params }) => {
+    const { id } = params
+    return HttpResponse.json({
+      id: Array.isArray(id) ? id[0] : id,
       name: 'Adriza Nikmah, PT',
       description: 'Headset dll',
       bp_id: '2502',
@@ -175,8 +194,6 @@ export const vendorHandlers = [
       modified_date: '2020-10-29T13:39:12Z',
       modified_by: '0',
       dt: '2024-08-28T00:00:00Z',
-    } satisfies GetVendorByIdResponse,
-    { status: 200 },
-    )
+    } satisfies UpdateVendorResponse)
   }),
 ]
