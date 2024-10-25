@@ -21,7 +21,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       return type
     }
     return (
-      <div className="relative">
+      <div className="relative flex-grow">
         <input
           type={getInputType(type || 'text')}
           ref={ref}

@@ -54,19 +54,23 @@ export default function VendorPage() {
           Lorem Ipsum
         </Typography>
         <div className="flex w-3/4 justify-between">
-          <Input
-            placeholder="Filter by Product"
-            value={productFilter}
-            onChange={e => setProductFilter(e.target.value)}
-            className="w-[375%]"
-          />
-          <Dropdown
-            options={locationOptions}
-            onSelect={(selectedValue) => {
-              setLocationFilter(selectedValue)
-            }}
-            name="Location"
-          />
+          <div className="flex-grow flex justify-stretch">
+            <Input
+              className="w-full flex-grow"
+              placeholder="Filter by Product"
+              value={productFilter}
+              onChange={(e) => setProductFilter(e.target.value)}
+            />
+          </div>
+          <div className="flex-grow-0 flex justify-stretch items-center">
+            <Dropdown
+              options={locationOptions}
+              onSelect={(selectedValue) => {
+                setLocationFilter(selectedValue);
+              }}
+              name="Location"
+            />
+          </div>
         </div>
       </PageHeader>
       <div className="flex w-full justify-center">
