@@ -64,19 +64,30 @@ export default function EditVendorForm({
           <Label htmlFor="bp_id" className="mb-1 mt-3">
             BP ID
           </Label>
-          <Input name="bp_id" value={initialData.bp_id} disabled />
+          <Input
+            data-testid="bp_id-input"
+            name="bp_id"
+            value={initialData.bp_id}
+            disabled
+          />
         </div>
         <div>
           <Label htmlFor="bp_name" className="mb-1 mt-3">
             BP Name
           </Label>
-          <Input name="bp_name" value={initialData.bp_name} disabled />
+          <Input
+            data-testid="bp_name-input"
+            name="bp_name"
+            value={initialData.bp_name}
+            disabled
+          />
         </div>
         <div>
           <Label htmlFor="area_group_id" className="mb-1 mt-3">
             Area Group ID
           </Label>
           <Input
+            data-testid="area_group_id-input"
             name="area_group_id"
             value={initialData.area_group_id}
             disabled
@@ -87,6 +98,7 @@ export default function EditVendorForm({
             Area Group Name
           </Label>
           <Input
+            data-testid="area_group_name-input"
             name="area_group_name"
             value={initialData.area_group_name}
             disabled
@@ -96,13 +108,19 @@ export default function EditVendorForm({
           <Label htmlFor="sap_code" className="mb-1 mt-3">
             SAP Code
           </Label>
-          <Input name="sap_code" value={initialData.sap_code} disabled />
+          <Input
+            data-testid="sap_code-input"
+            name="sap_code"
+            value={initialData.sap_code}
+            disabled
+          />
         </div>
         <div>
           <Label htmlFor="rating" className="mb-1 mt-3">
             Rating
           </Label>
           <Input
+            data-testid="rating-input"
             name="rating"
             type="number"
             value={data.rating}
@@ -130,6 +148,7 @@ export default function EditVendorForm({
             Description
           </Label>
           <Input
+            data-testid="description-input"
             name="description"
             value={data.description}
             onChange={e =>
@@ -141,6 +160,7 @@ export default function EditVendorForm({
             DT
           </Label>
           <Input
+            data-testid="dt-input"
             name="dt"
             type="date"
             value={initialData.dt}
@@ -150,7 +170,12 @@ export default function EditVendorForm({
       </div>
 
       <div className="mt-5">
-        <Button className="w-full" isLoading={isLoading} onClick={handleSave}>
+        <Button
+          data-testid="save-button"
+          className="w-full"
+          isLoading={isLoading}
+          onClick={handleSave}
+        >
           Save
         </Button>
       </div>
