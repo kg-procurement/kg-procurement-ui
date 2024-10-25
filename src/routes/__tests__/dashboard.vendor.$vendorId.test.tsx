@@ -1,6 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { http } from 'msw'
-import React from 'react'
 
 import CustomPagination from '@/components/molecules/custom-pagination.tsx'
 import { mswServer } from '@/lib/msw/index.ts'
@@ -54,9 +53,6 @@ describe('<VendorDetailPage />', () => {
     const logo = screen.getByAltText('Kompas Gramedia Logo Background')
     expect(logo).toBeInTheDocument()
     expect(logo).toHaveAttribute('src', '/kompas-gramedia-logo-bg.svg')
-
-    expect(screen.getByText('Vendor A')).toBeInTheDocument()
-    expect(screen.getByText('Dashboard')).toBeInTheDocument()
   })
 
   it('should render the area chart with correct content', () => {

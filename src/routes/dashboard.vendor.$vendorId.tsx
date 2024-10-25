@@ -1,10 +1,9 @@
 import { createFileRoute, useParams } from '@tanstack/react-router'
-import { Edit, Phone } from 'lucide-react'
+import { Edit } from 'lucide-react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 
-import { Button } from '@/components/atoms/button.tsx'
 import {
   Card,
   CardContent,
@@ -19,10 +18,7 @@ import {
 } from '@/components/atoms/chart.tsx'
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/atoms/dialog.tsx'
@@ -32,6 +28,7 @@ import VendorProductTable from '@/components/features/vendor-product-table.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
 import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
+import { useGetVendorByIdQuery } from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
 
@@ -53,6 +50,17 @@ export default function VendorDetailPage() {
     },
   )
 
+  const {
+    data: vendorData,
+    error: vendorError,
+    isSuccess: isVendorSuccess,
+  } = useGetVendorByIdQuery({
+    id: vendorId,
+  })
+
+  useQueryErrorHandler(error)
+  useQueryErrorHandler(vendorError)
+
   const chartConfig = {
     desktop: {
       label: 'Desktop',
@@ -70,8 +78,8 @@ export default function VendorDetailPage() {
   const { setShowLoadingOverlay } = useCommonStore()
 
   useEffect(() => {
-    setShowLoadingOverlay(!isSuccess)
-  }, [isSuccess, setShowLoadingOverlay])
+    setShowLoadingOverlay(!isSuccess && !isVendorSuccess)
+  }, [isSuccess, isVendorSuccess, setShowLoadingOverlay])
 
   useQueryErrorHandler(error)
   return (
@@ -79,43 +87,26 @@ export default function VendorDetailPage() {
       <PageHeader>
         <div className="relative">
           <Typography variant="h2" className="text-white">
-            Vendor A
+            {vendorData?.name}
           </Typography>
           <Dialog>
             <DialogTrigger className="absolute -right-16 top-0">
               <Edit color="white" size={24} />
             </DialogTrigger>
             <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Edit Vendor</DialogTitle>
-                <DialogDescription className="flex flex-col gap-4 pt-2">
-                  <Typography variant="subtitle2">Name</Typography>
-                  <input type="text" className="w-full rounded-md border p-2" />
-
-                  <Typography variant="subtitle2">Description</Typography>
-                  <textarea className="w-full rounded-md border p-2" rows={4} />
-
-                  <div className="flex w-full items-center justify-end gap-6">
-                    <DialogClose>Cancel</DialogClose>
-                    <Button>Save</Button>
-                  </div>
-                </DialogDescription>
-              </DialogHeader>
+              <DialogTitle>Edit Vendor</DialogTitle>
             </DialogContent>
           </Dialog>
         </div>
-        <Typography variant="subtitle1" className="text-white">
-          Dashboard
+        <Typography variant="caption" className="text-white max-w-prose">
+          {vendorData?.description}
         </Typography>
         <div className="mt-2 flex gap-2">
-          {[...Array(3)].map((_, index) => (
-            <div
-              key={index}
-              className="flex h-10 w-10 items-center justify-center rounded-full border-2"
-            >
-              <Phone color="white" size={16} />
-            </div>
-          ))}
+          <Typography variant="subtitle2" className="text-white">
+            Rating:
+            {' '}
+            {vendorData?.rating}
+          </Typography>
         </div>
       </PageHeader>
       <div className="flex flex-grow items-center justify-center bg-[#F8F8F8] p-16">
