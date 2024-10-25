@@ -97,7 +97,7 @@ describe('<VendorDetailPage />', () => {
     expect(mockHandleSetPage).toHaveBeenCalledWith(1)
   })
 
-  it('should mock onchange', async () => {
+  it('should open and close edit dialog properly', async () => {
     // const mockOnChange = vi.fn()
     render(withWrappers(<VendorDetailPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()
