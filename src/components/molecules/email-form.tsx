@@ -12,18 +12,17 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/atoms/popover.tsx'
 import { RichTextEditor } from '@/components/atoms/rich-text-editor.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
-import { useToast } from '@/hooks/use-toast.ts'
 import { Vendor } from '@/schemas/vendor.ts'
 
 interface EmailFormProps {
   selectedVendors: Vendor[]
   onClose: () => void
+  defaultContent?: string
 }
 
-export function EmailForm({ selectedVendors, onClose }: EmailFormProps) {
-  const { toast } = useToast()
+export function EmailForm({ selectedVendors, onClose, defaultContent = '' }: EmailFormProps) {
   const [isConfirmation, setIsConfirmation] = useState(false)
-  const [emailContent, setEmailContent] = useState('')
+  const [emailContent, setEmailContent] = useState(defaultContent)
   const [showPopover, setShowPopover] = useState(false)
 
   const handleSendEmail = () => { // Note: Replace the simulated email sending logic with a real implementation
@@ -31,17 +30,7 @@ export function EmailForm({ selectedVendors, onClose }: EmailFormProps) {
       console.log(`Sending email to ${vendor.name}:`, emailContent)
     })
 
-    setTimeout(() => {
-      const success = true
-      if (success) {
-        toast({ title: 'Success', description: 'Emails sent successfully!' })
-      }
-      else {
-        toast({ title: 'Error', description: 'Failed to send emails.' })
-      }
-
-      onClose()
-    }, 1000)
+    onClose()
   }
 
   const handleNext = () => {
@@ -78,7 +67,7 @@ export function EmailForm({ selectedVendors, onClose }: EmailFormProps) {
                   <DialogTitle>Compose Email</DialogTitle>
                   <DialogDescription>
                     Compose your email to
-                    {emailContent}
+                    {' '}
                     {selectedVendors.length}
                     {' '}
                     vendor(s).
