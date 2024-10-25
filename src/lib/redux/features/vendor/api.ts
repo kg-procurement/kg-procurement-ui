@@ -7,26 +7,29 @@ import {
   GetVendorsRequestArgs,
   GetVendorsResponse,
   getVendorsResponseSchema,
+  UpdateVendorRequestArgs,
+  UpdateVendorResponse,
+  updateVendorResponseSchema,
 } from './validation.ts'
 
 export const vendorApi = api.injectEndpoints({
   overrideExisting: import.meta.env.DEV,
-  endpoints: builder => ({
+  endpoints: (builder) => ({
     getVendors: builder.query<GetVendorsResponse, GetVendorsRequestArgs>({
       extraOptions: { responseValidator: getVendorsResponseSchema },
-      query: args => ({
-        method: 'GET',
+      query: (args) => ({
+        method: "GET",
         url: `/vendor`,
         params: args,
       }),
-      providesTags: resp =>
+      providesTags: (resp) =>
         resp
           ? [
-              ...resp.vendors.map(vendor => ({
-                type: 'Vendor' as const,
+              ...resp.vendors.map((vendor) => ({
+                type: "Vendor" as const,
                 id: vendor.id,
               })),
-              { type: 'Vendor', id: 'LIST' },
+              { type: "Vendor", id: "LIST" },
             ]
           : [],
     }),
@@ -36,15 +39,31 @@ export const vendorApi = api.injectEndpoints({
     >({
       extraOptions: { responseValidator: getVendorByIdResponseSchema },
       query: ({ id }) => ({
-        method: 'GET',
+        method: "GET",
         url: `/vendor/${id}`,
       }),
       providesTags: (resp, _, args) =>
         resp
-          ? [{ type: 'Vendor', id: args.id }]
-          : [{ type: 'Vendor', id: 'LIST' }],
+          ? [{ type: "Vendor", id: args.id }]
+          : [{ type: "Vendor", id: "LIST" }],
+    }),
+    updateVendor: builder.mutation<
+      UpdateVendorResponse,
+      UpdateVendorRequestArgs
+    >({
+      extraOptions: { responseValidator: updateVendorResponseSchema },
+      query: ({ id, payload }) => ({
+        method: "PUT",
+        url: `/vendor/${id}`,
+        body: payload,
+      }),
+      invalidatesTags: (resp, _, arg) =>
+        resp
+          ? [{ type: "Vendor", id: arg.id }]
+          : [{ type: "Vendor", id: "LIST" }],
     }),
   }),
-})
+});
 
-export const { useGetVendorsQuery, useGetVendorByIdQuery } = vendorApi
+export const { useGetVendorsQuery, useGetVendorByIdQuery, useUpdateVendorMutation } =
+  vendorApi;
