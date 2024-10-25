@@ -21,3 +21,12 @@ export type GetVendorByIdResponse = z.infer<typeof getVendorByIdResponseSchema>
 export interface GetVendorByIdRequestArgs {
   id: string
 }
+
+export const updateVendorResponseSchema = vendorSchema
+
+export type UpdateVendorResponse = z.infer<typeof updateVendorResponseSchema>
+
+export interface UpdateVendorRequestArgs {
+  id: string
+  payload: Partial<z.infer<typeof vendorSchema>>
+}

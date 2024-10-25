@@ -7,6 +7,9 @@ import {
   GetVendorsRequestArgs,
   GetVendorsResponse,
   getVendorsResponseSchema,
+  UpdateVendorRequestArgs,
+  UpdateVendorResponse,
+  updateVendorResponseSchema,
 } from './validation.ts'
 
 export const vendorApi = api.injectEndpoints({
@@ -44,7 +47,23 @@ export const vendorApi = api.injectEndpoints({
           ? [{ type: 'Vendor', id: args.id }]
           : [{ type: 'Vendor', id: 'LIST' }],
     }),
+    updateVendor: builder.mutation<
+      UpdateVendorResponse,
+      UpdateVendorRequestArgs
+    >({
+      extraOptions: { responseValidator: updateVendorResponseSchema },
+      query: ({ id, payload }) => ({
+        method: 'PUT',
+        url: `/vendor/${id}`,
+        body: payload,
+      }),
+      invalidatesTags: (resp, _, arg) =>
+        resp
+          ? [{ type: 'Vendor', id: arg.id }]
+          : [{ type: 'Vendor', id: 'LIST' }],
+    }),
   }),
 })
 
-export const { useGetVendorsQuery, useGetVendorByIdQuery } = vendorApi
+export const { useGetVendorsQuery, useGetVendorByIdQuery, useUpdateVendorMutation } =
+  vendorApi
