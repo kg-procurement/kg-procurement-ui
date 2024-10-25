@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`<DashboardPage /> > should handle null response in providesTags 1`] = `
+exports[`<VendorDetailPage /> > should handle null response in providesTags 1`] = `
 "Evaluation Form
 Search
 Vendor Aundefined
@@ -11,14 +11,12 @@ undefined
 Showing vendor performance by .....
 
 Inventory List
-
-NameDescriptionModified DateundefinedPrevious1undefinedMore pagesNext
-undefined© 2024 KOMPAS
+© 2024 KOMPAS
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 Contact us (Email):"
 `;
 
-exports[`<DashboardPage /> > should render the table content properly 1`] = `
+exports[`<VendorDetailPage /> > should render the table content properly 1`] = `
 "Evaluation Form
 Search
 Vendor Aundefined
@@ -30,8 +28,7 @@ Showing vendor performance by .....
 
 Inventory List
 
-NameDescriptionModified DateundefinedPrevious1undefinedMore pagesNext
-undefined© 2024 KOMPAS
+NameDescriptionModified DateKipas AnginKipas Angin2020-11-02T07:44:58ZundefinedBlenderBlender2020-11-02T07:44:58ZundefinedRemote TVRemote TV2020-11-02T07:44:58Zundefined1© 2024 KOMPAS
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 Contact us (Email):"
 `;

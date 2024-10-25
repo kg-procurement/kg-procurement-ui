@@ -1,5 +1,5 @@
 import { createFileRoute, useParams } from '@tanstack/react-router'
-import { Edit, EllipsisVertical, Phone } from 'lucide-react'
+import { Edit, Phone } from 'lucide-react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
@@ -17,7 +17,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/atoms/chart.tsx'
-import { Checkbox } from '@/components/atoms/checkbox.tsx'
 import {
   Dialog,
   DialogClose,
@@ -28,33 +27,10 @@ import {
   DialogTrigger,
 } from '@/components/atoms/dialog.tsx'
 import { Input } from '@/components/atoms/input.tsx'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/atoms/popover.tsx'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/atoms/table.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
+import VendorProductTable from '@/components/features/vendor-product-table.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/molecules/pagination.tsx'
-import ProductForm from '@/components/organisms/product/form.tsx'
 import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
@@ -64,19 +40,18 @@ export const Route = createFileRoute('/dashboard/vendor/$vendorId')({
 })
 
 export default function VendorDetailPage() {
-  const [currentlyActiveDialog, setCurrentlyActiveDialog] =
-    useState<string>('')
   const { vendorId } = useParams({ from: '/dashboard/vendor/$vendorId' })
-  const { products, isSuccess, error } = useGetProductsByVendorQuery(
-    { id: vendorId },
+  const [page, setPage] = useState<number>(1)
+  const { products, isSuccess, error, metadata } = useGetProductsByVendorQuery(
+    { id: vendorId, limit: 1, page },
     {
       selectFromResult: result => ({
         ...result,
         products: result.data?.products,
+        metadata: result.data?.metadata,
       }),
     },
   )
-  useQueryErrorHandler(error)
 
   const chartConfig = {
     desktop: {
@@ -98,6 +73,7 @@ export default function VendorDetailPage() {
     setShowLoadingOverlay(!isSuccess)
   }, [isSuccess, setShowLoadingOverlay])
 
+  useQueryErrorHandler(error)
   return (
     <div className="flex min-h-screen w-full flex-col">
       <PageHeader>
@@ -191,92 +167,14 @@ export default function VendorDetailPage() {
           <div className="col-span-1 flex flex-col gap-4">
             <Typography variant="h6">Inventory List</Typography>
             <Input className="text-sm" placeholder="Filter vendor ..." />
-            <Table className="rounded-md border">
-              <TableHeader>
-                <TableRow>
-                  <TableHead>
-                    <Checkbox />
-                  </TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead>Modified Date</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {products
-                  ? (
-                      products.map((product) => {
-                        return (
-                          <TableRow key={product.id}>
-                            <Dialog
-                              open={currentlyActiveDialog === product.id}
-                              onOpenChange={open =>
-                                open && setCurrentlyActiveDialog(product.id)}
-                            >
-                              <DialogContent>
-                                <DialogTitle>Product Form</DialogTitle>
-                                <ProductForm
-                                  initialData={product}
-                                  onDone={() => setCurrentlyActiveDialog('')}
-                                />
-                              </DialogContent>
-                              <TableCell>
-                                <Checkbox />
-                              </TableCell>
-                              <TableCell>{product.name}</TableCell>
-                              <TableCell>{product.description}</TableCell>
-                              <TableCell>{product.modified_date}</TableCell>
-                              <TableCell>
-                                <Popover>
-                                  <PopoverTrigger asChild>
-                                    <button>
-                                      <EllipsisVertical size={16} />
-                                    </button>
-                                  </PopoverTrigger>
-                                  <PopoverContent className="w-fit p-2">
-                                    <DialogTrigger>
-                                      <Button
-                                        className="h-fit w-full px-3 py-1"
-                                        variant="ghost"
-                                      >
-                                        Edit
-                                      </Button>
-                                    </DialogTrigger>
-                                  </PopoverContent>
-                                </Popover>
-                              </TableCell>
-                            </Dialog>
-                          </TableRow>
-                        )
-                      })
-                    )
-                  : (
-                      <></>
-                    )}
-              </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TableCell colSpan={4} className="py-2.5">
-                    <Pagination>
-                      <PaginationContent>
-                        <PaginationItem>
-                          <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationNext href="#" />
-                        </PaginationItem>
-                      </PaginationContent>
-                    </Pagination>
-                  </TableCell>
-                </TableRow>
-              </TableFooter>
-            </Table>
+            {products && metadata && isSuccess && (
+              <VendorProductTable
+                current_page={metadata.current_page}
+                products={products}
+                setPage={setPage}
+                total_page={metadata.total_page}
+              />
+            )}
           </div>
         </div>
       </div>
