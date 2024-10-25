@@ -7,7 +7,7 @@ describe('<Footer />', () => {
     const { getByAltText } = render(<Footer />)
     const logo = getByAltText('Kompas Gramedia')
     expect(logo).toBeInTheDocument()
-    expect(logo).toHaveAttribute('src', 'kompas-gramedia.jpeg')
+    expect(logo).toHaveAttribute('src', '/kompas-gramedia.jpeg')
   })
 
   it('should display the copyright text', () => {
