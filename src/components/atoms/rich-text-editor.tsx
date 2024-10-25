@@ -14,9 +14,6 @@ export function RichTextEditor({ content, setContent }: RichTextEditorProps) {
       <CKEditorContext
         context={Context}
         contextWatchdog={ContextWatchdog}
-        onChangeInitializedEditors={(editors) => {
-          console.info(editors.editor1?.instance)
-        }}
       >
         <div className="editor-wrapper" data-testid="email-editor">
           <CKEditor

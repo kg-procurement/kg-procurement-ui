@@ -20,7 +20,11 @@ interface EmailFormProps {
   defaultContent?: string
 }
 
-export function EmailForm({ selectedVendors, onClose, defaultContent = '' }: EmailFormProps) {
+export function EmailForm({
+  selectedVendors,
+  onClose,
+  defaultContent = '',
+}: Readonly<EmailFormProps>) {
   const [isConfirmation, setIsConfirmation] = useState(false)
   const [emailContent, setEmailContent] = useState(defaultContent)
   const [showPopover, setShowPopover] = useState(false)
