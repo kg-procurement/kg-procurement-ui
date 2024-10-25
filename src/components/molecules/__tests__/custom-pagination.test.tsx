@@ -40,24 +40,25 @@ describe('<CustomPagination />', () => {
     expect(nextPage).toBeInTheDocument()
     expect(prevPage).toBeInTheDocument()
   })
-  it('should only render the "Previous" button', () => {
+  it('should render the "Previous" button and disable "Next" button', () => {
     mswServer.use(http.get(`/product/vendor/1`, () =>
       HttpResponse.json({ current_page: 5, total_page: 5 }),
     ))
     render(withWrappers(<CustomPagination current_page={5} total_page={5} setPage={() => {}} />))
-    const previousButton = screen.queryByText('Previous')
-    const nextButton = screen.queryByText('Next')
-    expect(previousButton).toBeInTheDocument()
-    expect(nextButton).not.toBeInTheDocument()
+    const prevButton = screen.getByRole('button', { name: 'Go to previous page' })
+    const nextButton = screen.getByRole('button', { name: 'Go to next page' })
+    expect(prevButton).toBeInTheDocument()
+    expect(nextButton).toBeDisabled()
   })
-  it('should only render the "Next" button', () => {
+
+  it('should render the "Next" button and disable "Previous" button', () => {
     mswServer.use(http.get(`/product/vendor/1`, () =>
       HttpResponse.json({ current_page: 1, total_page: 5 }),
     ))
     render(withWrappers(<CustomPagination current_page={1} total_page={5} setPage={() => {}} />))
-    const nextButton = screen.queryByText('Next')
-    const previousButton = screen.queryByText('Previous')
+    const prevButton = screen.getByRole('button', { name: 'Go to previous page' })
+    const nextButton = screen.getByRole('button', { name: 'Go to next page' })
     expect(nextButton).toBeInTheDocument()
-    expect(previousButton).not.toBeInTheDocument()
+    expect(prevButton).toBeDisabled()
   })
 })

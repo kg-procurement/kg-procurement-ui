@@ -22,39 +22,27 @@ function CustomPagination(
   return (
     <Pagination>
       <PaginationContent>
-        {current_page - 1 > 0 && (
-          <PaginationItem>
-            <PaginationPrevious className="cursor-pointer hover:border" onClick={() => setPage(current_page - 1)} />
-          </PaginationItem>
-        )}
-        {current_page - 2 > 0 && (
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-        )}
-        {current_page - 1 > 0 && (
-          <PaginationItem>
-            <PaginationLink className="cursor-pointer hover:border">{current_page - 1}</PaginationLink>
-          </PaginationItem>
-        )}
+        <PaginationItem>
+          <PaginationPrevious disabled={current_page - 1 <= 0} className="cursor-pointer hover:border" onClick={() => setPage(current_page - 1)} />
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationEllipsis className={`${current_page - 2 <= 0 ? 'opacity-0' : ''}`} />
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink className={`${current_page - 1 <= 0 ? 'opacity-0' : ''} cursor-pointer hover:border`} onClick={(() => setPage(current_page - 1))}>{current_page - 1}</PaginationLink>
+        </PaginationItem>
         <PaginationItem>
           <PaginationLink isActive>{current_page}</PaginationLink>
         </PaginationItem>
-        {current_page + 1 <= total_page && (
-          <PaginationItem>
-            <PaginationLink className="cursor-pointer hover:border" onClick={() => setPage(current_page + 1)}>{current_page + 1}</PaginationLink>
-          </PaginationItem>
-        )}
-        {current_page + 2 <= total_page && (
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-        )}
-        {current_page + 1 <= total_page && (
-          <PaginationItem>
-            <PaginationNext className="cursor-pointer hover:border" onClick={() => setPage(current_page + 1)} />
-          </PaginationItem>
-        )}
+        <PaginationItem>
+          <PaginationLink className={`${current_page + 1 > total_page ? 'opacity-0' : ''} cursor-pointer hover:border`} onClick={() => setPage(current_page + 1)}>{current_page + 1}</PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationEllipsis className={`${current_page + 2 > total_page ? 'opacity-0' : ''}`} />
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationNext disabled={current_page + 1 > total_page} className="cursor-pointer hover:border" onClick={() => setPage(current_page + 1)} />
+        </PaginationItem>
       </PaginationContent>
     </Pagination>
   )
