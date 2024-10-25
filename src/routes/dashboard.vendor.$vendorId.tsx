@@ -28,7 +28,7 @@ import VendorProductTable from '@/components/features/vendor-product-table.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
 import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
-import { useGetVendorByIdQuery } from '@/lib/redux/features/vendor/api'
+import { useGetVendorByIdQuery } from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
 
