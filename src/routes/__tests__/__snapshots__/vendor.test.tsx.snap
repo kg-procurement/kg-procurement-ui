@@ -5,7 +5,8 @@ exports[`<VendorPage/> > should render the vendors table content properly 1`] = 
 Search
 Search Vendor
 Lorem Ipsum
-
+Select Location...
+undefined
 Vendor NameLocationPerformance ScoreAdriza Nikmah, PTIndonesia0undefinedToko AmazonIndonesia0undefinedAneka WarnaIndonesia0undefinedAngkasa Buana Niaga Cipta, PTIndonesia0undefinedApartement Permata SenayanIndonesia0undefinedArta MuaraIndonesia0undefinedAsaba Computer CentreIndonesia1undefinedAstra Graphia TBK, PTIndonesia0undefinedAsus Service CenterIndonesia0undefinedAtrindo Asia Global, PTIndonesia0undefined
 undefinedPrevious123undefinedMore pagesNext
 undefined
