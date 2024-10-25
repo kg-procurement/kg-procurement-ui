@@ -3,11 +3,8 @@
 exports[`<VendorDetailPage /> > should handle null response in providesTags 1`] = `
 "Evaluation Form
 Search
-Vendor Aundefined
-Dashboard
 undefined
-undefined
-undefined
+Rating: 
 Showing vendor performance by .....
 
 Inventory List
@@ -20,11 +17,8 @@ Contact us (Email):"
 exports[`<VendorDetailPage /> > should render the table content properly 1`] = `
 "Evaluation Form
 Search
-Vendor Aundefined
-Dashboard
-undefined
-undefined
-undefined
+Adriza Nikmah, PTundefinedHeadset dll
+Rating: 0
 Showing vendor performance by .....
 
 Inventory List

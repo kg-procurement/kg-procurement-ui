@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw'
 
 import { API_BASE_URL } from '@/env.ts'
-import { GetVendorsResponse } from '@/lib/redux/features/vendor/validation.ts'
+import { GetVendorByIdResponse, GetVendorsResponse, UpdateVendorResponse } from '@/lib/redux/features/vendor/validation.ts'
 
 export const vendorHandlers = [
   http.get(`${API_BASE_URL}/vendor`, () => {
@@ -160,5 +160,46 @@ export const vendorHandlers = [
       '535 5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-72057931785sm150109b3a.50 - gsmtp',
       '535 5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-72057939b82sm152223b3a.81 - gsmtp',
     ] }, { status: 207 })
+  }),
+  http.get(`${API_BASE_URL}/vendor/:id`, (req) => {
+    const { id } = req.params
+    if (id === '-1') {
+      return HttpResponse.json(null, { status: 200 })
+    }
+
+    return HttpResponse.json(
+      {
+        id: '2502',
+        name: 'Adriza Nikmah, PT',
+        description: 'Headset dll',
+        bp_id: '2502',
+        bp_name: 'Adriza Nikmah, PT',
+        rating: 0,
+        area_group_id: '1',
+        area_group_name: 'Indonesia',
+        sap_code: 'None',
+        modified_date: '2020-10-29T13:39:12Z',
+        modified_by: '0',
+        dt: '2024-08-28T00:00:00Z',
+      } satisfies GetVendorByIdResponse,
+      { status: 200 },
+    )
+  }),
+  http.put(`${API_BASE_URL}/vendor/:id`, ({ params }) => {
+    const { id } = params
+    return HttpResponse.json({
+      id: Array.isArray(id) ? id[0] : id,
+      name: 'Adriza Nikmah, PT',
+      description: 'Headset dll',
+      bp_id: '2502',
+      bp_name: 'Adriza Nikmah, PT',
+      rating: 0,
+      area_group_id: '1',
+      area_group_name: 'Indonesia',
+      sap_code: 'None',
+      modified_date: '2020-10-29T13:39:12Z',
+      modified_by: '0',
+      dt: '2024-08-28T00:00:00Z',
+    } satisfies UpdateVendorResponse)
   }),
 ]

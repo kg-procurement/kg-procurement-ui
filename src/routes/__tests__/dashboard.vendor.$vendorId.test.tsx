@@ -54,9 +54,6 @@ describe('<VendorDetailPage />', () => {
     const logo = screen.getByAltText('Kompas Gramedia Logo Background')
     expect(logo).toBeInTheDocument()
     expect(logo).toHaveAttribute('src', '/kompas-gramedia-logo-bg.svg')
-
-    expect(screen.getByText('Vendor A')).toBeInTheDocument()
-    expect(screen.getByText('Dashboard')).toBeInTheDocument()
   })
 
   it('should render the area chart with correct content', () => {
