@@ -1,7 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`<VendorPage/> > should render the vendors table content properly 1`] = `
-"Evaluation Form
+"ZOD_PARSING_ERROR
+Response does not match validator schema:
+locations: Requiredundefined
+Evaluation Form
 Search
 Search Vendor
 Lorem Ipsum

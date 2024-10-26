@@ -2,6 +2,8 @@ import { api } from '@/lib/redux/services/api.ts'
 
 import {
   EmailVendorsArgs,
+  GetLocationsResponse,
+  getLocationsResponseSchema,
   GetVendorByIdRequestArgs,
   GetVendorByIdResponse,
   getVendorByIdResponseSchema,
@@ -55,6 +57,16 @@ export const vendorApi = api.injectEndpoints({
           ? [{ type: 'Vendor', id: args.id }]
           : [{ type: 'Vendor', id: 'LIST' }],
     }),
+
+    getLocations: builder.query<GetLocationsResponse, void>({
+      extraOptions: { responseValidator: getLocationsResponseSchema },
+      query: () => ({
+        method: 'GET',
+        url: `/vendor/location`,
+      }),
+      providesTags: [{ type: 'Vendor', id: 'LOCATIONS' }],
+    }),
+
     updateVendor: builder.mutation<
       UpdateVendorResponse,
       UpdateVendorRequestArgs
@@ -69,9 +81,9 @@ export const vendorApi = api.injectEndpoints({
         resp
           ? [{ type: 'Vendor', id: arg.id }]
           : [{ type: 'Vendor', id: 'LIST' }],
+
     }),
   }),
 })
 
-export const { useGetVendorsQuery, useBlastEmailMutation, useGetVendorByIdQuery, useUpdateVendorMutation } =
-  vendorApi
+export const { useGetVendorsQuery, useBlastEmailMutation, useGetVendorByIdQuery, useUpdateVendorMutation, useGetLocationsQuery } = vendorApi

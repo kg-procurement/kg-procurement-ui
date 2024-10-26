@@ -1,5 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
+
 import { withWrappers } from '@/lib/testing/utils.tsx'
+
 import LoginPage from '../login.tsx'
 
 describe('<LoginPage />', () => {

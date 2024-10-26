@@ -8,7 +8,7 @@ import { Typography } from '@/components/atoms/typography.tsx'
 import VendorTable from '@/components/features/vendor-table.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
-import { useGetVendorsQuery } from '@/lib/redux/features/vendor/api.ts'
+import { useGetLocationsQuery, useGetVendorsQuery } from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
 import { Vendor } from '@/schemas/vendor.ts'
@@ -33,11 +33,22 @@ export default function VendorPage() {
     },
   )
 
+  const { data: locationsData, isSuccess: isLocationsSuccess, error: locationsError } = useGetLocationsQuery()
+
   useQueryErrorHandler(error)
+  useQueryErrorHandler(locationsError)
 
   useEffect(() => {
-    setShowLoadingOverlay(!isSuccess)
-  }, [isSuccess, setShowLoadingOverlay])
+    setShowLoadingOverlay(!isSuccess && !isLocationsSuccess)
+  }, [isSuccess, isLocationsSuccess, setShowLoadingOverlay])
+
+  const locationOptions = locationsData?.locations.map(location => ({
+    value: location.toLowerCase(),
+    label: location
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' '),
+  })) || []
 
   const [vendorIds, setVendorIds] = useState<Set<string>>(new Set())
   const handleUpdateChosenVendor = (checked: CheckedState, vendorId: string) => {
@@ -56,12 +67,6 @@ export default function VendorPage() {
       vendors.forEach(vendor => updatedSet.delete(vendor.id))
     setVendorIds(updatedSet)
   }
-  // TODO: Change with real location
-  const locationOptions = [
-    { value: 'jakarta', label: 'Jakarta' },
-    { value: 'bandung', label: 'Bandung' },
-    { value: 'surabaya', label: 'Surabaya' },
-  ]
 
   return (
     <div className="flex min-h-screen w-full flex-col gap-10">

@@ -29,6 +29,12 @@ export interface GetVendorByIdRequestArgs {
   id: string
 }
 
+export const getLocationsResponseSchema = z.object({
+  locations: z.array(z.string()),
+})
+
+export type GetLocationsResponse = z.infer<typeof getLocationsResponseSchema>
+
 export const updateVendorResponseSchema = vendorSchema
 
 export type UpdateVendorResponse = z.infer<typeof updateVendorResponseSchema>
