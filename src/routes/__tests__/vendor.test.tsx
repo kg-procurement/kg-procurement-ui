@@ -1,6 +1,10 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { http, HttpResponse } from 'msw'
+import { describe, expect, it } from 'vitest'
 
+import { API_BASE_URL } from '@/env.ts'
+import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 import { waitForNoLoadingOverlay } from '@/lib/testing/wait-for.ts'
 
@@ -38,6 +42,8 @@ describe('<VendorPage/>', () => {
 
     const productInput = screen.getByPlaceholderText('Filter by Product')
     const locationInput = screen.getByRole('combobox')
+
+    expect(screen.getByText('Select Location...')).toBeInTheDocument()
 
     expect(productInput).toBeInTheDocument()
     expect(locationInput).toBeInTheDocument()
@@ -102,6 +108,17 @@ describe('<VendorPage/>', () => {
   })
 
   it('should select an option on dropdown', async () => {
+    mswServer.use(
+      http.get(`${API_BASE_URL}/vendor/location`, () =>
+        HttpResponse.json(
+          {
+            locations: ['Jakarta', 'Surabaya', 'Bali'],
+          },
+          { status: 200 },
+        ),
+      ),
+    )
+
     render(withWrappers(<VendorPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()
 
@@ -109,7 +126,7 @@ describe('<VendorPage/>', () => {
     const dropdownButton = screen.getByText('Select Location...')
     await userEvent.click(dropdownButton)
 
-    const optionJakarta = screen.getByText('Jakarta')
+    const optionJakarta = await waitFor(() => screen.getByText('Jakarta'))
     await userEvent.click(optionJakarta)
   })
 })
