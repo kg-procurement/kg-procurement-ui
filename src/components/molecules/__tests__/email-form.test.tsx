@@ -1,10 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { http, HttpResponse } from 'msw'
 import { describe, expect, it, vi } from 'vitest'
 
-import { API_BASE_URL } from '@/env.ts'
-import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
 import { EmailForm } from '../email-form.tsx'

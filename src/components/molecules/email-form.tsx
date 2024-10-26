@@ -64,6 +64,7 @@ export function EmailForm({
     }
     catch (_) {
       toast({
+
         title: 'Error',
         description: 'Email blast failed to be executed',
         duration: 2000,

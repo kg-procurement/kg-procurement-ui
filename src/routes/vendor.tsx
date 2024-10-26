@@ -50,9 +50,9 @@ export default function VendorPage() {
   const chooseAllVendor = (vendors: Vendor[], toggle: boolean) => {
     const updatedSet = new Set(vendorIds)
     if (toggle)
-      vendors.map(vendor => updatedSet.add(vendor.id))
+      vendors.forEach(vendor => updatedSet.add(vendor.id))
     else
-      vendors.map(vendor => updatedSet.delete(vendor.id))
+      vendors.forEach(vendor => updatedSet.delete(vendor.id))
     setVendorIds(updatedSet)
   }
 
