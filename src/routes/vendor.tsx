@@ -43,7 +43,7 @@ export default function VendorPage() {
   }, [isSuccess, isLocationsSuccess, setShowLoadingOverlay])
 
   const locationOptions = locationsData?.locations.map(location => ({
-    value: location.toLowerCase(),
+    value: location,
     label: location
       .split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
