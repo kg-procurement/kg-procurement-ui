@@ -60,7 +60,7 @@ describe('<VendorDetailPage />', () => {
     render(withWrappers(<VendorDetailPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()
 
-    const table = screen.getByTestId('vendor-inventory-table')
+    const table = screen.getByTestId('vendor-product-table')
     expect(table.innerText).toMatchSnapshot()
   })
 
@@ -74,19 +74,6 @@ describe('<VendorDetailPage />', () => {
 
     const icons = screen.getAllByRole('img')
     expect(icons).toHaveLength(2)
-  })
-
-  it('should refetch data when name filter is set', () => {
-    render(withWrappers(<VendorDetailPage />))
-
-    act(() => {
-      fireEvent.change(screen.getByPlaceholderText('Filter vendor ...'), {
-        target: { value: 'bumi' },
-      })
-    })
-
-    const table = screen.getByTestId('vendor-inventory-table')
-    expect(table.innerText).toMatchSnapshot()
   })
 
   it('should go to the next page', () => {

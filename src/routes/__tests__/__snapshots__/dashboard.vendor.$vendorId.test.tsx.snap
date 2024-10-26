@@ -9,3 +9,5 @@ exports[`<DashboardPage /> > should render the table content properly 1`] = `
 "NameDescriptionModified DateBukuBuku2023-08-11T10:39:47ZundefinedundefinedPrevious1undefinedMore pagesNext
 undefined"
 `;
+
+exports[`<VendorDetailPage /> > should render the table content properly 1`] = `"NameDescriptionModified DateKipas AnginKipas Angin2020-11-02T07:44:58ZundefinedBlenderBlender2020-11-02T07:44:58ZundefinedRemote TVRemote TV2020-11-02T07:44:58Zundefined1"`;
