@@ -27,6 +27,7 @@ import { Typography } from '@/components/atoms/typography.tsx'
 import VendorProductTable from '@/components/features/vendor-product-table.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
+import EditVendorForm from '@/components/organisms/vendor/form-edit-vendor.tsx'
 import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
 import { useGetVendorByIdQuery } from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
@@ -37,8 +38,8 @@ export const Route = createFileRoute('/dashboard/vendor/$vendorId')({
 })
 
 export default function VendorDetailPage() {
-  const [filter, setFilter] = useState<string>('')
   const { vendorId } = useParams({ from: '/dashboard/vendor/$vendorId' })
+  const [filter, setFilter] = useState<string>('')
   const [page, setPage] = useState<number>(1)
   const { products, isSuccess, error, metadata } = useGetProductsByVendorQuery(
     { id: vendorId, name: filter, limit: 1, page },
@@ -96,6 +97,7 @@ export default function VendorDetailPage() {
             </DialogTrigger>
             <DialogContent>
               <DialogTitle>Edit Vendor</DialogTitle>
+              {vendorData && <EditVendorForm initialData={vendorData} />}
             </DialogContent>
           </Dialog>
         </div>
