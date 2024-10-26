@@ -1,7 +1,10 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { http, HttpResponse } from 'msw'
 import { describe, expect, it, vi } from 'vitest'
 
+import { API_BASE_URL } from '@/env.ts'
+import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
 import { EmailForm } from '../email-form.tsx'
@@ -58,6 +61,24 @@ describe('EmailForm', () => {
       const toast = screen.getByTestId('toast')
       expect(toast.innerText).includes('Success')
       expect(toast.innerText).includes('Email blast has successfully executed')
+    })
+  })
+
+  it('should handle email blast and show error toast when error', async () => {
+    mswServer.use(http.post(`${API_BASE_URL}/vendor/blast`, () => HttpResponse.json({}, { status: 500 })))
+    render(withWrappers(<EmailForm toggleDialog={true} setToggleDialog={mockToggleDialog} vendorIds={selectedVendors} defaultContent="Enter your email template" />, { withRoot: true }))
+
+    const subjectInput = screen.getByTestId('subject-input')
+    await userEvent.type(subjectInput, 'Subject email')
+    const nextButton = screen.getByText('Next')
+    await userEvent.click(nextButton)
+
+    const sendButton = screen.getByText('Yes, Send')
+    await sendButton.click()
+    await waitFor(() => {
+      const toast = screen.getByTestId('toast')
+      expect(toast.innerText).includes('Error')
+      expect(toast.innerText).includes('Email blast failed to be executed')
     })
   })
 })
