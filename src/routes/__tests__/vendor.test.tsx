@@ -1,10 +1,12 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { http, HttpResponse } from 'msw'
 
-import { API_BASE_URL } from '@/env.ts'
-import { mswServer } from '@/lib/msw/index.ts'
+// import userEvent from '@testing-library/user-event'
+// import { http, HttpResponse } from 'msw'
+// import { API_BASE_URL } from '@/env.ts'
+// import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
+import { waitForNoLoadingOverlay } from '@/lib/testing/wait-for.ts'
 
 import VendorPage from '../vendor.tsx'
 
@@ -45,31 +47,61 @@ describe('<VendorPage/>', () => {
     expect(locationInput).toBeInTheDocument()
   })
 
-  it('should handle email blast and show success toast when success', async () => {
-    render(withWrappers(<VendorPage />))
+  it('should show warning popover when no vendor selected', async () => {
+    render(withWrappers(<VendorPage />, { withRoot: true }))
+    await waitForNoLoadingOverlay()
 
-    const blastButton = await waitFor(() => screen.getByRole('button', { name: 'Email Selected Vendor' }))
+    const blastButton = screen.getByText('Email Selected Vendor')
+
     await userEvent.click(blastButton)
-
-    await waitFor(() => {
-      const toast = screen.getByTestId('toast')
-      expect(toast.innerText).includes('Success')
-      expect(toast.innerText).includes('Email blast has successfully executed')
-    })
+    const warning = screen.getByText('Please choose at leat one vendor to continue')
+    expect(warning).toBeInTheDocument()
   })
 
-  it('should handle email blast and show error toast when error', async () => {
-    mswServer.use(http.post(`${API_BASE_URL}/vendor/blast`, () => HttpResponse.json({}, { status: 500 })))
+  it('should show dialog email compose after any vendor selected', async () => {
+    render(withWrappers(<VendorPage />, { withRoot: true }))
+    await waitForNoLoadingOverlay()
 
-    render(withWrappers(<VendorPage />))
+    const checkbox = screen.getAllByRole('checkbox', {})[0]
 
-    const blastButton = await waitFor(() => screen.getByRole('button', { name: 'Email Selected Vendor' }))
+    await userEvent.click(checkbox)
+
+    const blastButton = screen.getByText('Email Selected Vendor')
+
     await userEvent.click(blastButton)
+    const formTitle = screen.getByText('Compose Email')
+    expect(formTitle).toBeInTheDocument()
+  })
 
-    await waitFor(() => {
-      const toast = screen.getByTestId('toast')
-      expect(toast.innerText).includes('Error')
-      expect(toast.innerText).includes('Email blast failed to be executed')
-    })
+  it('should select all vendor checkbox works properly', async () => {
+    render(withWrappers(<VendorPage />, { withRoot: true }))
+    await waitForNoLoadingOverlay()
+
+    const checkbox = screen.getAllByRole('checkbox', {})[1]
+
+    await userEvent.click(checkbox)
+    await userEvent.click(checkbox)
+
+    const blastButton = screen.getByText('Email Selected Vendor')
+
+    await userEvent.click(blastButton)
+    const warning = screen.getByText('Please choose at leat one vendor to continue')
+    expect(warning).toBeInTheDocument()
+  })
+
+  it('should select a vendor checkbox works properly', async () => {
+    render(withWrappers(<VendorPage />, { withRoot: true }))
+    await waitForNoLoadingOverlay()
+
+    const checkbox = screen.getAllByRole('checkbox', {})[0]
+
+    await userEvent.click(checkbox)
+    await userEvent.click(checkbox)
+
+    const blastButton = screen.getByText('Email Selected Vendor')
+
+    await userEvent.click(blastButton)
+    const warning = screen.getByText('Please choose at leat one vendor to continue')
+    expect(warning).toBeInTheDocument()
   })
 })
