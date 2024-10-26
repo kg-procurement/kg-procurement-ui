@@ -17,11 +17,13 @@ export const productApi = api.injectEndpoints({
       GetProductsByVendorArgs
     >({
       extraOptions: { responseValidator: getProductsByVendorResponseSchema },
-      query: ({ id, name }) => ({
+      query: ({ id, name, page, limit }) => ({
         method: 'GET',
         url: `/product/vendor/${id}`,
         params: {
           name,
+          page,
+          limit,
         },
       }),
       providesTags: resp =>

@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw'
 
 import { API_BASE_URL } from '@/env.ts'
-import { GetVendorsResponse } from '@/lib/redux/features/vendor/validation.ts'
+import { GetVendorByIdResponse, GetVendorsResponse } from '@/lib/redux/features/vendor/validation.ts'
 
 export const vendorHandlers = [
   http.get(`${API_BASE_URL}/vendor`, () => {
@@ -154,5 +154,29 @@ export const vendorHandlers = [
         total_entries: 100,
       },
     } satisfies GetVendorsResponse)
+  }),
+  http.get(`${API_BASE_URL}/vendor/:id`, (req) => {
+    const { id } = req.params
+    if (id === '-1') {
+      return HttpResponse.json(null, { status: 200 })
+    }
+
+    return HttpResponse.json(
+    {
+      id: '2502',
+      name: 'Adriza Nikmah, PT',
+      description: 'Headset dll',
+      bp_id: '2502',
+      bp_name: 'Adriza Nikmah, PT',
+      rating: 0,
+      area_group_id: '1',
+      area_group_name: 'Indonesia',
+      sap_code: 'None',
+      modified_date: '2020-10-29T13:39:12Z',
+      modified_by: '0',
+      dt: '2024-08-28T00:00:00Z',
+    } satisfies GetVendorByIdResponse,
+    { status: 200 },
+    )
   }),
 ]

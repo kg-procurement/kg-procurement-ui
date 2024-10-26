@@ -13,3 +13,11 @@ export interface GetVendorsRequestArgs extends PaginationArgs {
   location: string
   product: string
 }
+
+export const getVendorByIdResponseSchema = vendorSchema
+
+export type GetVendorByIdResponse = z.infer<typeof getVendorByIdResponseSchema>
+
+export interface GetVendorByIdRequestArgs {
+  id: string
+}

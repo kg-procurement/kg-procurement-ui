@@ -1,6 +1,9 @@
 import { api } from '@/lib/redux/services/api.ts'
 
 import {
+  GetVendorByIdRequestArgs,
+  GetVendorByIdResponse,
+  getVendorByIdResponseSchema,
   GetVendorsRequestArgs,
   GetVendorsResponse,
   getVendorsResponseSchema,
@@ -27,7 +30,21 @@ export const vendorApi = api.injectEndpoints({
             ]
           : [],
     }),
+    getVendorById: builder.query<
+      GetVendorByIdResponse,
+      GetVendorByIdRequestArgs
+    >({
+      extraOptions: { responseValidator: getVendorByIdResponseSchema },
+      query: ({ id }) => ({
+        method: 'GET',
+        url: `/vendor/${id}`,
+      }),
+      providesTags: (resp, _, args) =>
+        resp
+          ? [{ type: 'Vendor', id: args.id }]
+          : [{ type: 'Vendor', id: 'LIST' }],
+    }),
   }),
 })
 
-export const { useGetVendorsQuery } = vendorApi
+export const { useGetVendorsQuery, useGetVendorByIdQuery } = vendorApi

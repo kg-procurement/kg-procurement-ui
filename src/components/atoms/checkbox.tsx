@@ -1,5 +1,3 @@
-'use client'
-
 import { Check } from '@phosphor-icons/react'
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import React from 'react'

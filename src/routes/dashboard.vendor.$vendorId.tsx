@@ -1,10 +1,9 @@
 import { createFileRoute, useParams } from '@tanstack/react-router'
-import { Edit, EllipsisVertical, Phone } from 'lucide-react'
+import { Edit } from 'lucide-react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 
-import { Button } from '@/components/atoms/button.tsx'
 import {
   Card,
   CardContent,
@@ -17,45 +16,19 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/atoms/chart.tsx'
-import { Checkbox } from '@/components/atoms/checkbox.tsx'
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/atoms/dialog.tsx'
 import { Input } from '@/components/atoms/input.tsx'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/atoms/popover.tsx'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/atoms/table.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
+import VendorProductTable from '@/components/features/vendor-product-table.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/molecules/pagination.tsx'
-import ProductForm from '@/components/organisms/product/form.tsx'
 import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
+import { useGetVendorByIdQuery } from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
 
@@ -64,20 +37,30 @@ export const Route = createFileRoute('/dashboard/vendor/$vendorId')({
 })
 
 export default function VendorDetailPage() {
-  const [currentlyActiveDialog, setCurrentlyActiveDialog] =
-    useState<string>('')
   const [filter, setFilter] = useState<string>('')
   const { vendorId } = useParams({ from: '/dashboard/vendor/$vendorId' })
-  const { products, isSuccess, error } = useGetProductsByVendorQuery(
-    { id: vendorId, name: filter },
+  const [page, setPage] = useState<number>(1)
+  const { products, isSuccess, error, metadata } = useGetProductsByVendorQuery(
+    { id: vendorId, name: filter, limit: 1, page },
     {
       selectFromResult: result => ({
         ...result,
         products: result.data?.products,
+        metadata: result.data?.metadata,
       }),
     },
   )
+
+  const {
+    data: vendorData,
+    error: vendorError,
+    isSuccess: isVendorSuccess,
+  } = useGetVendorByIdQuery({
+    id: vendorId,
+  })
+
   useQueryErrorHandler(error)
+  useQueryErrorHandler(vendorError)
 
   const chartConfig = {
     desktop: {
@@ -96,51 +79,35 @@ export default function VendorDetailPage() {
   const { setShowLoadingOverlay } = useCommonStore()
 
   useEffect(() => {
-    setShowLoadingOverlay(!isSuccess)
-  }, [isSuccess, setShowLoadingOverlay])
+    setShowLoadingOverlay(!isSuccess && !isVendorSuccess)
+  }, [isSuccess, isVendorSuccess, setShowLoadingOverlay])
 
+  useQueryErrorHandler(error)
   return (
     <div className="flex min-h-screen w-full flex-col">
       <PageHeader>
         <div className="relative">
           <Typography variant="h2" className="text-white">
-            Vendor A
+            {vendorData?.name}
           </Typography>
           <Dialog>
             <DialogTrigger className="absolute -right-16 top-0">
               <Edit color="white" size={24} />
             </DialogTrigger>
             <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Edit Vendor</DialogTitle>
-                <DialogDescription className="flex flex-col gap-4 pt-2">
-                  <Typography variant="subtitle2">Name</Typography>
-                  <input type="text" className="w-full rounded-md border p-2" />
-
-                  <Typography variant="subtitle2">Description</Typography>
-                  <textarea className="w-full rounded-md border p-2" rows={4} />
-
-                  <div className="flex w-full items-center justify-end gap-6">
-                    <DialogClose>Cancel</DialogClose>
-                    <Button>Save</Button>
-                  </div>
-                </DialogDescription>
-              </DialogHeader>
+              <DialogTitle>Edit Vendor</DialogTitle>
             </DialogContent>
           </Dialog>
         </div>
-        <Typography variant="subtitle1" className="text-white">
-          Dashboard
+        <Typography variant="caption" className="max-w-prose text-white">
+          {vendorData?.description}
         </Typography>
         <div className="mt-2 flex gap-2">
-          {[...Array(3)].map((_, index) => (
-            <div
-              key={index}
-              className="flex h-10 w-10 items-center justify-center rounded-full border-2"
-            >
-              <Phone color="white" size={16} />
-            </div>
-          ))}
+          <Typography variant="subtitle2" className="text-white">
+            Rating:
+            {' '}
+            {vendorData?.rating}
+          </Typography>
         </div>
       </PageHeader>
       <div className="flex flex-grow items-center justify-center bg-[#F8F8F8] p-16">
@@ -197,90 +164,14 @@ export default function VendorDetailPage() {
               onChange={e => setFilter(e.target.value)}
               value={filter}
             />
-            <Table
-              data-testid="vendor-inventory-table"
-              className="rounded-md border"
-            >
-              <TableHeader>
-                <TableRow>
-                  <TableHead>
-                    <Checkbox />
-                  </TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead>Modified Date</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {products &&
-                  products.map((product) => {
-                    return (
-                      <TableRow key={product.id}>
-                        <Dialog
-                          open={currentlyActiveDialog === product.id}
-                          onOpenChange={open =>
-                            open && setCurrentlyActiveDialog(product.id)}
-                        >
-                          <DialogContent>
-                            <DialogTitle>Product Form</DialogTitle>
-                            <ProductForm
-                              initialData={product}
-                              onDone={() => setCurrentlyActiveDialog('')}
-                            />
-                          </DialogContent>
-                          <TableCell>
-                            <Checkbox />
-                          </TableCell>
-                          <TableCell>{product.name}</TableCell>
-                          <TableCell>{product.description}</TableCell>
-                          <TableCell>{product.modified_date}</TableCell>
-                          <TableCell>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <button>
-                                  <EllipsisVertical size={16} />
-                                </button>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-fit p-2">
-                                <DialogTrigger>
-                                  <Button
-                                    className="h-fit w-full px-3 py-1"
-                                    variant="ghost"
-                                  >
-                                    Edit
-                                  </Button>
-                                </DialogTrigger>
-                              </PopoverContent>
-                            </Popover>
-                          </TableCell>
-                        </Dialog>
-                      </TableRow>
-                    )
-                  })}
-              </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TableCell colSpan={4} className="py-2.5">
-                    <Pagination>
-                      <PaginationContent>
-                        <PaginationItem>
-                          <PaginationPrevious href="#" />
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationLink href="#">1</PaginationLink>
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationEllipsis />
-                        </PaginationItem>
-                        <PaginationItem>
-                          <PaginationNext href="#" />
-                        </PaginationItem>
-                      </PaginationContent>
-                    </Pagination>
-                  </TableCell>
-                </TableRow>
-              </TableFooter>
-            </Table>
+            {products && metadata && isSuccess && (
+              <VendorProductTable
+                current_page={metadata.current_page}
+                products={products}
+                setPage={setPage}
+                total_page={metadata.total_page}
+              />
+            )}
           </div>
         </div>
       </div>
