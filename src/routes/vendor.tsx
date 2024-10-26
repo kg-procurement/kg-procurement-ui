@@ -2,6 +2,7 @@ import { CheckedState } from '@radix-ui/react-checkbox'
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 
+import Dropdown from '@/components/atoms/dropdown.tsx'
 import { Input } from '@/components/atoms/input.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
 import VendorTable from '@/components/features/vendor-table.tsx'
@@ -55,6 +56,12 @@ export default function VendorPage() {
       vendors.forEach(vendor => updatedSet.delete(vendor.id))
     setVendorIds(updatedSet)
   }
+  // TODO: Change with real location
+  const locationOptions = [
+    { value: 'jakarta', label: 'Jakarta' },
+    { value: 'bandung', label: 'Bandung' },
+    { value: 'surabaya', label: 'Surabaya' },
+  ]
 
   return (
     <div className="flex min-h-screen w-full flex-col gap-10">
@@ -65,19 +72,24 @@ export default function VendorPage() {
         <Typography variant="body1" className="text-white">
           Lorem Ipsum
         </Typography>
-        <div className="flex justify-center gap-4">
-          <Input
-            placeholder="Filter by Product"
-            value={productFilter}
-            onChange={e => setProductFilter(e.target.value)}
-            className="w-1/2"
-          />
-          <Input
-            placeholder="Filter by Location"
-            value={locationFilter}
-            onChange={e => setLocationFilter(e.target.value)}
-            className="w-1/2"
-          />
+        <div className="flex w-3/4 justify-between">
+          <div className="flex-grow flex justify-stretch">
+            <Input
+              className="w-full flex-grow"
+              placeholder="Filter by Product"
+              value={productFilter}
+              onChange={e => setProductFilter(e.target.value)}
+            />
+          </div>
+          <div className="flex-grow-0 flex justify-stretch items-center">
+            <Dropdown
+              options={locationOptions}
+              onSelect={(selectedValue) => {
+                setLocationFilter(selectedValue)
+              }}
+              name="Location"
+            />
+          </div>
         </div>
       </PageHeader>
       <div className="flex w-full justify-center">
