@@ -1,35 +1,11 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
 
-// import { z } from 'zod'
 import { mswServer } from '@/lib/msw/index.ts'
-// import { GetProductsByVendorArgs, getProductsByVendorResponseSchema } from '@/lib/redux/features/product/validation.ts'
-// import { api } from '@/lib/redux/services/api.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
 import CustomPagination from '../custom-pagination.tsx'
-// const responseSchema = z.object({
-//   total_page: z.number(),
-//   current_page: z.number(),
-// })
-// type Metadata = z.infer<typeof responseSchema>
-// const mockApi = api.injectEndpoints({
-//   overrideExisting: false,
-//   endpoints: builder => ({
-//     getProductsByVendor: builder.query<
-//       Metadata,
-//       GetProductsByVendorArgs
-//     >({
-//       extraOptions: { responseValidator: getProductsByVendorResponseSchema },
-//       query: args => ({
-//         method: 'GET',
-//         url: `/product/vendor/${args.id}`,
-//         params: args,
-//       }),
-//     }),
-//   }),
-// })
-// const { useGetProductsByVendorQuery } = mockApi
+
 describe('<CustomPagination />', () => {
   it('should render the current page correctly', () => {
     render(withWrappers(<CustomPagination current_page={2} total_page={5} setPage={() => {}} />))
@@ -60,5 +36,37 @@ describe('<CustomPagination />', () => {
     const nextButton = screen.getByRole('button', { name: 'Go to next page' })
     expect(nextButton).toBeInTheDocument()
     expect(prevButton).toBeDisabled()
+  })
+
+  it('should go to the next page', () => {
+    const mockHandleSetPage = vi.fn()
+    render(
+      withWrappers(
+        <CustomPagination
+          current_page={1}
+          total_page={5}
+          setPage={mockHandleSetPage}
+        />,
+      ),
+    )
+    const nextpage = screen.getByText('2')
+    fireEvent.click(nextpage)
+    expect(mockHandleSetPage).toHaveBeenCalledWith(2)
+  })
+
+  it('should go to the prev page', () => {
+    const mockHandleSetPage = vi.fn()
+    render(
+      withWrappers(
+        <CustomPagination
+          current_page={2}
+          total_page={5}
+          setPage={mockHandleSetPage}
+        />,
+      ),
+    )
+    const prevPage = screen.getByText('Previous')
+    fireEvent.click(prevPage)
+    expect(mockHandleSetPage).toHaveBeenCalledWith(1)
   })
 })

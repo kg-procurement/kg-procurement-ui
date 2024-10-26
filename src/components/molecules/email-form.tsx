@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { DialogClose } from '@radix-ui/react-dialog'
+import { Dispatch, SetStateAction, useState } from 'react'
 
 import { Button } from '@/components/atoms/button.tsx'
 import {
@@ -12,33 +13,63 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/atoms/popover.tsx'
 import { RichTextEditor } from '@/components/atoms/rich-text-editor.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
-import { Vendor } from '@/schemas/vendor.ts'
+import { useToast } from '@/hooks/use-toast.ts'
+import { useBlastEmailMutation } from '@/lib/redux/features/vendor/api.ts'
+import { EmailVendorsArgs } from '@/lib/redux/features/vendor/validation.ts'
+import { toastForError } from '@/lib/redux/utils.tsx'
+
+import { Input } from '../atoms/input.tsx'
+import { Label } from '../atoms/label.tsx'
 
 interface EmailFormProps {
-  selectedVendors: Vendor[]
-  onClose: () => void
+  vendorIds: string[]
   defaultContent?: string
+  toggleDialog: boolean
+  setToggleDialog: Dispatch<SetStateAction<boolean>>
 }
 
 export function EmailForm({
-  selectedVendors,
-  onClose,
+  vendorIds,
   defaultContent = '',
+  toggleDialog,
+  setToggleDialog,
 }: Readonly<EmailFormProps>) {
-  const [isConfirmation, setIsConfirmation] = useState(false)
-  const [emailContent, setEmailContent] = useState(defaultContent)
+  const [isConfirmation, setIsConfirmation] = useState<boolean>(false)
+  const [emailBody, setEmailBody] = useState<string>(defaultContent)
+  const [emailSubject, setEmailSubject] = useState<string>('')
   const [showPopover, setShowPopover] = useState(false)
 
-  const handleSendEmail = () => { // TODO: Replace the simulated email sending logic with a real implementation
-    selectedVendors.forEach((vendor) => {
-      console.log(`Sending email to ${vendor.name}:`, emailContent)
-    })
-
-    onClose()
+  const [blastEmail] = useBlastEmailMutation()
+  const { toast } = useToast()
+  const handleEmailVendors = async () => {
+    try {
+      const args: EmailVendorsArgs = {
+        vendor_ids: vendorIds,
+        email_template: {
+          body: emailBody,
+          subject: emailSubject,
+        },
+      }
+      toast({
+        title: 'On Progress',
+        description: 'Executing email blast',
+        duration: 2000,
+      })
+      await blastEmail(args).unwrap()
+      toast({
+        title: 'Success',
+        description: 'Email blast has successfully executed',
+        duration: 2000,
+      })
+      setToggleDialog(false)
+    }
+    catch (err) {
+      toastForError(err)
+    }
   }
 
   const handleNext = () => {
-    if (emailContent.trim() === '') {
+    if (emailBody.trim() === '' || emailSubject.trim() === '') {
       setShowPopover(true)
       setTimeout(() => setShowPopover(false), 3000)
       return
@@ -47,8 +78,8 @@ export function EmailForm({
   }
 
   return (
-    <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent>
+    <Dialog open={toggleDialog} onOpenChange={setToggleDialog}>
+      <DialogContent onInteractOutside={() => setIsConfirmation(false)}>
         {isConfirmation ?
             (
               <>
@@ -59,8 +90,8 @@ export function EmailForm({
                   </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                  <Button onClick={() => setIsConfirmation(false)}>No, Go Back</Button>
-                  <Button onClick={handleSendEmail}>Yes, Send</Button>
+                  <Button className="bg-red-500 hover:bg-red-600" onClick={() => setIsConfirmation(false)}>No, Go Back</Button>
+                  <Button onClick={handleEmailVendors}>Yes, Send</Button>
                 </DialogFooter>
               </>
             )
@@ -72,12 +103,21 @@ export function EmailForm({
                   <DialogDescription>
                     Compose your email to
                     {' '}
-                    {selectedVendors.length}
+                    {vendorIds.length}
                     {' '}
                     vendor(s).
                   </DialogDescription>
                 </DialogHeader>
-                <RichTextEditor content={emailContent} setContent={setEmailContent} />
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-2">
+                    <Label>Email Subject</Label>
+                    <Input data-testid="subject-input" placeholder="Type here...." onChange={event => setEmailSubject(event.target.value)} defaultValue={emailSubject} />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Label>Email Body</Label>
+                    <RichTextEditor content={emailBody} setContent={setEmailBody} />
+                  </div>
+                </div>
                 <Typography variant="body2" className="mt-2">
                   Note:
                   <br />
@@ -86,14 +126,16 @@ export function EmailForm({
                   = Vendor Name
                 </Typography>
                 <DialogFooter>
-                  <Button onClick={onClose}>Cancel</Button>
+                  <DialogClose>
+                    <Button className="bg-red-500 hover:bg-red-600">Cancel</Button>
+                  </DialogClose>
                   <Popover open={showPopover}>
                     <PopoverTrigger asChild>
                       <Button onClick={handleNext}>Next</Button>
                     </PopoverTrigger>
                     <PopoverContent className="p-2">
                       <Typography variant="body2" className="text-red-600">
-                        Email content cannot be empty. Please write your email before proceeding.
+                        Email body or subject cannot be empty. Please write your email before proceeding.
                       </Typography>
                     </PopoverContent>
                   </Popover>

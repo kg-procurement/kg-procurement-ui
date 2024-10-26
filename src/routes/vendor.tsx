@@ -1,3 +1,4 @@
+import { CheckedState } from '@radix-ui/react-checkbox'
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 
@@ -10,6 +11,7 @@ import PageHeader from '@/components/molecules/page-header.tsx'
 import { useGetVendorsQuery } from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
+import { Vendor } from '@/schemas/vendor.ts'
 
 export const Route = createFileRoute('/vendor')({
   component: VendorPage,
@@ -37,6 +39,23 @@ export default function VendorPage() {
     setShowLoadingOverlay(!isSuccess)
   }, [isSuccess, setShowLoadingOverlay])
 
+  const [vendorIds, setVendorIds] = useState<Set<string>>(new Set())
+  const handleUpdateChosenVendor = (checked: CheckedState, vendorId: string) => {
+    const udpatedSet = new Set(vendorIds)
+    if (checked)
+      udpatedSet.add(vendorId)
+    else
+      udpatedSet.delete(vendorId)
+    setVendorIds(udpatedSet)
+  }
+  const chooseAllVendor = (vendors: Vendor[], toggle: boolean) => {
+    const updatedSet = new Set(vendorIds)
+    if (toggle)
+      vendors.forEach(vendor => updatedSet.add(vendor.id))
+    else
+      vendors.forEach(vendor => updatedSet.delete(vendor.id))
+    setVendorIds(updatedSet)
+  }
   // TODO: Change with real location
   const locationOptions = [
     { value: 'jakarta', label: 'Jakarta' },
@@ -59,16 +78,17 @@ export default function VendorPage() {
               className="w-full flex-grow"
               placeholder="Filter by Product"
               value={productFilter}
-              onChange={(e) => setProductFilter(e.target.value)}
+              onChange={e => setProductFilter(e.target.value)}
             />
           </div>
           <div className="flex-grow-0 flex justify-stretch items-center">
             <Dropdown
               options={locationOptions}
               onSelect={(selectedValue) => {
-                setLocationFilter(selectedValue);
+                setLocationFilter(selectedValue)
               }}
               name="Location"
+              data-testid="dropdown-button"
             />
           </div>
         </div>
@@ -80,6 +100,9 @@ export default function VendorPage() {
             metadata={metadata}
             page={page}
             setPage={setPage}
+            vendorIds={vendorIds}
+            chooseAllVendor={chooseAllVendor}
+            handleUpdateChosenVendor={handleUpdateChosenVendor}
           />
         )}
       </div>
