@@ -1,6 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
-import { act } from 'react'
 
 import CustomPagination from '@/components/molecules/custom-pagination.tsx'
 import { API_BASE_URL } from '@/env.ts'
