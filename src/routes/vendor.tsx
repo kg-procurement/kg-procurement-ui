@@ -46,7 +46,6 @@ export default function VendorPage() {
     else
       udpatedSet.delete(vendorId)
     setVendorIds(udpatedSet)
-    // setVendorIds([...vendorIds.filter(id => id !== vendorId)])
   }
   const chooseAllVendor = (vendors: Vendor[], toggle: boolean) => {
     const updatedSet = new Set(vendorIds)
@@ -55,10 +54,6 @@ export default function VendorPage() {
     else
       vendors.map(vendor => updatedSet.delete(vendor.id))
     setVendorIds(updatedSet)
-    // const updatedSet = new Set()
-    // if (vendorIds.)
-    // const notDuplicate = [vendorIds.filter(id=>vendor.)]
-    // setVendorIds([...vendorIds, ...vendors.map(vendor => vendor.id)])
   }
 
   return (

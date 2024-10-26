@@ -17,7 +17,6 @@ import { useToast } from '@/hooks/use-toast.ts'
 import { useBlastEmailMutation } from '@/lib/redux/features/vendor/api.ts'
 import { EmailVendorsArgs } from '@/lib/redux/features/vendor/validation.ts'
 
-// import { noop } from '@/utils/common.ts'
 import { Input } from '../atoms/input.tsx'
 import { Label } from '../atoms/label.tsx'
 

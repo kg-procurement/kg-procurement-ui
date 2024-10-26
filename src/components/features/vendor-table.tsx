@@ -19,15 +19,6 @@ import {
   TableRow,
 } from '@/components/atoms/table.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
-// import {
-//   Pagination,
-//   PaginationContent,
-//   PaginationEllipsis,
-//   PaginationItem,
-//   PaginationLink,
-//   PaginationNext,
-//   PaginationPrevious,
-// } from '@/components/molecules/pagination.tsx'
 import { PaginationSpec } from '@/schemas/common.ts'
 import { Vendor } from '@/schemas/vendor.ts'
 import { noop } from '@/utils/common.ts'
@@ -43,8 +34,6 @@ interface VendorTableProps {
   vendorIds: Set<string>
   handleUpdateChosenVendor: (checked: CheckedState, vendorId: string) => void
   chooseAllVendor: (vendors: Vendor[], toggle: boolean) => void
-  // handleEmailVendors: () => void
-  // handleUpdateChosenVendor: (checked: CheckedState, id: string) => void
 }
 
 function VendorTable({
@@ -55,10 +44,7 @@ function VendorTable({
   vendorIds,
   chooseAllVendor,
   handleUpdateChosenVendor,
-  // handleEmailVendors,
-  // handleUpdateChosenVendor,
 }: VendorTableProps) {
-  // const vendorIds = new Set<string>([])
   const [toggleDialog, setToggleDialog] = useState<boolean>(false)
   const [togglePopover, setTogglePopover] = useState<boolean>(false)
 

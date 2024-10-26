@@ -1,14 +1,12 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { http, HttpResponse } from 'msw'
-// import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 
 import { API_BASE_URL } from '@/env.ts'
 import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
-// import { Vendor } from '@/schemas/vendor.tsx'
 import { EmailForm } from '../email-form.tsx'
 
 describe('EmailForm', () => {
@@ -29,7 +27,6 @@ describe('EmailForm', () => {
   it('should show error message when email content is empty and next is clicked', async () => {
     render(withWrappers(<EmailForm toggleDialog={true} setToggleDialog={mockToggleDialog} vendorIds={selectedVendors} />, { withRoot: true }))
 
-    // const nextButton = screen.getByRole('button', { name: /next/i })
     const nextButton = screen.getByText('Next')
     await userEvent.click(nextButton)
 
@@ -39,11 +36,9 @@ describe('EmailForm', () => {
   it('should go to confirmation when email content is not empty and next is clicked', async () => {
     render(withWrappers(<EmailForm toggleDialog={true} setToggleDialog={mockToggleDialog} vendorIds={selectedVendors} defaultContent="Enter your email template" />, { withRoot: true }))
 
-    // render(<EmailForm selectedVendors={selectedVendors} onClose={mockOnClose} defaultContent="Enter your email template" />)
     const subjectInput = screen.getByTestId('subject-input')
     await userEvent.type(subjectInput, 'Subject email')
     const nextButton = screen.getByText('Next')
-    // const nextButton = screen.getByRole('button', { name: /next/i })
     await userEvent.click(nextButton)
 
     expect(screen.getByRole('heading', { name: /confirm send email/i })).toBeInTheDocument()
@@ -55,11 +50,9 @@ describe('EmailForm', () => {
   it('should handle email blast and show success toast when success', async () => {
     render(withWrappers(<EmailForm toggleDialog={true} setToggleDialog={mockToggleDialog} vendorIds={selectedVendors} defaultContent="Enter your email template" />, { withRoot: true }))
 
-    // render(<EmailForm selectedVendors={selectedVendors} onClose={mockOnClose} defaultContent="Enter your email template" />)
     const subjectInput = screen.getByTestId('subject-input')
     await userEvent.type(subjectInput, 'Subject email')
     const nextButton = screen.getByText('Next')
-    // const nextButton = screen.getByRole('button', { name: /next/i })
     await userEvent.click(nextButton)
 
     const sendButton = screen.getByText('Yes, Send')
@@ -69,48 +62,25 @@ describe('EmailForm', () => {
       expect(toast.innerText).includes('Success')
       expect(toast.innerText).includes('Email blast has successfully executed')
     })
-    // expect(screen.getByRole('heading', { name: /confirm send email/i })).toBeInTheDocument()
-    // expect(screen.getByText(/are you sure you want to send the following email/i)).toBeInTheDocument()
-    // expect(screen.getByRole('button', { name: /yes, send/i })).toBeInTheDocument()
-    // expect(screen.getByRole('button', { name: /no, go back/i })).toBeInTheDocument()
-
-    // const blastButton = await waitFor(() => screen.getByRole('button', { name: 'Email Selected Vendor' }))
-    // await userEvent.click(blastButton)
-
-    // await waitFor(() => {
-    //   const toast = screen.getByTestId('toast')
-    //   expect(toast.innerText).includes('Success')
-    //   expect(toast.innerText).includes('Email blast has successfully executed')
-    // })
   })
 
   it('should handle email blast and show error toast when error', async () => {
     mswServer.use(http.post(`${API_BASE_URL}/vendor/blast`, () => HttpResponse.json({}, { status: 500 })))
     render(withWrappers(<EmailForm toggleDialog={true} setToggleDialog={mockToggleDialog} vendorIds={selectedVendors} defaultContent="Enter your email template" />, { withRoot: true }))
 
-    // render(<EmailForm selectedVendors={selectedVendors} onClose={mockOnClose} defaultContent="Enter your email template" />)
     const subjectInput = screen.getByTestId('subject-input')
     await userEvent.type(subjectInput, 'Subject email')
+
     const nextButton = screen.getByText('Next')
-    // const nextButton = screen.getByRole('button', { name: /next/i })
     await userEvent.click(nextButton)
 
     const sendButton = screen.getByText('Yes, Send')
     await sendButton.click()
+
     await waitFor(() => {
       const toast = screen.getByTestId('toast')
       expect(toast.innerText).includes('Error')
       expect(toast.innerText).includes('Email blast failed to be executed')
     })
-    // render(withWrappers(<VendorPage />))
-
-    // const blastButton = await waitFor(() => screen.getByRole('button', { name: 'Email Selected Vendor' }))
-    // await userEvent.click(blastButton)
-
-    // await waitFor(() => {
-    //   const toast = screen.getByTestId('toast')
-    //   expect(toast.innerText).includes('Error')
-    //   expect(toast.innerText).includes('Email blast failed to be executed')
-    // })
   })
 })
