@@ -7,7 +7,7 @@ import { Typography } from '@/components/atoms/typography.tsx'
 import VendorTable from '@/components/features/vendor-table.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
-import { useGetVendorsQuery } from '@/lib/redux/features/vendor/api.ts'
+import { useGetLocationsQuery, useGetVendorsQuery } from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
 
@@ -31,18 +31,22 @@ export default function VendorPage() {
     },
   )
 
+  const { data: locationsData, isLoading: isLocationsLoading, error: locationsError } = useGetLocationsQuery()
+
   useQueryErrorHandler(error)
+  useQueryErrorHandler(locationsError)
 
   useEffect(() => {
-    setShowLoadingOverlay(!isSuccess)
-  }, [isSuccess, setShowLoadingOverlay])
+    setShowLoadingOverlay(!isSuccess || isLocationsLoading)
+  }, [isSuccess, isLocationsLoading, setShowLoadingOverlay])
 
-  // TODO: Change with real location
-  const locationOptions = [
-    { value: 'jakarta', label: 'Jakarta' },
-    { value: 'bandung', label: 'Bandung' },
-    { value: 'surabaya', label: 'Surabaya' },
-  ]
+  const locationOptions = locationsData?.locations.map(location => ({
+    value: location.toLowerCase(),
+    label: location
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' '),
+  })) || []
 
   return (
     <div className="flex min-h-screen w-full flex-col gap-10">
@@ -59,14 +63,14 @@ export default function VendorPage() {
               className="w-full flex-grow"
               placeholder="Filter by Product"
               value={productFilter}
-              onChange={(e) => setProductFilter(e.target.value)}
+              onChange={e => setProductFilter(e.target.value)}
             />
           </div>
           <div className="flex-grow-0 flex justify-stretch items-center">
             <Dropdown
               options={locationOptions}
               onSelect={(selectedValue) => {
-                setLocationFilter(selectedValue);
+                setLocationFilter(selectedValue)
               }}
               name="Location"
             />
