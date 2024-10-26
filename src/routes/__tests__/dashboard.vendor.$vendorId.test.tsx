@@ -1,7 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { http } from 'msw'
-import { HttpResponse } from 'msw'
+import { http, HttpResponse } from 'msw'
 
 import { API_BASE_URL } from '@/env.ts'
 import { mswServer } from '@/lib/msw/index.ts'
