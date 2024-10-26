@@ -17,6 +17,7 @@ export type UpdateProductResponse = z.infer<typeof updateProductResponseSchema>
 
 export interface GetProductsByVendorArgs extends PaginationArgs {
   id: string
+  name: string
 }
 
 export interface UpdateProductRequestArgs {

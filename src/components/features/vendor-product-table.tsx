@@ -35,12 +35,15 @@ interface VendorProductTableProps {
 }
 
 function VendorProductTable({
-  products, total_page, current_page, setPage,
+  products,
+  total_page,
+  current_page,
+  setPage,
 }: Readonly<VendorProductTableProps>) {
   const [currentlyActiveDialog, setCurrentlyActiveDialog] =
     useState<string>('')
   return (
-    <Table className="rounded-md border">
+    <Table data-testid="vendor-product-table" className="rounded-md border">
       <TableHeader>
         <TableRow>
           <TableHead>
@@ -58,8 +61,7 @@ function VendorProductTable({
               <Dialog
                 open={currentlyActiveDialog === product.id}
                 onOpenChange={open =>
-                  open &&
-                  setCurrentlyActiveDialog(product.id)}
+                  open && setCurrentlyActiveDialog(product.id)}
               >
                 <DialogContent>
                   <DialogTitle>Product Form</DialogTitle>

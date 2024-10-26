@@ -9,6 +9,9 @@ import {
   GetVendorsRequestArgs,
   GetVendorsResponse,
   getVendorsResponseSchema,
+  UpdateVendorRequestArgs,
+  UpdateVendorResponse,
+  updateVendorResponseSchema,
 } from './validation.ts'
 
 export const vendorApi = api.injectEndpoints({
@@ -46,6 +49,7 @@ export const vendorApi = api.injectEndpoints({
           ? [{ type: 'Vendor', id: args.id }]
           : [{ type: 'Vendor', id: 'LIST' }],
     }),
+
     getLocations: builder.query<GetLocationsResponse, void>({
       extraOptions: { responseValidator: getLocationsResponseSchema },
       query: () => ({
@@ -54,7 +58,24 @@ export const vendorApi = api.injectEndpoints({
       }),
       providesTags: [{ type: 'Vendor', id: 'LOCATIONS' }],
     }),
+
+    updateVendor: builder.mutation<
+      UpdateVendorResponse,
+      UpdateVendorRequestArgs
+    >({
+      extraOptions: { responseValidator: updateVendorResponseSchema },
+      query: ({ id, payload }) => ({
+        method: 'PUT',
+        url: `/vendor/${id}`,
+        body: payload,
+      }),
+      invalidatesTags: (resp, _, arg) =>
+        resp
+          ? [{ type: 'Vendor', id: arg.id }]
+          : [{ type: 'Vendor', id: 'LIST' }],
+
+    }),
   }),
 })
 
-export const { useGetVendorsQuery, useGetVendorByIdQuery, useGetLocationsQuery } = vendorApi
+export const { useGetVendorsQuery, useGetVendorByIdQuery, useGetLocationsQuery, useUpdateVendorMutation } = vendorApi

@@ -27,3 +27,12 @@ export const getLocationsResponseSchema = z.object({
 })
 
 export type GetLocationsResponse = z.infer<typeof getLocationsResponseSchema>
+
+export const updateVendorResponseSchema = vendorSchema
+
+export type UpdateVendorResponse = z.infer<typeof updateVendorResponseSchema>
+
+export interface UpdateVendorRequestArgs {
+  id: string
+  payload: Partial<z.infer<typeof vendorSchema>>
+}
