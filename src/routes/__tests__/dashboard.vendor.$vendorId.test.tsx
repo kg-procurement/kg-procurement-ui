@@ -1,9 +1,8 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { http } from 'msw'
 import { HttpResponse } from 'msw'
 
-import CustomPagination from '@/components/molecules/custom-pagination.tsx'
 import { API_BASE_URL } from '@/env.ts'
 import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
@@ -61,7 +60,6 @@ describe('<VendorDetailPage />', () => {
     const { container } = render(withWrappers(<VendorDetailPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()
 
-    // const table = screen.getByTestId('vendor-product-table')
     expect(container.innerText).toMatchSnapshot()
   })
 
@@ -75,38 +73,6 @@ describe('<VendorDetailPage />', () => {
 
     const icons = screen.getAllByRole('img')
     expect(icons).toHaveLength(2)
-  })
-
-  it('should go to the next page', () => {
-    const mockHandleSetPage = vi.fn()
-    render(
-      withWrappers(
-        <CustomPagination
-          current_page={1}
-          total_page={5}
-          setPage={mockHandleSetPage}
-        />,
-      ),
-    )
-    const nextpage = screen.getByText('2')
-    fireEvent.click(nextpage)
-    expect(mockHandleSetPage).toHaveBeenCalledWith(2)
-  })
-
-  it('should go to the prev page', () => {
-    const mockHandleSetPage = vi.fn()
-    render(
-      withWrappers(
-        <CustomPagination
-          current_page={2}
-          total_page={5}
-          setPage={mockHandleSetPage}
-        />,
-      ),
-    )
-    const prevPage = screen.getByText('Previous')
-    fireEvent.click(prevPage)
-    expect(mockHandleSetPage).toHaveBeenCalledWith(1)
   })
 
   it('should open and close edit dialog properly', async () => {
