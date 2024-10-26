@@ -1,9 +1,9 @@
 import { api } from '@/lib/redux/services/api.ts'
 
 import {
+  EmailVendorsArgs,
   GetLocationsResponse,
   getLocationsResponseSchema,
-  EmailVendorsArgs,
   GetVendorByIdRequestArgs,
   GetVendorByIdResponse,
   getVendorByIdResponseSchema,
@@ -86,4 +86,4 @@ export const vendorApi = api.injectEndpoints({
   }),
 })
 
-export const { useGetVendorsQuery, useBlastEmailMutation, useGetVendorByIdQuery, useUpdateVendorMutation,  useGetLocationsQuery } = vendorApi
+export const { useGetVendorsQuery, useBlastEmailMutation, useGetVendorByIdQuery, useUpdateVendorMutation, useGetLocationsQuery } = vendorApi
