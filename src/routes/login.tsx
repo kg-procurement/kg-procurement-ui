@@ -14,7 +14,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen w-full flex-col">
       <div className="mx-auto my-auto max-w-[300px] space-y-4 rounded-xl bg-white p-8 shadow-lg">
         <Typography variant="h3" className="text-center text-primary">
-        Login
+          Login
         </Typography>
         <Input
           name="email"
