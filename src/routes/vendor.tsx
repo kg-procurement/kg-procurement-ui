@@ -33,14 +33,14 @@ export default function VendorPage() {
     },
   )
 
-  const { data: locationsData, isLoading: isLocationsLoading, error: locationsError } = useGetLocationsQuery()
+  const { data: locationsData, isSuccess: isLocationsSuccess, error: locationsError } = useGetLocationsQuery()
 
   useQueryErrorHandler(error)
   useQueryErrorHandler(locationsError)
 
   useEffect(() => {
-    setShowLoadingOverlay(!isSuccess && !isLocationsLoading)
-  }, [isSuccess, isLocationsLoading, setShowLoadingOverlay])
+    setShowLoadingOverlay(!isSuccess && !isLocationsSuccess)
+  }, [isSuccess, isLocationsSuccess, setShowLoadingOverlay])
 
   const locationOptions = locationsData?.locations.map(location => ({
     value: location.toLowerCase(),
