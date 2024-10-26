@@ -100,4 +100,16 @@ describe('<VendorPage/>', () => {
     const warning = screen.getByText('Please choose at leat one vendor to continue')
     expect(warning).toBeInTheDocument()
   })
+
+  it('should select an option on dropdown', async () => {
+    render(withWrappers(<VendorPage />, { withRoot: true }))
+    await waitForNoLoadingOverlay()
+
+    screen.debug(undefined, 200000)
+    const dropdownButton = screen.getByText('Select Location...')
+    await userEvent.click(dropdownButton)
+
+    const optionJakarta = screen.getByText('Jakarta')
+    await userEvent.click(optionJakarta)
+  })
 })

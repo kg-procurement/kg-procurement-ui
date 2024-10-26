@@ -88,6 +88,7 @@ export default function VendorPage() {
                 setLocationFilter(selectedValue)
               }}
               name="Location"
+              data-testid="dropdown-button"
             />
           </div>
         </div>
