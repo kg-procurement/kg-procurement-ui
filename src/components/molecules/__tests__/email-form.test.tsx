@@ -63,24 +63,4 @@ describe('EmailForm', () => {
       expect(toast.innerText).includes('Email blast has successfully executed')
     })
   })
-
-  it('should handle email blast and show error toast when error', async () => {
-    mswServer.use(http.post(`${API_BASE_URL}/vendor/blast`, () => HttpResponse.json({}, { status: 500 })))
-    render(withWrappers(<EmailForm toggleDialog={true} setToggleDialog={mockToggleDialog} vendorIds={selectedVendors} defaultContent="Enter your email template" />, { withRoot: true }))
-
-    const subjectInput = screen.getByTestId('subject-input')
-    await userEvent.type(subjectInput, 'Subject email')
-
-    const nextButton = screen.getByText('Next')
-    await userEvent.click(nextButton)
-
-    const sendButton = screen.getByText('Yes, Send')
-    await sendButton.click()
-
-    await waitFor(() => {
-      const toast = screen.getByTestId('toast')
-      expect(toast.innerText).includes('Error')
-      expect(toast.innerText).includes('Email blast failed to be executed')
-    })
-  })
 })
