@@ -16,6 +16,7 @@ import { Typography } from '@/components/atoms/typography.tsx'
 import { useToast } from '@/hooks/use-toast.ts'
 import { useBlastEmailMutation } from '@/lib/redux/features/vendor/api.ts'
 import { EmailVendorsArgs } from '@/lib/redux/features/vendor/validation.ts'
+import { toastForError } from '@/lib/redux/utils.tsx'
 
 import { Input } from '../atoms/input.tsx'
 import { Label } from '../atoms/label.tsx'
@@ -63,13 +64,7 @@ export function EmailForm({
       setToggleDialog(false)
     }
     catch (_) {
-      toast({
-
-        title: 'Error',
-        description: 'Email blast failed to be executed',
-        duration: 2000,
-
-      })
+      toastForError(new Error('Email blast failed to be executed'))
     }
   }
 
