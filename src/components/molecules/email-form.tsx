@@ -63,8 +63,8 @@ export function EmailForm({
       })
       setToggleDialog(false)
     }
-    catch (_) {
-      toastForError(new Error('Email blast failed to be executed'))
+    catch (err) {
+      toastForError(err)
     }
   }
 

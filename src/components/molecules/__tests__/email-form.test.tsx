@@ -69,12 +69,12 @@ describe('EmailForm', () => {
   })
 
   it('should handle email blast and show error toast when error', async () => {
-    mswServer.use(http.post(`${API_BASE_URL}/vendor/blast`, () => HttpResponse.json({}, { status: 500 })))
+    mswServer.use(http.post(`${API_BASE_URL}/vendor/blast`, () => HttpResponse.json({ error: 'error' }, { status: 500 })))
     await emailBlastProcedure()
     await waitFor(() => {
       const toast = screen.getByTestId('toast')
-      expect(toast.innerText).includes('Error')
-      expect(toast.innerText).includes('Email blast failed to be executed')
+      expect(toast.innerText).includes('500')
+      expect(toast.innerText).includes('error')
     })
   })
 })
