@@ -12,6 +12,18 @@ import { EmailForm } from '../email-form.tsx'
 describe('EmailForm', () => {
   const mockToggleDialog = vi.fn()
 
+  const emailBlastProcedure = async () => {
+    render(withWrappers(<EmailForm toggleDialog={true} setToggleDialog={mockToggleDialog} vendorIds={selectedVendors} defaultContent="Enter your email template" />, { withRoot: true }))
+
+    const subjectInput = screen.getByTestId('subject-input')
+    await userEvent.type(subjectInput, 'Subject email')
+    const nextButton = screen.getByText('Next')
+    await userEvent.click(nextButton)
+
+    const sendButton = screen.getByText('Yes, Send')
+    await sendButton.click()
+  }
+
   const selectedVendors: string[] = ['1', '2']
 
   it('should render email editor components', () => {
@@ -48,15 +60,7 @@ describe('EmailForm', () => {
   })
 
   it('should handle email blast and show success toast when success', async () => {
-    render(withWrappers(<EmailForm toggleDialog={true} setToggleDialog={mockToggleDialog} vendorIds={selectedVendors} defaultContent="Enter your email template" />, { withRoot: true }))
-
-    const subjectInput = screen.getByTestId('subject-input')
-    await userEvent.type(subjectInput, 'Subject email')
-    const nextButton = screen.getByText('Next')
-    await userEvent.click(nextButton)
-
-    const sendButton = screen.getByText('Yes, Send')
-    await sendButton.click()
+    await emailBlastProcedure()
     await waitFor(() => {
       const toast = screen.getByTestId('toast')
       expect(toast.innerText).includes('Success')
@@ -66,15 +70,7 @@ describe('EmailForm', () => {
 
   it('should handle email blast and show error toast when error', async () => {
     mswServer.use(http.post(`${API_BASE_URL}/vendor/blast`, () => HttpResponse.json({}, { status: 500 })))
-    render(withWrappers(<EmailForm toggleDialog={true} setToggleDialog={mockToggleDialog} vendorIds={selectedVendors} defaultContent="Enter your email template" />, { withRoot: true }))
-
-    const subjectInput = screen.getByTestId('subject-input')
-    await userEvent.type(subjectInput, 'Subject email')
-    const nextButton = screen.getByText('Next')
-    await userEvent.click(nextButton)
-
-    const sendButton = screen.getByText('Yes, Send')
-    await sendButton.click()
+    await emailBlastProcedure()
     await waitFor(() => {
       const toast = screen.getByTestId('toast')
       expect(toast.innerText).includes('Error')
