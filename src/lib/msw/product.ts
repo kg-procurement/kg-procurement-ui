@@ -1,14 +1,21 @@
 import { http, HttpResponse } from 'msw'
 
 import { API_BASE_URL } from '@/env.ts'
-import { GetProductsByVendorResponse, UpdateProductResponse } from '@/lib/redux/features/product/validation.ts'
+import {
+  GetProductsByVendorResponse,
+  UpdateProductResponse,
+} from '@/lib/redux/features/product/validation.ts'
 
 export const productHandlers = [
-  http.get(`${API_BASE_URL}/product/vendor/:id`, (req) => {
-    const { id } = req.params
+  http.get(`${API_BASE_URL}/product/vendor/:id`, ({ request }) => {
+    const url = new URL(request.url)
+    const name = url.searchParams.get('name')
 
-    if (id === '-1') {
-      return HttpResponse.json(null, { status: 200 })
+    if (name && !'buku'.includes(name.toLowerCase())) {
+      // If name doesn't match 'buku', return an empty array
+      return HttpResponse.json({
+        products: [],
+      })
     }
 
     return HttpResponse.json({
