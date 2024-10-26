@@ -1,8 +1,10 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { http } from 'msw'
+import { HttpResponse } from 'msw'
 
 import CustomPagination from '@/components/molecules/custom-pagination.tsx'
+import { API_BASE_URL } from '@/env.ts'
 import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 import { waitForNoLoadingOverlay } from '@/lib/testing/wait-for.ts'
@@ -23,29 +25,18 @@ vi.mock('@tanstack/react-router', async () => {
 })
 
 describe('<VendorDetailPage />', () => {
-  it('should render the table content properly', async () => {
-    mswServer.use(http.get('product/vendor/:id', () => {
-
-    }))
-    const { container } = render(
-      withWrappers(<VendorDetailPage />, { withRoot: true }),
-    )
-    await waitFor(async () => {
-      expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument()
-    })
-
-    expect(container.innerText).toMatchSnapshot()
-  })
-
   it('should handle null response in providesTags', async () => {
     mockUseParams.mockReturnValueOnce({ vendorId: '-1' })
-
-    const { container } = render(
-      withWrappers(<VendorDetailPage />, { withRoot: true }),
+    mswServer.use(
+      http.get(`${API_BASE_URL}/product/vendor/:id`, () =>
+        HttpResponse.json({ error: 'Id cannot be negative' }, { status: 500 }),
+      ),
     )
 
-    await waitForNoLoadingOverlay()
-    expect(container.innerText).toMatchSnapshot()
+    render(withWrappers(<VendorDetailPage />, { withRoot: true }))
+    await waitFor(() => {
+      expect(screen.queryByText('Id cannot be negative')).toBeInTheDocument()
+    })
   })
 
   it('should render the header section with the logo', () => {
@@ -66,6 +57,14 @@ describe('<VendorDetailPage />', () => {
     expect(screen.getByRole('charts-content')).toBeInTheDocument()
   })
 
+  it('should render the table content properly', async () => {
+    const { container } = render(withWrappers(<VendorDetailPage />, { withRoot: true }))
+    await waitForNoLoadingOverlay()
+
+    // const table = screen.getByTestId('vendor-product-table')
+    expect(container.innerText).toMatchSnapshot()
+  })
+
   it('should render the footer', () => {
     render(withWrappers(<VendorDetailPage />))
     expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
@@ -80,7 +79,15 @@ describe('<VendorDetailPage />', () => {
 
   it('should go to the next page', () => {
     const mockHandleSetPage = vi.fn()
-    render(withWrappers(<CustomPagination current_page={1} total_page={5} setPage={mockHandleSetPage} />))
+    render(
+      withWrappers(
+        <CustomPagination
+          current_page={1}
+          total_page={5}
+          setPage={mockHandleSetPage}
+        />,
+      ),
+    )
     const nextpage = screen.getByText('2')
     fireEvent.click(nextpage)
     expect(mockHandleSetPage).toHaveBeenCalledWith(2)
@@ -88,7 +95,15 @@ describe('<VendorDetailPage />', () => {
 
   it('should go to the prev page', () => {
     const mockHandleSetPage = vi.fn()
-    render(withWrappers(<CustomPagination current_page={2} total_page={5} setPage={mockHandleSetPage} />))
+    render(
+      withWrappers(
+        <CustomPagination
+          current_page={2}
+          total_page={5}
+          setPage={mockHandleSetPage}
+        />,
+      ),
+    )
     const prevPage = screen.getByText('Previous')
     fireEvent.click(prevPage)
     expect(mockHandleSetPage).toHaveBeenCalledWith(1)

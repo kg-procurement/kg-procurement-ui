@@ -39,9 +39,10 @@ export const Route = createFileRoute('/dashboard/vendor/$vendorId')({
 
 export default function VendorDetailPage() {
   const { vendorId } = useParams({ from: '/dashboard/vendor/$vendorId' })
+  const [filter, setFilter] = useState<string>('')
   const [page, setPage] = useState<number>(1)
   const { products, isSuccess, error, metadata } = useGetProductsByVendorQuery(
-    { id: vendorId, limit: 1, page },
+    { id: vendorId, name: filter, limit: 1, page },
     {
       selectFromResult: result => ({
         ...result,
@@ -159,7 +160,12 @@ export default function VendorDetailPage() {
           </div>
           <div className="col-span-1 flex flex-col gap-4">
             <Typography variant="h6">Inventory List</Typography>
-            <Input className="text-sm" placeholder="Filter vendor ..." />
+            <Input
+              className="text-sm"
+              placeholder="Filter vendor ..."
+              onChange={e => setFilter(e.target.value)}
+              value={filter}
+            />
             {products && metadata && isSuccess && (
               <VendorProductTable
                 current_page={metadata.current_page}

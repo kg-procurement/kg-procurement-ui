@@ -13,14 +13,18 @@ export const productApi = api.injectEndpoints({
   overrideExisting: import.meta.env.DEV,
   endpoints: builder => ({
     getProductsByVendor: builder.query<
-      GetProductsByVendorResponse | null,
+      GetProductsByVendorResponse,
       GetProductsByVendorArgs
     >({
       extraOptions: { responseValidator: getProductsByVendorResponseSchema },
-      query: args => ({
+      query: ({ id, name, page, limit }) => ({
         method: 'GET',
-        url: `/product/vendor/${args.id}`,
-        params: args,
+        url: `/product/vendor/${id}`,
+        params: {
+          name,
+          page,
+          limit,
+        },
       }),
       providesTags: resp =>
         resp
@@ -49,4 +53,5 @@ export const productApi = api.injectEndpoints({
   }),
 })
 
-export const { useGetProductsByVendorQuery, useUpdateProductMutation } = productApi
+export const { useGetProductsByVendorQuery, useUpdateProductMutation } =
+  productApi
