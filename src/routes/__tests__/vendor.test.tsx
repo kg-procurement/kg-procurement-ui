@@ -4,6 +4,12 @@ import userEvent from '@testing-library/user-event'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 import { waitForNoLoadingOverlay } from '@/lib/testing/wait-for.ts'
 
+import { http, HttpResponse } from 'msw'
+import { describe, expect, it } from 'vitest'
+
+import { API_BASE_URL } from '@/env.ts'
+import { mswServer } from '@/lib/msw/index.ts'
+
 import VendorPage from '../vendor.tsx'
 
 describe('<VendorPage/>', () => {
@@ -104,6 +110,18 @@ describe('<VendorPage/>', () => {
   })
 
   it('should select an option on dropdown', async () => {
+
+    mswServer.use(
+      http.get(`${API_BASE_URL}/vendor/location`, () =>
+        HttpResponse.json(
+          {
+            locations: ['Jakarta', 'Surabaya', 'Bali'],
+          },
+          { status: 200 }
+        ),
+      ),
+    )
+
     render(withWrappers(<VendorPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()
 
@@ -111,7 +129,9 @@ describe('<VendorPage/>', () => {
     const dropdownButton = screen.getByText('Select Location...')
     await userEvent.click(dropdownButton)
 
-    const optionJakarta = screen.getByText('Jakarta')
+    const optionJakarta = await waitFor(() => screen.getByText('Jakarta'))
     await userEvent.click(optionJakarta)
+
+
   })
 })
