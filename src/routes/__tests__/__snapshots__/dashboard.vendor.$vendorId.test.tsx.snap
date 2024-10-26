@@ -1,0 +1,6 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<VendorDetailPage /> > should render the table content properly 1`] = `
+"NameDescriptionModified DateKipas AnginKipas Angin2020-11-02T07:44:58ZundefinedBlenderBlender2020-11-02T07:44:58ZundefinedRemote TVRemote TV2020-11-02T07:44:58ZundefinedundefinedPreviousundefinedMore pages012undefinedMore pagesNext
+undefined"
+`;

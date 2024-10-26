@@ -2,9 +2,9 @@ import { Typography } from '@/components/atoms/typography.tsx'
 
 export default function Navbar() {
   return (
-    <div className="flex items-center justify-between px-5">
+    <div className="z-[80] flex items-center justify-between px-5">
       <img
-        src="kompas-gramedia.jpeg"
+        src="/kompas-gramedia.jpeg"
         alt="Kompas Gramedia Logo Image"
         className="w-52"
       />

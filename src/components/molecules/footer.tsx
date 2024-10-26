@@ -1,12 +1,12 @@
 import { Typography } from '@/components/atoms/typography.tsx'
 
-const Footer = () => {
+export function Footer() {
   return (
     <div className="mt-auto grid h-48 w-full grid-cols-3 gap-6 bg-white p-6">
       <div className="flex flex-col justify-between">
         <div>
           <img
-            src="kompas-gramedia.jpeg"
+            src="/kompas-gramedia.jpeg"
             alt="Kompas Gramedia"
             className="h-16"
           />
@@ -31,5 +31,3 @@ const Footer = () => {
 }
 
 Footer.displayName = 'Footer'
-
-export { Footer }

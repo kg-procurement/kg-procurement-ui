@@ -38,30 +38,25 @@ describe('<Input />', () => {
     expect(ref.current).toBeInstanceOf(HTMLInputElement)
   })
 
-  it('should render a password input field', () => {
-    render(<Input isPassword placeholder="Enter your password" />)
-    const inputElement = screen.getByPlaceholderText('Enter your password')
-    expect(inputElement).toBeInTheDocument()
-    expect(inputElement).toHaveAttribute('type', 'password')
-  })
-
-  it('should toggle password visibility', () => {
-    render(<Input isPassword placeholder="Password" />)
-    const inputElement = screen.getByPlaceholderText('Password')
-    const toggleButton = screen.getByRole('button')
-
-    expect(inputElement).toHaveAttribute('type', 'password')
-
-    fireEvent.click(toggleButton)
-    expect(inputElement).toHaveAttribute('type', 'text')
-
-    fireEvent.click(toggleButton)
-    expect(inputElement).toHaveAttribute('type', 'password')
-  })
-
-  it('should show the password visibility toggle button when isPassword is true', () => {
-    render(<Input isPassword placeholder="Password" />)
-    const toggleButton = screen.getByRole('button')
+  it('should toggle password visibility when the eye icon is clicked', () => {
+    render(<Input type="password" placeholder="Password" />)
+    const passwordInput = screen.getByPlaceholderText('Password')
+    const toggleButton = screen
+      .getAllByRole('button')
+      .find(button => button.querySelector('svg'))
     expect(toggleButton).toBeInTheDocument()
+
+    // Initially, the password should be hidden
+    expect(passwordInput).toHaveAttribute('type', 'password')
+
+    // Click to show the password
+    if (toggleButton) {
+      fireEvent.click(toggleButton)
+      expect(passwordInput).toHaveAttribute('type', 'text')
+
+      // Click again to hide the password
+      fireEvent.click(toggleButton)
+      expect(passwordInput).toHaveAttribute('type', 'password')
+    }
   })
 })

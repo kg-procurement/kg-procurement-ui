@@ -1,37 +1,43 @@
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeClosed } from '@phosphor-icons/react'
 import React, { useState } from 'react'
+
+import { cn } from '@/utils/cn.ts'
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string
-  placeholder?: string
-  isPassword?: boolean
+  type?: string
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, placeholder, isPassword = false, ...props }, ref) => {
+  ({ className, type, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(false)
-
-    let inputType = 'text'
-    if (isPassword) {
-      inputType = showPassword ? 'text' : 'password'
+    const togglePasswordVisibility = () => {
+      setShowPassword(!showPassword)
     }
-
+    const getInputType = (type: string) => {
+      if (type === 'password') {
+        return showPassword ? 'text' : 'password'
+      }
+      return type
+    }
     return (
-      <div className="relative w-full">
+      <div className="relative">
         <input
-          type={inputType}
+          type={getInputType(type || 'text')}
           ref={ref}
-          className={`rounded border p-2 ${className} ${isPassword ? 'pr-10' : ''}`}
-          placeholder={placeholder}
+          className={cn(
+            'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+            className,
+          )}
           {...props}
         />
-        {isPassword && (
+        {type === 'password' && (
           <button
             type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 focus:outline-none"
+            onClick={togglePasswordVisibility}
+            className="absolute inset-y-0 right-0 flex items-center pr-3"
           >
-            {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+            {showPassword ? <Eye /> : <EyeClosed />}
           </button>
         )}
       </div>
