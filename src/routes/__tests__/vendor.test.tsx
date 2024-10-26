@@ -37,6 +37,8 @@ describe('<VendorPage/>', () => {
     const productInput = screen.getByPlaceholderText('Filter by Product')
     const locationInput = screen.getByRole('combobox')
 
+    expect(screen.getByText('Select Location...')).toBeInTheDocument()
+
     expect(productInput).toBeInTheDocument()
     expect(locationInput).toBeInTheDocument()
   })
