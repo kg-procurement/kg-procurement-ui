@@ -1,0 +1,15 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<DashboardPage /> > should render the table with correct columns and rows 2`] = `
+"Vendor Aundefined
+Dashboard
+undefined
+undefined
+undefined
+Inventory List
+
+NameDescriptionPriceMP3 & MP4 PlyerMP3 & MP4 PlyerRp.25000undefinedOvenOvenRp.25000undefinedSling BagSling BagRp.25000undefinedundefinedPrevious1undefinedMore pagesNext
+undefined© 2024 KOMPAS
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Contact us (Email):"
+`;
