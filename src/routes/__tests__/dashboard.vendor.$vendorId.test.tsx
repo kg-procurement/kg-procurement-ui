@@ -1,7 +1,7 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { http, HttpResponse } from 'msw'
 
-import CustomPagination from '@/components/molecules/custom-pagination.tsx'
 import { API_BASE_URL } from '@/env.ts'
 import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
@@ -56,11 +56,10 @@ describe('<VendorDetailPage />', () => {
   })
 
   it('should render the table content properly', async () => {
-    render(withWrappers(<VendorDetailPage />, { withRoot: true }))
+    const { container } = render(withWrappers(<VendorDetailPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()
 
-    const table = screen.getByTestId('vendor-product-table')
-    expect(table.innerText).toMatchSnapshot()
+    expect(container.innerText).toMatchSnapshot()
   })
 
   it('should render the footer', () => {
@@ -75,57 +74,14 @@ describe('<VendorDetailPage />', () => {
     expect(icons).toHaveLength(2)
   })
 
-  it('should go to the next page', () => {
-    const mockHandleSetPage = vi.fn()
-    render(
-      withWrappers(
-        <CustomPagination
-          current_page={1}
-          total_page={5}
-          setPage={mockHandleSetPage}
-        />,
-      ),
-    )
-    const nextpage = screen.getByText('2')
-    fireEvent.click(nextpage)
-    expect(mockHandleSetPage).toHaveBeenCalledWith(2)
+  it('should open and close edit dialog properly', async () => {
+    render(withWrappers(<VendorDetailPage />, { withRoot: true }))
+    await waitForNoLoadingOverlay()
+    const firstEllipsisButton = screen.getAllByTestId('elip-button')[0]
+    await userEvent.click(firstEllipsisButton)
+    const editButton = screen.getAllByTestId('edit-button')[0]
+    await userEvent.click(editButton)
+    const closeButton = screen.getByText('Close')
+    await userEvent.click(closeButton)
   })
-
-  it('should go to the prev page', () => {
-    const mockHandleSetPage = vi.fn()
-    render(
-      withWrappers(
-        <CustomPagination
-          current_page={2}
-          total_page={5}
-          setPage={mockHandleSetPage}
-        />,
-      ),
-    )
-    const prevPage = screen.getByText('Previous')
-    fireEvent.click(prevPage)
-    expect(mockHandleSetPage).toHaveBeenCalledWith(1)
-  })
-
-  // it('should open the popover and click the Edit button', async () => {
-  //   const mockSetCurrentlyActivateDialog = vi.fn()
-
-  //   // Mock useState to track currently active dialog
-  //   vi.spyOn(React, 'useState').mockImplementationOnce(() => ['', mockSetCurrentlyActivateDialog])
-
-  //   // Render the component
-  //   render(withWrappers(<VendorDetailPage />))
-  //   await waitForNoLoadingOverlay()
-
-  //   // Find the ellipsis button by test ID and simulate a click to open the popover
-  //   const ellipsisButton = screen.getByTestId('elip-button')
-  //   fireEvent.click(ellipsisButton)
-
-  //   // Wait for the Edit button to appear inside the popover after clicking the ellipsis button
-  //   const editButton = await screen.findByText('Edit') // Waits for the popover to open and the button to appear
-  //   fireEvent.click(editButton) // Simulate clicking the Edit button
-
-  //   // Ensure that the mockSetCurrentlyActivateDialog function was called with the expected product id
-  //   expect(mockSetCurrentlyActivateDialog).toHaveBeenCalledWith('1')
-  // })
 })

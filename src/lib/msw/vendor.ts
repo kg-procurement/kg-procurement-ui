@@ -155,6 +155,12 @@ export const vendorHandlers = [
       },
     } satisfies GetVendorsResponse)
   }),
+  http.post(`${API_BASE_URL}/vendor/blast`, () => {
+    return HttpResponse.json({ error: [
+      '535 5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-72057931785sm150109b3a.50 - gsmtp',
+      '535 5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-72057939b82sm152223b3a.81 - gsmtp',
+    ] }, { status: 207 })
+  }),
   http.get(`${API_BASE_URL}/vendor/:id`, (req) => {
     const { id } = req.params
     if (id === '-1') {

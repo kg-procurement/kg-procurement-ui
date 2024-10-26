@@ -3,6 +3,7 @@ import { api } from '@/lib/redux/services/api.ts'
 import {
   GetLocationsResponse,
   getLocationsResponseSchema,
+  EmailVendorsArgs,
   GetVendorByIdRequestArgs,
   GetVendorByIdResponse,
   getVendorByIdResponseSchema,
@@ -34,6 +35,13 @@ export const vendorApi = api.injectEndpoints({
               { type: 'Vendor', id: 'LIST' },
             ]
           : [],
+    }),
+    blastEmail: builder.mutation<void, EmailVendorsArgs>({
+      query: args => ({
+        method: 'POST',
+        url: `/vendor/blast`,
+        body: args,
+      }),
     }),
     getVendorById: builder.query<
       GetVendorByIdResponse,
@@ -78,4 +86,4 @@ export const vendorApi = api.injectEndpoints({
   }),
 })
 
-export const { useGetVendorsQuery, useGetVendorByIdQuery, useGetLocationsQuery, useUpdateVendorMutation } = vendorApi
+export const { useGetVendorsQuery, useBlastEmailMutation, useGetVendorByIdQuery, useUpdateVendorMutation,  useGetLocationsQuery } = vendorApi

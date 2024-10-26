@@ -1,6 +1,7 @@
+import { CheckedState } from '@radix-ui/react-checkbox'
 import { Link } from '@tanstack/react-router'
 import { EllipsisVertical } from 'lucide-react'
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 
 import { Button } from '@/components/atoms/button.tsx'
 import { Checkbox } from '@/components/atoms/checkbox.tsx'
@@ -18,24 +19,21 @@ import {
   TableRow,
 } from '@/components/atoms/table.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/molecules/pagination.tsx'
 import { PaginationSpec } from '@/schemas/common.ts'
 import { Vendor } from '@/schemas/vendor.ts'
 import { noop } from '@/utils/common.ts'
+
+import CustomPagination from '../molecules/custom-pagination.tsx'
+import { EmailForm } from '../molecules/email-form.tsx'
 
 interface VendorTableProps {
   vendors: Vendor[]
   metadata: PaginationSpec['metadata']
   page?: number
   setPage?: Dispatch<SetStateAction<number>>
+  vendorIds: Set<string>
+  handleUpdateChosenVendor: (checked: CheckedState, vendorId: string) => void
+  chooseAllVendor: (vendors: Vendor[], toggle: boolean) => void
 }
 
 function VendorTable({
@@ -43,7 +41,22 @@ function VendorTable({
   metadata,
   page = 1,
   setPage = noop,
+  vendorIds,
+  chooseAllVendor,
+  handleUpdateChosenVendor,
 }: VendorTableProps) {
+  const [toggleDialog, setToggleDialog] = useState<boolean>(false)
+  const [togglePopover, setTogglePopover] = useState<boolean>(false)
+
+  const handleOpenDialog = () => {
+    if (vendorIds.size > 0) {
+      setToggleDialog(!toggleDialog)
+    }
+    else {
+      setTogglePopover(true)
+      setTimeout(() => setTogglePopover(false), 2000)
+    }
+  }
   return (
     <div className="flex w-3/4 flex-col gap-5 rounded-lg border p-6 shadow-xl">
       <div className="w-full rounded-lg border">
@@ -51,7 +64,7 @@ function VendorTable({
           <TableHeader>
             <TableRow>
               <TableHead className="w-[50px]">
-                <Checkbox />
+                <Checkbox onCheckedChange={check => chooseAllVendor(vendors, Boolean(check))} />
               </TableHead>
               <TableHead className="w-[200px]">Vendor Name</TableHead>
               <TableHead className="w-[200px]">Location</TableHead>
@@ -63,7 +76,7 @@ function VendorTable({
             {vendors.map((vendor, i) => (
               <TableRow key={i}>
                 <TableCell className="font-medium">
-                  <Checkbox />
+                  <Checkbox checked={vendorIds.has(vendor.id)} onCheckedChange={event => handleUpdateChosenVendor(event, vendor.id)} />
                 </TableCell>
                 <TableCell className="font-medium">{vendor.name}</TableCell>
                 <TableCell>{vendor.area_group_name}</TableCell>
@@ -94,47 +107,23 @@ function VendorTable({
         </Table>
       </div>
       <div className="flex w-full justify-center">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious
-                onClick={() => setPage(prev => (prev > 1 ? prev - 1 : prev))}
-              />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink onClick={() => setPage(1)} isActive={page === 1}>
-                1
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink onClick={() => setPage(2)} isActive={page === 2}>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink onClick={() => setPage(3)} isActive={page === 3}>
-                3
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext
-                onClick={() =>
-                  setPage(prev =>
-                    prev < metadata.total_page ? prev + 1 : prev,
-                  )}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        <CustomPagination current_page={page} setPage={setPage} total_page={metadata.total_page} />
       </div>
       <div className="flex justify-between">
         <Typography variant="body2" className="text- text-[#71717A]">
           0 of 99 row(s) selected
         </Typography>
-        <Button>Email Selected Vendor</Button>
+        <EmailForm vendorIds={[...vendorIds]} toggleDialog={toggleDialog} setToggleDialog={setToggleDialog} />
+        <Popover open={togglePopover}>
+          <PopoverTrigger>
+            <Button onClick={() => handleOpenDialog()}>Email Selected Vendor</Button>
+          </PopoverTrigger>
+          <PopoverContent className="p-2 w-fit">
+            <Typography variant="body2" className="text-red-600">
+              Please choose at leat one vendor to continue
+            </Typography>
+          </PopoverContent>
+        </Popover>
       </div>
     </div>
   )

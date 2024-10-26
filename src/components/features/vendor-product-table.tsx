@@ -35,15 +35,12 @@ interface VendorProductTableProps {
 }
 
 function VendorProductTable({
-  products,
-  total_page,
-  current_page,
-  setPage,
+  products, total_page, current_page, setPage,
 }: Readonly<VendorProductTableProps>) {
   const [currentlyActiveDialog, setCurrentlyActiveDialog] =
     useState<string>('')
   return (
-    <Table data-testid="vendor-product-table" className="rounded-md border">
+    <Table className="rounded-md border">
       <TableHeader>
         <TableRow>
           <TableHead>
@@ -61,9 +58,9 @@ function VendorProductTable({
               <Dialog
                 open={currentlyActiveDialog === product.id}
                 onOpenChange={open =>
-                  open && setCurrentlyActiveDialog(product.id)}
+                  setCurrentlyActiveDialog(open ? product.id : '')}
               >
-                <DialogContent>
+                <DialogContent aria-describedby="dialog-description">
                   <DialogTitle>Product Form</DialogTitle>
                   <ProductForm
                     initialData={product}
@@ -78,13 +75,16 @@ function VendorProductTable({
                 <TableCell>{product.modified_date}</TableCell>
                 <TableCell>
                   <Popover>
-                    <PopoverTrigger data-testid="elip-button" asChild>
-                      <button>
+                    <PopoverTrigger>
+                      <button data-testid="elip-button">
                         <EllipsisVertical size={16} />
                       </button>
                     </PopoverTrigger>
                     <PopoverContent className="w-fit p-2">
-                      <DialogTrigger>
+                      <DialogTrigger
+                        data-testid="edit-button"
+                        aria-label="final-button"
+                      >
                         <Button
                           className="h-fit w-full px-3 py-1"
                           variant="ghost"

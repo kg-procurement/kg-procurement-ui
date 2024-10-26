@@ -14,6 +14,13 @@ export interface GetVendorsRequestArgs extends PaginationArgs {
   product: string
 }
 
+export interface EmailVendorsArgs {
+  vendor_ids: string[]
+  email_template: {
+    subject: string
+    body: string
+  }
+}
 export const getVendorByIdResponseSchema = vendorSchema
 
 export type GetVendorByIdResponse = z.infer<typeof getVendorByIdResponseSchema>
