@@ -1,5 +1,3 @@
-'use client'
-
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons'
 import * as React from 'react'
 
@@ -30,7 +28,11 @@ interface DropdownProps {
   name: string
 }
 
-export default function Dropdown({ options, onSelect, name = 'Option' }: Readonly<DropdownProps>) {
+export default function Dropdown({
+  options,
+  onSelect,
+  name = 'Option',
+}: Readonly<DropdownProps>) {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState('')
 
