@@ -7,11 +7,10 @@ import { Typography } from '@/components/atoms/typography.tsx'
 import VendorTable from '@/components/features/vendor-table.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
-import { useToast } from '@/hooks/use-toast.ts'
-import { useBlastEmailMutation, useGetVendorsQuery } from '@/lib/redux/features/vendor/api.ts'
-import { EmailVendorsArgs } from '@/lib/redux/features/vendor/validation.ts'
+import { useGetVendorsQuery } from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
+import { Vendor } from '@/schemas/vendor.ts'
 
 export const Route = createFileRoute('/vendor')({
   component: VendorPage,
@@ -33,54 +32,34 @@ export default function VendorPage() {
     },
   )
 
-  const { toast } = useToast()
-
-  const [blastEmail] = useBlastEmailMutation()
-  const [vendorIds, setVendorIds] = useState<string[]>([])
-  const handleEmailVendors = async () => {
-    try {
-      const args: EmailVendorsArgs = {
-        vendor_ids: vendorIds,
-        email_template: {
-          body: 'Body of email blast',
-          subject: 'Subject of email blast',
-        },
-      }
-      toast({
-        title: 'On Progress',
-        description: 'Executing email blast',
-        duration: 2000,
-      })
-      await blastEmail(args).unwrap()
-      toast({
-        title: 'Success',
-        description: 'Email blast has successfully executed',
-        duration: 2000,
-
-      })
-    }
-    catch (_) {
-      toast({
-        title: 'Error',
-        description: 'Email blast failed to be executed',
-        duration: 2000,
-
-      })
-    }
-  }
-
-  const handleUpdateChosenVendor = (checked: CheckedState, vendorId: string) => {
-    if (checked)
-      setVendorIds([...vendorIds, vendorId])
-    else
-      setVendorIds([...vendorIds.filter(id => id !== vendorId)])
-  }
-
   useQueryErrorHandler(error)
 
   useEffect(() => {
     setShowLoadingOverlay(!isSuccess)
   }, [isSuccess, setShowLoadingOverlay])
+
+  const [vendorIds, setVendorIds] = useState<Set<string>>(new Set())
+  const handleUpdateChosenVendor = (checked: CheckedState, vendorId: string) => {
+    const udpatedSet = new Set(vendorIds)
+    if (checked)
+      udpatedSet.add(vendorId)
+    else
+      udpatedSet.delete(vendorId)
+    setVendorIds(udpatedSet)
+    // setVendorIds([...vendorIds.filter(id => id !== vendorId)])
+  }
+  const chooseAllVendor = (vendors: Vendor[], toggle: boolean) => {
+    const updatedSet = new Set(vendorIds)
+    if (toggle)
+      vendors.map(vendor => updatedSet.add(vendor.id))
+    else
+      vendors.map(vendor => updatedSet.delete(vendor.id))
+    setVendorIds(updatedSet)
+    // const updatedSet = new Set()
+    // if (vendorIds.)
+    // const notDuplicate = [vendorIds.filter(id=>vendor.)]
+    // setVendorIds([...vendorIds, ...vendors.map(vendor => vendor.id)])
+  }
 
   return (
     <div className="flex min-h-screen w-full flex-col gap-10">
@@ -113,7 +92,8 @@ export default function VendorPage() {
             metadata={metadata}
             page={page}
             setPage={setPage}
-            handleEmailVendors={handleEmailVendors}
+            vendorIds={vendorIds}
+            chooseAllVendor={chooseAllVendor}
             handleUpdateChosenVendor={handleUpdateChosenVendor}
           />
         )}

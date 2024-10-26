@@ -19,6 +19,7 @@ export function RichTextEditor({ content, setContent }: Readonly<RichTextEditorP
           <CKEditor
             editor={ClassicEditor}
             config={{
+              placeholder: 'Type here...',
               plugins: [Essentials, Bold, Italic, Underline, Link, List, Paragraph, Alignment], // Added email-like features
               toolbar: ['undo', 'redo', '|', 'bold', 'italic', 'underline', '|', 'bulletedList', 'numberedList', 'alignment', '|', 'link'],
             }}
