@@ -1,5 +1,10 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 
+import { http, HttpResponse } from 'msw'
+
+import { API_BASE_URL } from '@/env.ts'
+import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
 import LoginPage from '../login.tsx'
@@ -36,5 +41,75 @@ describe('<LoginPage />', () => {
     fireEvent.click(screen.getByText(/register here/i))
 
     expect(window.location.pathname).toBe('/register')
+  })
+  it('should reset input values and display success toast on successful login', async () => {
+    const mockToken = 'mockToken123';
+    mswServer.use(
+      http.post(`${API_BASE_URL}/account/login`, () =>
+        HttpResponse.json(
+          { token: mockToken },
+          { status: 200 },
+        ),
+      ),
+    )
+            
+    render(withWrappers(<LoginPage />))
+
+    const emailInput = screen.getByPlaceholderText(/email/i)
+    const passwordInput = screen.getByPlaceholderText(/password/i)
+    const loginButton = screen.getByRole('button', { name: /login/i })
+
+    await userEvent.type(emailInput, 'user123@example.com')
+    await userEvent.type(passwordInput, 'password123')
+    expect(emailInput).toHaveValue('user123@example.com')
+    expect(passwordInput).toHaveValue('password123')
+
+    await userEvent.click(loginButton)
+
+    expect(emailInput).toHaveValue('')
+    expect(passwordInput).toHaveValue('')
+
+    await waitFor(() => {
+      const toast = screen.getByTestId('toast')
+      expect(toast).toHaveTextContent('Success')
+      expect(toast).toHaveTextContent('Login successful!')
+    })
+  })
+
+  it('should retain input values and display error toast on failed login', async () => {
+    const statusCode = 401
+    const errorMessage =
+      'login failed'
+    mswServer.use(
+      http.post(`${API_BASE_URL}/account/login`, () =>
+        HttpResponse.json(
+          {
+            error: errorMessage,
+          },
+          { status: statusCode },
+        ),
+      ),
+    )
+    render(withWrappers(<LoginPage />))
+
+    const emailInput = screen.getByPlaceholderText(/email/i)
+    const passwordInput = screen.getByPlaceholderText(/password/i)
+    const loginButton = screen.getByRole('button', { name: /login/i })
+
+    await userEvent.type(emailInput, 'wronguser@example.com')
+    await userEvent.type(passwordInput, 'wrongpassword')
+    expect(emailInput).toHaveValue('wronguser@example.com')
+    expect(passwordInput).toHaveValue('wrongpassword')
+
+    await userEvent.click(loginButton)
+
+    expect(emailInput).toHaveValue('wronguser@example.com')
+    expect(passwordInput).toHaveValue('wrongpassword')
+
+    await waitFor(() => {
+      const toast = screen.getByTestId('toast')
+      expect(toast).toHaveTextContent(`${statusCode}`)
+      expect(toast).toHaveTextContent(errorMessage)
+    })
   })
 })
