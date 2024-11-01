@@ -4,6 +4,9 @@ import {
   RegisterAccountRequestArgs,
   RegisterAccountResponse,
   registerAccountResponseSchema,
+  LoginAccountRequestArgs,
+  LoginAccountResponse,
+  loginAccountResponseSchema,
 } from './validation.ts'
 
 export const accountApi = api.injectEndpoints({
@@ -20,7 +23,15 @@ export const accountApi = api.injectEndpoints({
         body: payload,
       }),
     }),
+    loginAccount: builder.mutation<LoginAccountResponse, LoginAccountRequestArgs>({
+      extraOptions: { responseValidator: loginAccountResponseSchema },
+      query: ({ payload }) => ({
+        method: 'POST',
+        url: `/account/login`,
+        body: payload,
+      }),
+    }),
   }),
 })
 
-export const { useRegisterAccountMutation } = accountApi
+export const { useRegisterAccountMutation, useLoginAccountMutation } = accountApi

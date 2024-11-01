@@ -14,3 +14,14 @@ export type RegisterAccountResponse = z.infer<
 export interface RegisterAccountRequestArgs {
   payload: Pick<Account, 'email' | 'password'>
 }
+
+export interface LoginAccountRequestArgs {
+  payload: Pick<Account, 'email' | 'password'>
+}
+
+export const loginAccountResponseSchema = z.object({
+  token: z.string().optional(),
+  error: z.string().optional(),
+})
+
+export type LoginAccountResponse = z.infer<typeof loginAccountResponseSchema>
