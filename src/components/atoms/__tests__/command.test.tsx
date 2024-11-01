@@ -1,4 +1,6 @@
 import { fireEvent, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { act } from 'react'
 
 import {
   Command,
@@ -17,7 +19,9 @@ describe('<Command />', () => {
       </Command>,
     )
 
-    expect(getByPlaceholderText('Type a command or search...')).toBeInTheDocument()
+    expect(
+      getByPlaceholderText('Type a command or search...'),
+    ).toBeInTheDocument()
   })
 
   it('should render command items', () => {
@@ -52,7 +56,7 @@ describe('<Command />', () => {
     expect(getByText('No results found.')).toBeInTheDocument()
   })
 
-  it('should display command items after typing in the input', () => {
+  it('should display command items after typing in the input', async () => {
     const { getByPlaceholderText, getByText, queryByText } = render(
       <Command>
         <CommandInput placeholder="Type a command or search..." />
@@ -68,7 +72,7 @@ describe('<Command />', () => {
 
     const input = getByPlaceholderText('Type a command or search...')
 
-    fireEvent.change(input, { target: { value: 'Cal' } })
+    await userEvent.type(input, 'Cal')
 
     expect(getByText('Calendar')).toBeInTheDocument()
     expect(queryByText('Search Emoji')).not.toBeInTheDocument()

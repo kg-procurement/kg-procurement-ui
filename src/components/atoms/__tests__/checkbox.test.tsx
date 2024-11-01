@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom'
 
 import { fireEvent, render, screen } from '@testing-library/react'
-import { createRef } from 'react'
+import { act, createRef } from 'react'
 
 import { Checkbox } from '../checkbox.tsx'
 
@@ -20,7 +20,9 @@ describe('<Checkbox />', () => {
     ).not.toBeInTheDocument()
 
     const checkboxElement = screen.getByRole('checkbox')
-    fireEvent.click(checkboxElement)
+    act(() => {
+      fireEvent.click(checkboxElement)
+    })
 
     expect(screen.getByRole('checkbox', { checked: true })).toBeInTheDocument()
 

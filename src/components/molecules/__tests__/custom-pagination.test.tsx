@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
+import { act } from 'react'
 
 import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
@@ -8,7 +9,11 @@ import CustomPagination from '../custom-pagination.tsx'
 
 describe('<CustomPagination />', () => {
   it('should render the current page correctly', () => {
-    render(withWrappers(<CustomPagination current_page={2} total_page={5} setPage={() => {}} />))
+    render(
+      withWrappers(
+        <CustomPagination current_page={2} total_page={5} setPage={() => {}} />,
+      ),
+    )
     const currentPage = screen.getByText('2')
     const nextPage = screen.getByText('3')
     const prevPage = screen.getByText('1')
@@ -17,22 +22,38 @@ describe('<CustomPagination />', () => {
     expect(prevPage).toBeInTheDocument()
   })
   it('should render the "Previous" button and disable "Next" button', () => {
-    mswServer.use(http.get(`/product/vendor/1`, () =>
-      HttpResponse.json({ current_page: 5, total_page: 5 }),
-    ))
-    render(withWrappers(<CustomPagination current_page={5} total_page={5} setPage={() => {}} />))
-    const prevButton = screen.getByRole('button', { name: 'Go to previous page' })
+    mswServer.use(
+      http.get(`/product/vendor/1`, () =>
+        HttpResponse.json({ current_page: 5, total_page: 5 }),
+      ),
+    )
+    render(
+      withWrappers(
+        <CustomPagination current_page={5} total_page={5} setPage={() => {}} />,
+      ),
+    )
+    const prevButton = screen.getByRole('button', {
+      name: 'Go to previous page',
+    })
     const nextButton = screen.getByRole('button', { name: 'Go to next page' })
     expect(prevButton).toBeInTheDocument()
     expect(nextButton).toBeDisabled()
   })
 
   it('should render the "Next" button and disable "Previous" button', () => {
-    mswServer.use(http.get(`/product/vendor/1`, () =>
-      HttpResponse.json({ current_page: 1, total_page: 5 }),
-    ))
-    render(withWrappers(<CustomPagination current_page={1} total_page={5} setPage={() => {}} />))
-    const prevButton = screen.getByRole('button', { name: 'Go to previous page' })
+    mswServer.use(
+      http.get(`/product/vendor/1`, () =>
+        HttpResponse.json({ current_page: 1, total_page: 5 }),
+      ),
+    )
+    render(
+      withWrappers(
+        <CustomPagination current_page={1} total_page={5} setPage={() => {}} />,
+      ),
+    )
+    const prevButton = screen.getByRole('button', {
+      name: 'Go to previous page',
+    })
     const nextButton = screen.getByRole('button', { name: 'Go to next page' })
     expect(nextButton).toBeInTheDocument()
     expect(prevButton).toBeDisabled()
@@ -50,7 +71,9 @@ describe('<CustomPagination />', () => {
       ),
     )
     const nextpage = screen.getByText('2')
-    fireEvent.click(nextpage)
+    act(() => {
+      fireEvent.click(nextpage)
+    })
     expect(mockHandleSetPage).toHaveBeenCalledWith(2)
   })
 
@@ -66,7 +89,9 @@ describe('<CustomPagination />', () => {
       ),
     )
     const prevPage = screen.getByText('Previous')
-    fireEvent.click(prevPage)
+    act(() => {
+      fireEvent.click(prevPage)
+    })
     expect(mockHandleSetPage).toHaveBeenCalledWith(1)
   })
 })

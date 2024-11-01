@@ -1,4 +1,5 @@
-import { fireEvent, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { createRef } from 'react'
 
 import { withWrappers } from '@/lib/testing/utils.tsx'
@@ -101,18 +102,18 @@ describe('<Button />', () => {
     expect(element).toHaveAttribute('data-testid', 'button-element')
   })
 
-  it('should call onClick handler when clicked', () => {
+  it('should call onClick handler when clicked', async () => {
     const handleClick = vitest.fn()
 
     const { getByRole } = render(
       <Button onClick={handleClick}>Click Me</Button>,
     )
     const buttonElement = getByRole('button')
-    fireEvent.click(buttonElement)
+    await userEvent.click(buttonElement)
     expect(handleClick).toHaveBeenCalledTimes(1)
   })
 
-  it('should not call onClick handler when disabled', () => {
+  it('should not call onClick handler when disabled', async () => {
     const handleClick = vitest.fn()
 
     const { getByRole } = render(
@@ -121,7 +122,7 @@ describe('<Button />', () => {
       </Button>,
     )
     const buttonElement = getByRole('button')
-    fireEvent.click(buttonElement)
+    await userEvent.click(buttonElement)
     expect(handleClick).not.toHaveBeenCalled()
   })
 })

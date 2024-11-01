@@ -24,17 +24,13 @@ describe('<LoginPage />', () => {
     expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
   })
 
-  it('should allow the user to type in the email and password fields', () => {
+  it('should allow the user to type in the email and password fields', async () => {
     renderRoute('/login')
     const emailInput = screen.getByPlaceholderText(/email/i)
     const passwordInput = screen.getByPlaceholderText(/password/i)
 
-    act(() => {
-      fireEvent.change(emailInput, {
-        target: { value: 'user123@example.com' },
-      })
-      fireEvent.change(passwordInput, { target: { value: 'password123' } })
-    })
+    await userEvent.type(emailInput, 'user123@example.com')
+    await userEvent.type(passwordInput, 'password123')
 
     expect(emailInput).toHaveValue('user123@example.com')
     expect(passwordInput).toHaveValue('password123')

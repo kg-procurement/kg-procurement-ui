@@ -1,6 +1,5 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { act } from 'react'
 
 import { withWrappers } from '@/lib/testing/utils.tsx'
 import { Vendor } from '@/schemas/vendor.ts'
@@ -63,9 +62,7 @@ describe('<EditVendorForm />', () => {
     const descriptionInput = screen.getByTestId(
       'description-input',
     ) as HTMLInputElement
-    const ratingInput = screen.getByTestId(
-      'rating-input',
-    ) as HTMLInputElement
+    const ratingInput = screen.getByTestId('rating-input') as HTMLInputElement
 
     await userEvent.clear(nameInput)
     await userEvent.type(nameInput, 'Updated Vendor Name')
@@ -82,13 +79,13 @@ describe('<EditVendorForm />', () => {
   it('should call onDone and API when save button is pressed', async () => {
     const mockOnDone = vi.fn()
     render(
-      withWrappers(<EditVendorForm initialData={DUMMY_VENDOR} onDone={mockOnDone} />),
+      withWrappers(
+        <EditVendorForm initialData={DUMMY_VENDOR} onDone={mockOnDone} />,
+      ),
     )
     const nameInput = screen.getByTestId('name-input')
-    act(() => {
-      fireEvent.change(nameInput, { target: { value: 'updated name' } })
-      fireEvent.click(screen.getByText('Save'))
-    })
+    await userEvent.type(nameInput, 'updated name')
+    await userEvent.click(screen.getByText('Save'))
     await waitFor(() => {
       expect(mockOnDone).toHaveBeenCalled()
     })

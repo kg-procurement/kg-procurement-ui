@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react'
+import { act } from 'react'
 
 import { Popover, PopoverContent, PopoverTrigger } from '../popover.tsx'
 
@@ -27,7 +28,9 @@ describe('<Popover />', () => {
     expect(screen.queryByText('dummy text')).toBeNull()
 
     const triggerButton = screen.getByTestId('popover-trigger')
-    fireEvent.click(triggerButton)
+    act(() => {
+      fireEvent.click(triggerButton)
+    })
 
     expect(screen.getByText('dummy text')).toBeInTheDocument()
   })
