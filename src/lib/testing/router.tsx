@@ -7,10 +7,6 @@ import store from '@/lib/redux/store.ts'
 import { createTestRouter } from '@/lib/router.ts'
 import { FileRoutesByFullPath } from '@/routeTree.gen'
 
-export interface RenderRouteOptions {
-  disableNavigation: boolean
-}
-
 export function renderRoute(path: keyof FileRoutesByFullPath) {
   const testRouter = createTestRouter(path)
 

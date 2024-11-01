@@ -9,8 +9,6 @@ export function createTestRouter(path: string) {
   return createRouter({ routeTree, history: memoryHistory })
 }
 
-export type TestRouter = ReturnType<typeof createTestRouter>
-
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {
   interface Register {
