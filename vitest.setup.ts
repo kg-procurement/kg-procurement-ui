@@ -12,9 +12,6 @@ beforeAll(() => mswServer.listen({ onUnhandledRequest: 'error' }))
 //  Close server after all tests
 afterAll(() => mswServer.close())
 
-// Reset handlers after each test `important for test isolation`
-afterEach(() => mswServer.resetHandlers())
-
 // Runs a clean after each test case (e.g. clearing jsdom)
 afterEach(() => {
   // Reset handlers after each test `important for test isolation`
