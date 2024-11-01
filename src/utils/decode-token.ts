@@ -13,6 +13,6 @@ export function decodeToken(token: string): Claims | null {
   }
   catch (error) {
     console.error('Failed to decode token:', error)
-    return null
+    throw error
   }
 }

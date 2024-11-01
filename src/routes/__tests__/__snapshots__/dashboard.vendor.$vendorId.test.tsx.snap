@@ -4,7 +4,7 @@ exports[`<VendorDetailPage /> > should render the table content properly 1`] = `
 "500
 Id cannot be negativeundefined
 Evaluation Form
-Search
+SearchLog out
 Adriza Nikmah, PTundefinedHeadset dll
 Rating: 0
 Showing vendor performance by .....

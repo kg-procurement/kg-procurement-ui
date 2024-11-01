@@ -5,7 +5,7 @@ exports[`<VendorPage/> > should render the vendors table content properly 1`] = 
 Response does not match validator schema:
 locations: Requiredundefined
 Evaluation Form
-Search
+SearchLog out
 Search Vendor
 Lorem Ipsum
 Select Location...

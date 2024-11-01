@@ -49,7 +49,10 @@ describe('<LoginPage />', () => {
   })
 
   it('should reset input values and display success toast on successful login', async () => {
-    const mockToken = 'mockToken123'
+    const mockToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' +
+      'eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.' +
+      'SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
     mswServer.use(
       http.post(`${API_BASE_URL}/account/login`, () =>
         HttpResponse.json({ token: mockToken }, { status: 200 }),
@@ -62,16 +65,12 @@ describe('<LoginPage />', () => {
     const passwordInput = screen.getByPlaceholderText(/password/i)
     const loginButton = screen.getByRole('button', { name: /login/i })
 
-    await act(async () => {
-      await userEvent.type(emailInput, 'user123@example.com')
-      await userEvent.type(passwordInput, 'password123')
-    })
+    await userEvent.type(emailInput, 'user123@example.com')
+    await userEvent.type(passwordInput, 'password123')
     expect(emailInput).toHaveValue('user123@example.com')
     expect(passwordInput).toHaveValue('password123')
 
-    await act(async () => {
-      await userEvent.click(loginButton)
-    })
+    await userEvent.click(loginButton)
     await waitFor(() => {
       const toast = screen.getByTestId('toast')
       expect(toast).toHaveTextContent('Success')
@@ -99,16 +98,12 @@ describe('<LoginPage />', () => {
     const passwordInput = screen.getByPlaceholderText(/password/i)
     const loginButton = screen.getByRole('button', { name: /login/i })
 
-    await act(async () => {
-      await userEvent.type(emailInput, 'wronguser@example.com')
-      await userEvent.type(passwordInput, 'wrongpassword')
-    })
+    await userEvent.type(emailInput, 'wronguser@example.com')
+    await userEvent.type(passwordInput, 'wrongpassword')
     expect(emailInput).toHaveValue('wronguser@example.com')
     expect(passwordInput).toHaveValue('wrongpassword')
 
-    await act(async () => {
-      await userEvent.click(loginButton)
-    })
+    await userEvent.click(loginButton)
     expect(emailInput).toHaveValue('wronguser@example.com')
     expect(passwordInput).toHaveValue('wrongpassword')
 

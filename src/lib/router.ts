@@ -1,22 +1,11 @@
-import {
-  createMemoryHistory,
-  createRouter,
-  RouterHistory,
-} from '@tanstack/react-router'
+import { createMemoryHistory, createRouter } from '@tanstack/react-router'
 
 import { routeTree } from '@/routeTree.gen'
 
 export const router = createRouter({ routeTree })
 
-export function createTestRouter(path: string | RouterHistory) {
-  let memoryHistory: RouterHistory
-  if (typeof path === 'string') {
-    memoryHistory = createMemoryHistory({ initialEntries: [path] })
-  }
-  else {
-    // This means that path is already a RouterHistory instance
-    memoryHistory = path
-  }
+export function createTestRouter(path: string) {
+  const memoryHistory = createMemoryHistory({ initialEntries: [path] })
   return createRouter({ routeTree, history: memoryHistory })
 }
 
