@@ -56,7 +56,9 @@ describe('<VendorPage/>', () => {
     const blastButton = screen.getByText('Email Selected Vendor')
 
     await userEvent.click(blastButton)
-    const warning = screen.getByText('Please choose at leat one vendor to continue')
+    const warning = screen.getByText(
+      'Please choose at leat one vendor to continue',
+    )
     expect(warning).toBeInTheDocument()
   })
 
@@ -87,7 +89,9 @@ describe('<VendorPage/>', () => {
     const blastButton = screen.getByText('Email Selected Vendor')
 
     await userEvent.click(blastButton)
-    const warning = screen.getByText('Please choose at leat one vendor to continue')
+    const warning = screen.getByText(
+      'Please choose at leat one vendor to continue',
+    )
     expect(warning).toBeInTheDocument()
   })
 
@@ -103,7 +107,9 @@ describe('<VendorPage/>', () => {
     const blastButton = screen.getByText('Email Selected Vendor')
 
     await userEvent.click(blastButton)
-    const warning = screen.getByText('Please choose at leat one vendor to continue')
+    const warning = screen.getByText(
+      'Please choose at leat one vendor to continue',
+    )
     expect(warning).toBeInTheDocument()
   })
 
@@ -122,7 +128,6 @@ describe('<VendorPage/>', () => {
     render(withWrappers(<VendorPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()
 
-    screen.debug(undefined, 200000)
     const dropdownButton = screen.getByText('Select Location...')
     await userEvent.click(dropdownButton)
 
