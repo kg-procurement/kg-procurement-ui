@@ -1,33 +1,32 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 
 import { Button } from '@/components/atoms/button.tsx'
 import { Input } from '@/components/atoms/input.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
 import { Footer } from '@/components/molecules/footer.tsx'
-
+import { useToast } from '@/hooks/use-toast.ts'
 import { useLoginAccountMutation } from '@/lib/redux/features/account/api.ts'
 import { LoginAccountRequestArgs } from '@/lib/redux/features/account/validation.ts'
-
-import { useToast } from '@/hooks/use-toast.ts'
 import { toastForError } from '@/lib/redux/utils.tsx'
-
 import { useAuthStore } from '@/lib/zustand/auth.ts'
 
 export const Route = createFileRoute('/login')({
   component: () => <LoginPage />,
 })
 
+const initialValue = {
+  email: '',
+  password: '',
+}
+
 export default function LoginPage() {
-  const initialValue = {
-    email: '',
-    password: '',
-  }
-  
-  const [account, setAccount] = useState<LoginAccountRequestArgs['payload']>(initialValue)
-  const [loginAccount, { isLoading }] = useLoginAccountMutation()
   const { toast } = useToast()
-  const login = useAuthStore((state) => state.login)
+  const navigate = useNavigate()
+  const [account, setAccount] =
+    useState<LoginAccountRequestArgs['payload']>(initialValue)
+  const [loginAccount, { isLoading }] = useLoginAccountMutation()
+  const login = useAuthStore(state => state.login)
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     setAccount(prev => ({
@@ -40,7 +39,6 @@ export default function LoginPage() {
     e.preventDefault()
     try {
       const { token } = await loginAccount({ payload: account }).unwrap()
-    
       if (token) {
         login(token)
         toast({
@@ -48,8 +46,10 @@ export default function LoginPage() {
           description: 'Login successful!',
         })
         setAccount(initialValue)
+        navigate({ to: '/vendor' })
       }
-    } catch (err) {
+    }
+    catch (err) {
       toastForError(err)
     }
   }

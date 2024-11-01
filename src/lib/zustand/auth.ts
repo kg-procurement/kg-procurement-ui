@@ -1,69 +1,46 @@
-import { create } from 'zustand'
 import Cookies from 'js-cookie'
-import { decodeToken } from '@/utils/decode-token'
+import { create } from 'zustand'
+
+import { decodeToken } from '@/utils/decode-token.ts'
+
+export const AUTH_COOKIE_KEY = 'kg-procurement_access-token'
 
 export interface AuthStore {
-  user_id: string | null
-  expiration: number | null
-  isAuthenticated: boolean
-  token: string | null
-  setToken: (token: string | null) => void
+  userId?: string
+  expiration?: number
+  isAuthenticated?: boolean
+  token?: string
   login: (token: string) => void
   logout: () => void
 }
 
-const initialToken = Cookies.get('authToken')
-const decoded = initialToken ? decodeToken(initialToken) : null
+const initialToken = Cookies.get(AUTH_COOKIE_KEY)
+const decoded = initialToken ? decodeToken(initialToken) : undefined
 
-export const useAuthStore = create<AuthStore>((set) => ({
-  user_id: decoded ? decoded.sub : null,
-  expiration: decoded ? decoded.exp : null,
+export const useAuthStore = create<AuthStore>(set => ({
+  userId: decoded?.sub,
+  expiration: decoded?.exp,
   isAuthenticated: !!decoded,
-  token: initialToken || null,
-
-  setToken: (token) => {
-    if (token) {
-      Cookies.set('authToken', token)
-      const decoded = decodeToken(token)
-      if (decoded) {
-        set({
-          token,
-          user_id: decoded.sub,
-          expiration: decoded.exp,
-          isAuthenticated: true
-        })
-      }
-    } else {
-      Cookies.remove('authToken')
-      set({
-        token: null,
-        user_id: null,
-        expiration: null,
-        isAuthenticated: false
-      })
-    }
-  },
-
+  token: initialToken,
   login: (token) => {
-    Cookies.set('authToken', token)
+    Cookies.set(AUTH_COOKIE_KEY, token)
     const decoded = decodeToken(token)
     if (decoded) {
       set({
         token,
-        user_id: decoded.sub,
+        userId: decoded.sub,
         expiration: decoded.exp,
-        isAuthenticated: true
+        isAuthenticated: true,
       })
     }
   },
-
   logout: () => {
-    Cookies.remove('authToken')
+    Cookies.remove(AUTH_COOKIE_KEY)
     set({
-      user_id: null,
-      expiration: null,
-      token: null,
-      isAuthenticated: false
+      userId: undefined,
+      expiration: undefined,
+      token: undefined,
+      isAuthenticated: false,
     })
-  }
+  },
 }))

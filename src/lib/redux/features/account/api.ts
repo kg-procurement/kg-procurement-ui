@@ -1,12 +1,12 @@
 import { api } from '@/lib/redux/services/api.ts'
 
 import {
-  RegisterAccountRequestArgs,
-  RegisterAccountResponse,
-  registerAccountResponseSchema,
   LoginAccountRequestArgs,
   LoginAccountResponse,
   loginAccountResponseSchema,
+  RegisterAccountRequestArgs,
+  RegisterAccountResponse,
+  registerAccountResponseSchema,
 } from './validation.ts'
 
 export const accountApi = api.injectEndpoints({
