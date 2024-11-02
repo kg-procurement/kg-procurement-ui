@@ -13,7 +13,17 @@ describe('EmailForm', () => {
   const mockToggleDialog = vi.fn()
 
   const emailBlastProcedure = async () => {
-    render(withWrappers(<EmailForm toggleDialog={true} setToggleDialog={mockToggleDialog} vendorIds={selectedVendors} defaultContent="Enter your email template" />, { withRoot: true }))
+    render(
+      withWrappers(
+        <EmailForm
+          toggleDialog={true}
+          setToggleDialog={mockToggleDialog}
+          vendorIds={selectedVendors}
+          defaultContent="Enter your email template"
+        />,
+        { withRoot: true },
+      ),
+    )
 
     const subjectInput = screen.getByTestId('subject-input')
     await userEvent.type(subjectInput, 'Subject email')
@@ -21,15 +31,26 @@ describe('EmailForm', () => {
     await userEvent.click(nextButton)
 
     const sendButton = screen.getByText('Yes, Send')
-    await sendButton.click()
+    await userEvent.click(sendButton)
   }
 
   const selectedVendors: string[] = ['1', '2']
 
   it('should render email editor components', () => {
-    render(withWrappers(<EmailForm toggleDialog={true} setToggleDialog={mockToggleDialog} vendorIds={selectedVendors} />, { withRoot: true }))
+    render(
+      withWrappers(
+        <EmailForm
+          toggleDialog={true}
+          setToggleDialog={mockToggleDialog}
+          vendorIds={selectedVendors}
+        />,
+        { withRoot: true },
+      ),
+    )
 
-    expect(screen.getByRole('heading', { name: /compose email/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: /compose email/i }),
+    ).toBeInTheDocument()
     expect(screen.getByText(/compose your email to/i)).toBeInTheDocument()
     expect(screen.getByTestId('rich-text-editor')).toBeInTheDocument()
     expect(screen.getByText('Cancel')).toBeInTheDocument()
@@ -37,26 +58,57 @@ describe('EmailForm', () => {
   })
 
   it('should show error message when email content is empty and next is clicked', async () => {
-    render(withWrappers(<EmailForm toggleDialog={true} setToggleDialog={mockToggleDialog} vendorIds={selectedVendors} />, { withRoot: true }))
+    render(
+      withWrappers(
+        <EmailForm
+          toggleDialog={true}
+          setToggleDialog={mockToggleDialog}
+          vendorIds={selectedVendors}
+        />,
+        { withRoot: true },
+      ),
+    )
 
     const nextButton = screen.getByText('Next')
     await userEvent.click(nextButton)
 
-    expect(await screen.findByText('Email body or subject cannot be empty. Please write your email before proceeding.')).toBeInTheDocument()
+    expect(
+      await screen.findByText(
+        'Email body or subject cannot be empty. Please write your email before proceeding.',
+      ),
+    ).toBeInTheDocument()
   })
 
   it('should go to confirmation when email content is not empty and next is clicked', async () => {
-    render(withWrappers(<EmailForm toggleDialog={true} setToggleDialog={mockToggleDialog} vendorIds={selectedVendors} defaultContent="Enter your email template" />, { withRoot: true }))
+    render(
+      withWrappers(
+        <EmailForm
+          toggleDialog={true}
+          setToggleDialog={mockToggleDialog}
+          vendorIds={selectedVendors}
+          defaultContent="Enter your email template"
+        />,
+        { withRoot: true },
+      ),
+    )
 
     const subjectInput = screen.getByTestId('subject-input')
     await userEvent.type(subjectInput, 'Subject email')
     const nextButton = screen.getByText('Next')
     await userEvent.click(nextButton)
 
-    expect(screen.getByRole('heading', { name: /confirm send email/i })).toBeInTheDocument()
-    expect(screen.getByText(/are you sure you want to send the following email/i)).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /yes, send/i })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /no, go back/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: /confirm send email/i }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText(/are you sure you want to send the following email/i),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /yes, send/i }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /no, go back/i }),
+    ).toBeInTheDocument()
   })
 
   it('should handle email blast and show success toast when success', async () => {
@@ -69,7 +121,11 @@ describe('EmailForm', () => {
   })
 
   it('should handle email blast and show error toast when error', async () => {
-    mswServer.use(http.post(`${API_BASE_URL}/vendor/blast`, () => HttpResponse.json({ error: 'error' }, { status: 500 })))
+    mswServer.use(
+      http.post(`${API_BASE_URL}/vendor/blast`, () =>
+        HttpResponse.json({ error: 'error' }, { status: 500 }),
+      ),
+    )
     await emailBlastProcedure()
     await waitFor(() => {
       const toast = screen.getByTestId('toast')

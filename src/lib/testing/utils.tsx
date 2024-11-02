@@ -4,7 +4,7 @@ import { Toaster } from '@/components/atoms/toaster.tsx'
 import { configureAppStore } from '@/lib/redux/store.ts'
 import Root from '@/routes/__root.tsx'
 
-export interface WithWrappersOptions {
+export type WithWrappersOptions = {
   /**
    * If this option is set to true, then the root of the app will be rendered
    * This is required if you want to make use of the `loading-overlay` `data-testid`

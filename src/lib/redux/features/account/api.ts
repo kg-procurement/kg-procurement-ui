@@ -1,6 +1,9 @@
 import { api } from '@/lib/redux/services/api.ts'
 
 import {
+  LoginAccountRequestArgs,
+  LoginAccountResponse,
+  loginAccountResponseSchema,
   RegisterAccountRequestArgs,
   RegisterAccountResponse,
   registerAccountResponseSchema,
@@ -20,7 +23,15 @@ export const accountApi = api.injectEndpoints({
         body: payload,
       }),
     }),
+    loginAccount: builder.mutation<LoginAccountResponse, LoginAccountRequestArgs>({
+      extraOptions: { responseValidator: loginAccountResponseSchema },
+      query: ({ payload }) => ({
+        method: 'POST',
+        url: `/account/login`,
+        body: payload,
+      }),
+    }),
   }),
 })
 
-export const { useRegisterAccountMutation } = accountApi
+export const { useRegisterAccountMutation, useLoginAccountMutation } = accountApi

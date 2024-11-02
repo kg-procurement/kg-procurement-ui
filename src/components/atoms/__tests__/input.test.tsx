@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom'
 
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { createRef } from 'react'
 
 import { Input } from '../input.tsx'
@@ -18,10 +19,10 @@ describe('<Input />', () => {
     expect(inputElement).toBeInTheDocument()
   })
 
-  it('should update value when typing', () => {
+  it('should update value when typing', async () => {
     render(<Input />)
     const inputElement = screen.getByRole('textbox')
-    fireEvent.change(inputElement, { target: { value: 'John Doe' } })
+    await userEvent.type(inputElement, 'John Doe')
     expect(inputElement).toHaveValue('John Doe')
   })
 
@@ -38,7 +39,7 @@ describe('<Input />', () => {
     expect(ref.current).toBeInstanceOf(HTMLInputElement)
   })
 
-  it('should toggle password visibility when the eye icon is clicked', () => {
+  it('should toggle password visibility when the eye icon is clicked', async () => {
     render(<Input type="password" placeholder="Password" />)
     const passwordInput = screen.getByPlaceholderText('Password')
     const toggleButton = screen
@@ -51,11 +52,11 @@ describe('<Input />', () => {
 
     // Click to show the password
     if (toggleButton) {
-      fireEvent.click(toggleButton)
+      await userEvent.click(toggleButton)
       expect(passwordInput).toHaveAttribute('type', 'text')
 
       // Click again to hide the password
-      fireEvent.click(toggleButton)
+      await userEvent.click(toggleButton)
       expect(passwordInput).toHaveAttribute('type', 'password')
     }
   })

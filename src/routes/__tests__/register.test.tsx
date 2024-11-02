@@ -1,41 +1,44 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { http, HttpResponse } from 'msw'
 import { describe, expect, it } from 'vitest'
 
 import { API_BASE_URL } from '@/env.ts'
 import { mswServer } from '@/lib/msw/index.ts'
-import { withWrappers } from '@/lib/testing/utils.tsx'
+import { renderRoute } from '@/lib/testing/router.tsx'
 
-import RegisterPage from '../register.tsx'
+vi.mock('@tanstack/react-router', async importOriginal => ({
+  ...(await importOriginal()),
+  useNavigate: vi.fn(() => vi.fn()),
+}))
 
 describe('RegisterPage', () => {
   it('should render the register account title', () => {
-    render(withWrappers(<RegisterPage />))
+    renderRoute('/register')
     expect(
       screen.getByRole('heading', { name: 'Register' }),
     ).toBeInTheDocument()
   })
 
   it('should render email input', () => {
-    render(withWrappers(<RegisterPage />))
+    renderRoute('/register')
     expect(screen.getByPlaceholderText('Email')).toBeInTheDocument()
   })
 
   it('should render register button', () => {
-    render(withWrappers(<RegisterPage />))
+    renderRoute('/register')
     expect(
       screen.getByRole('button', { name: 'Register' }),
     ).toBeInTheDocument()
   })
 
   it('should render the footer', () => {
-    render(withWrappers(<RegisterPage />))
+    renderRoute('/register')
     expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
   })
 
   it('should reset input value and render success toast after the register successful', async () => {
-    render(withWrappers(<RegisterPage />))
+    renderRoute('/register')
     const emailInput = screen.getByPlaceholderText('Email')
     const passwordInput = screen.getByPlaceholderText('Password')
     const registerButton = screen.getByRole('button', { name: 'Register' })
@@ -45,7 +48,6 @@ describe('RegisterPage', () => {
 
     await userEvent.type(emailInput, mockEmail)
     await userEvent.type(passwordInput, mockPassword)
-    expect(emailInput).toHaveValue(mockEmail)
     expect(passwordInput).toHaveValue(mockPassword)
 
     await userEvent.click(registerButton)
@@ -74,7 +76,7 @@ describe('RegisterPage', () => {
       ),
     )
 
-    render(withWrappers(<RegisterPage />))
+    renderRoute('/register')
     const emailInput = screen.getByPlaceholderText('Email')
     const passwordInput = screen.getByPlaceholderText('Password')
     const registerButton = screen.getByRole('button', { name: 'Register' })

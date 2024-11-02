@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 
 import { Button } from '@/components/atoms/button.tsx'
@@ -14,15 +14,17 @@ export const Route = createFileRoute('/register')({
   component: () => <RegisterPage />,
 })
 
+const initialValue = {
+  email: '',
+  password: '',
+}
+
 export default function RegisterPage() {
-  const initialValue = {
-    email: '',
-    password: '',
-  }
+  const navigate = useNavigate()
+  const { toast } = useToast()
   const [account, setAccount] =
     useState<RegisterAccountRequestArgs['payload']>(initialValue)
   const [registerAccount, { isLoading }] = useRegisterAccountMutation()
-  const { toast } = useToast()
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     setAccount(prev => ({
@@ -40,6 +42,7 @@ export default function RegisterPage() {
         description: message,
       })
       setAccount(initialValue)
+      navigate({ to: '/login' })
     }
     catch (err) {
       toastForError(err)
