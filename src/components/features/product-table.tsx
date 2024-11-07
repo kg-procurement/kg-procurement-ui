@@ -35,7 +35,7 @@ function ProductTable({
   setPage = noop,
   handleChooseAllProduct,
   handleUpdateChosenProduct,
-}: ProductTableProps) {
+}: Readonly<ProductTableProps>) {
   return (
     <div className="flex w-3/4 flex-col gap-5 rounded-lg border p-6 shadow-xl">
       <div className="w-full rounded-lg border">
@@ -52,8 +52,8 @@ function ProductTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((product, i) => (
-              <TableRow key={i}>
+            {products.map(product => (
+              <TableRow key={product.id}>
                 <TableCell className="font-medium">
                   <Checkbox checked={productIds.has(product.id)} onCheckedChange={event => handleUpdateChosenProduct(event, product.id)} />
                 </TableCell>
