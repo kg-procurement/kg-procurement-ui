@@ -1,9 +1,11 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { createRootRoute, Outlet, useNavigate } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
+import Cookies from 'js-cookie'
 import { LoaderCircle } from 'lucide-react'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 
 import Navbar from '@/components/molecules/navbar.tsx'
+import { AUTH_COOKIE_KEY } from '@/lib/zustand/auth.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
 
 export type RootProps =
@@ -20,9 +22,16 @@ export const Route = createRootRoute({
 })
 
 export default function Root(props: RootProps) {
+  const navigate = useNavigate()
   const showLoadingOverlay = useCommonStore(
     state => state.showLoadingOverlay,
   )
+
+  useEffect(() => {
+    if (!Cookies.get(AUTH_COOKIE_KEY)) {
+      navigate({ to: '/login' })
+    }
+  }, [navigate])
 
   return (
     <div className="relative min-h-dvh min-w-full">
@@ -30,7 +39,7 @@ export default function Root(props: RootProps) {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80">
           <LoaderCircle
             data-testid="loading-overlay"
-            className="stroke-blue-600 h-20 w-20 animate-spin"
+            className="h-20 w-20 animate-spin stroke-blue-600"
           />
         </div>
       )}

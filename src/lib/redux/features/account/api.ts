@@ -1,4 +1,5 @@
 import { api } from '@/lib/redux/services/api.ts'
+import { Account, accountSchema } from '@/schemas/account.ts'
 
 import {
   LoginAccountRequestArgs,
@@ -12,6 +13,13 @@ import {
 export const accountApi = api.injectEndpoints({
   overrideExisting: import.meta.env.DEV,
   endpoints: builder => ({
+    getCurrentUser: builder.query<Account, void>({
+      extraOptions: { responseValidator: accountSchema },
+      query: () => ({
+        method: 'GET',
+        url: `/account/me`,
+      }),
+    }),
     registerAccount: builder.mutation<
       RegisterAccountResponse,
       RegisterAccountRequestArgs
@@ -23,7 +31,10 @@ export const accountApi = api.injectEndpoints({
         body: payload,
       }),
     }),
-    loginAccount: builder.mutation<LoginAccountResponse, LoginAccountRequestArgs>({
+    loginAccount: builder.mutation<
+      LoginAccountResponse,
+      LoginAccountRequestArgs
+    >({
       extraOptions: { responseValidator: loginAccountResponseSchema },
       query: ({ payload }) => ({
         method: 'POST',
@@ -34,4 +45,5 @@ export const accountApi = api.injectEndpoints({
   }),
 })
 
-export const { useRegisterAccountMutation, useLoginAccountMutation } = accountApi
+export const { useRegisterAccountMutation, useLoginAccountMutation } =
+  accountApi

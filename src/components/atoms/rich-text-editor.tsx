@@ -1,3 +1,4 @@
+'use client'
 import 'ckeditor5/ckeditor5.css'
 
 import { CKEditor, CKEditorContext } from '@ckeditor/ckeditor5-react'
