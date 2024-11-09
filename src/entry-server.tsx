@@ -1,6 +1,7 @@
 import { renderToString } from 'react-dom/server'
 
-import { configureAppStore } from './lib/redux/store.ts'
+import { configureAppStore } from '@/lib/redux/store.ts'
+
 import Main from './main.tsx'
 
 export async function render(initialStore = configureAppStore()) {

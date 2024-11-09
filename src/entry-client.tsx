@@ -1,8 +1,9 @@
 import { createAction } from '@reduxjs/toolkit'
 import ReactDOMClient from 'react-dom/client'
 
-import { HYDRATE } from './lib/redux/services/api.ts'
-import { configureAppStore } from './lib/redux/store.ts'
+import { HYDRATE } from '@/lib/redux/services/api.ts'
+import { configureAppStore } from '@/lib/redux/store.ts'
+
 import Main from './main.tsx'
 
 const serializedStoreData = document.getElementById('__STORE_DATA__')

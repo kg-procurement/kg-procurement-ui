@@ -28,10 +28,10 @@ export default function Root(props: RootProps) {
   )
 
   useEffect(() => {
-    if (!Cookies.get(AUTH_COOKIE_KEY)) {
+    if (!props.mock && !Cookies.get(AUTH_COOKIE_KEY)) {
       navigate({ to: '/login' })
     }
-  }, [navigate])
+  }, [props.mock, navigate])
 
   return (
     <div className="relative min-h-dvh min-w-full">
