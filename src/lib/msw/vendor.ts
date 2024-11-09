@@ -1,7 +1,12 @@
 import { http, HttpResponse } from 'msw'
 
 import { API_BASE_URL } from '@/env.ts'
-import { GetVendorByIdResponse, GetVendorsResponse, UpdateVendorResponse } from '@/lib/redux/features/vendor/validation.ts'
+import {
+  GetLocationsResponse,
+  GetVendorByIdResponse,
+  GetVendorsResponse,
+  UpdateVendorResponse,
+} from '@/lib/redux/features/vendor/validation.ts'
 
 export const vendorHandlers = [
   http.get(`${API_BASE_URL}/vendor`, () => {
@@ -156,10 +161,15 @@ export const vendorHandlers = [
     } satisfies GetVendorsResponse)
   }),
   http.post(`${API_BASE_URL}/vendor/blast`, () => {
-    return HttpResponse.json({ error: [
-      '535 5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-72057931785sm150109b3a.50 - gsmtp',
-      '535 5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-72057939b82sm152223b3a.81 - gsmtp',
-    ] }, { status: 207 })
+    return HttpResponse.json(
+      {
+        error: [
+          '535 5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-72057931785sm150109b3a.50 - gsmtp',
+          '535 5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-72057939b82sm152223b3a.81 - gsmtp',
+        ],
+      },
+      { status: 207 },
+    )
   }),
   http.get(`${API_BASE_URL}/vendor/:id`, (req) => {
     const { id } = req.params
@@ -201,5 +211,10 @@ export const vendorHandlers = [
       modified_by: '0',
       dt: '2024-08-28T00:00:00Z',
     } satisfies UpdateVendorResponse)
+  }),
+  http.get(`${API_BASE_URL}/vendor/location`, () => {
+    return HttpResponse.json({
+      locations: ['Jabodetabek', 'Indonesia'],
+    } satisfies GetLocationsResponse)
   }),
 ]
