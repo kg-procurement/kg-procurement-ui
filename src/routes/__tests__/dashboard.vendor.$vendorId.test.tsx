@@ -19,6 +19,7 @@ vi.mock('@tanstack/react-router', async () => {
   return {
     ...actual,
     useParams: mockUseParams,
+    useNavigate: vi.fn(() => vi.fn()),
   }
 })
 
@@ -56,7 +57,9 @@ describe('<VendorDetailPage />', () => {
   })
 
   it('should render the table content properly', async () => {
-    const { container } = render(withWrappers(<VendorDetailPage />, { withRoot: true }))
+    const { container } = render(
+      withWrappers(<VendorDetailPage />, { withRoot: true }),
+    )
     await waitForNoLoadingOverlay()
 
     expect(container.innerText).toMatchSnapshot()

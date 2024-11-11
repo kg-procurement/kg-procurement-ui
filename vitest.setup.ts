@@ -9,6 +9,13 @@ import { mswServer } from '@/lib/msw/index.ts'
 // Start server before all tests
 beforeAll(() => mswServer.listen({ onUnhandledRequest: 'error' }))
 
+beforeEach(() => {
+  vi.mock('@tanstack/react-router', async importActual => ({
+    ...(await importActual()),
+    useNavigate: vi.fn(() => vi.fn()),
+  }))
+})
+
 //  Close server after all tests
 afterAll(() => mswServer.close())
 
