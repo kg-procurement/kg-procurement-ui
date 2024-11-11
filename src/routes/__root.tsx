@@ -1,4 +1,9 @@
-import { createRootRoute, Outlet, useNavigate } from '@tanstack/react-router'
+import {
+  createRootRoute,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import Cookies from 'js-cookie'
 import { LoaderCircle } from 'lucide-react'
@@ -23,15 +28,21 @@ export const Route = createRootRoute({
 
 export default function Root(props: RootProps) {
   const navigate = useNavigate()
+  const location = useLocation()
   const showLoadingOverlay = useCommonStore(
     state => state.showLoadingOverlay,
   )
 
   useEffect(() => {
-    if (!props.mock && !Cookies.get(AUTH_COOKIE_KEY)) {
+    if (
+      !props.mock &&
+      !Cookies.get(AUTH_COOKIE_KEY) &&
+      location.href !== '/register' &&
+      location.href !== '/login'
+    ) {
       navigate({ to: '/login' })
     }
-  }, [props.mock, navigate])
+  }, [location.href, props.mock, navigate])
 
   return (
     <div className="relative min-h-dvh min-w-full">
