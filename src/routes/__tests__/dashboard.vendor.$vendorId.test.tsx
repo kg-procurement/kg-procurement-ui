@@ -20,6 +20,7 @@ vi.mock('@tanstack/react-router', async () => {
     ...actual,
     useParams: mockUseParams,
     useNavigate: vi.fn(() => vi.fn()),
+    useLocation: vi.fn(() => ({ href: '/vendor/detail' })),
   }
 })
 
