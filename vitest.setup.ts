@@ -13,6 +13,9 @@ beforeEach(() => {
   vi.mock('@tanstack/react-router', async importActual => ({
     ...(await importActual()),
     useNavigate: vi.fn(() => vi.fn()),
+    useLocation: vi.fn(() => ({
+      href: 'dummy-href',
+    })),
   }))
 })
 
