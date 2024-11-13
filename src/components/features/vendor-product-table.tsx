@@ -25,20 +25,22 @@ import {
 } from '@/components/atoms/table.tsx'
 import CustomPagination from '@/components/molecules/custom-pagination.tsx'
 import ProductForm from '@/components/organisms/product/form.tsx'
-import { Product } from '@/schemas/product.ts'
+import { ProductVendor } from '@/schemas/product.ts'
 
 interface VendorProductTableProps {
-  products: Product[]
+  product_vendors: ProductVendor[]
   total_page: number
   current_page: number
   setPage: Dispatch<SetStateAction<number>>
 }
 
 function VendorProductTable({
-  products, total_page, current_page, setPage,
+  product_vendors,
+  total_page,
+  current_page,
+  setPage,
 }: Readonly<VendorProductTableProps>) {
-  const [currentlyActiveDialog, setCurrentlyActiveDialog] =
-    useState<string>('')
+  const [currentlyActiveDialog, setCurrentlyActiveDialog] = useState<string>('')
   return (
     <Table className="rounded-md border">
       <TableHeader>
@@ -52,13 +54,13 @@ function VendorProductTable({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {products.map((product) => {
+        {product_vendors.map((pv) => {
+          const product = pv.product
           return (
             <TableRow key={product.id}>
               <Dialog
                 open={currentlyActiveDialog === product.id}
-                onOpenChange={open =>
-                  setCurrentlyActiveDialog(open ? product.id : '')}
+                onOpenChange={open => setCurrentlyActiveDialog(open ? product.id : '')}
               >
                 <DialogContent aria-describedby="dialog-description">
                   <DialogTitle>Product Form</DialogTitle>
