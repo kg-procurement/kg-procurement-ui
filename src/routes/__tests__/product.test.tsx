@@ -60,15 +60,6 @@ describe('<ProductPage />', () => {
     await userEvent.click(checkbox)
   })
 
-  it('should correctly handle choosing a product by checkbox on table row', async () => {
-    render(withWrappers(<ProductPage />))
-    await waitForNoLoadingOverlay()
-
-    const checkbox = screen.getAllByRole('checkbox')[1]
-    await userEvent.click(checkbox)
-    await userEvent.click(checkbox)
-  })
-
   it('should render the footer', () => {
     render(withWrappers(<ProductPage />))
     expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
