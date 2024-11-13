@@ -1,10 +1,10 @@
 import { z } from 'zod'
 
 import { PaginationArgs, paginationSpecSchema } from '@/schemas/common.ts'
-import { Product, productSchema } from '@/schemas/product.ts'
+import { Product, productSchema, productVendorSchema } from '@/schemas/product.ts'
 
 export const getProductsByVendorResponseSchema = paginationSpecSchema.extend({
-  products: z.array(productSchema),
+  product_vendors: z.array(productVendorSchema),
 })
 
 export const updateProductResponseSchema = productSchema

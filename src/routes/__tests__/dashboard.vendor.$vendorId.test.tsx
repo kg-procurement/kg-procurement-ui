@@ -25,20 +25,6 @@ vi.mock('@tanstack/react-router', async () => {
 })
 
 describe('<VendorDetailPage />', () => {
-  it('should handle null response in providesTags', async () => {
-    mockUseParams.mockReturnValueOnce({ vendorId: '-1' })
-    mswServer.use(
-      http.get(`${API_BASE_URL}/product/vendor/:id`, () =>
-        HttpResponse.json({ error: 'Id cannot be negative' }, { status: 500 }),
-      ),
-    )
-
-    render(withWrappers(<VendorDetailPage />, { withRoot: true }))
-    await waitFor(() => {
-      expect(screen.queryByText('Id cannot be negative')).toBeInTheDocument()
-    })
-  })
-
   it('should render the header section with the logo', () => {
     render(withWrappers(<VendorDetailPage />))
 
@@ -58,9 +44,7 @@ describe('<VendorDetailPage />', () => {
   })
 
   it('should render the table content properly', async () => {
-    const { container } = render(
-      withWrappers(<VendorDetailPage />, { withRoot: true }),
-    )
+    const { container } = render(withWrappers(<VendorDetailPage />))
     await waitForNoLoadingOverlay()
 
     expect(container.innerText).toMatchSnapshot()
@@ -87,5 +71,19 @@ describe('<VendorDetailPage />', () => {
     await userEvent.click(editButton)
     const closeButton = screen.getByText('Close')
     await userEvent.click(closeButton)
+  })
+
+  it('should handle null response in providesTags', async () => {
+    mockUseParams.mockReturnValueOnce({ vendorId: '-1' })
+    mswServer.use(
+      http.get(`${API_BASE_URL}/product/vendor/:id`, () =>
+        HttpResponse.json({ error: 'Id cannot be negative' }, { status: 500 }),
+      ),
+    )
+
+    render(withWrappers(<VendorDetailPage />, { withRoot: true }))
+    await waitFor(() => {
+      expect(screen.queryByText('Id cannot be negative')).toBeInTheDocument()
+    })
   })
 })

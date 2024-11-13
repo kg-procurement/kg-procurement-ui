@@ -1,7 +1,6 @@
 import { createFileRoute, useParams } from '@tanstack/react-router'
 import { Edit } from 'lucide-react'
-import { useEffect } from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 
 import {
@@ -41,16 +40,17 @@ export default function VendorDetailPage() {
   const { vendorId } = useParams({ from: '/dashboard/vendor/$vendorId' })
   const [filter, setFilter] = useState<string>('')
   const [page, setPage] = useState<number>(1)
-  const { products, isSuccess, error, metadata } = useGetProductsByVendorQuery(
-    { id: vendorId, name: filter, limit: 1, page },
-    {
-      selectFromResult: result => ({
-        ...result,
-        products: result.data?.products,
-        metadata: result.data?.metadata,
-      }),
-    },
-  )
+  const { product_vendors, isSuccess, error, metadata } =
+    useGetProductsByVendorQuery(
+      { id: vendorId, name: filter, limit: 1, page },
+      {
+        selectFromResult: result => ({
+          ...result,
+          product_vendors: result.data?.product_vendors,
+          metadata: result.data?.metadata,
+        }),
+      },
+    )
 
   const {
     data: vendorData,
@@ -166,10 +166,10 @@ export default function VendorDetailPage() {
               onChange={e => setFilter(e.target.value)}
               value={filter}
             />
-            {products && metadata && isSuccess && (
+            {product_vendors && metadata && isSuccess && (
               <VendorProductTable
                 current_page={metadata.current_page}
-                products={products}
+                product_vendors={product_vendors}
                 setPage={setPage}
                 total_page={metadata.total_page}
               />

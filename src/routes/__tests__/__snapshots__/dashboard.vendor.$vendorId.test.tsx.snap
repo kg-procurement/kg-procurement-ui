@@ -1,17 +1,13 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`<VendorDetailPage /> > should render the table content properly 1`] = `
-"500
-Id cannot be negativeundefined
-Evaluation Form
-SearchLog out
-Adriza Nikmah, PTundefinedHeadset dll
+"Adriza Nikmah, PTundefinedHeadset dll
 Rating: 0
 Showing vendor performance by .....
 
 Inventory List
 
-NameDescriptionModified DateKipas AnginKipas Angin2020-11-02T07:44:58ZundefinedBlenderBlender2020-11-02T07:44:58ZundefinedRemote TVRemote TV2020-11-02T07:44:58ZundefinedundefinedPreviousundefinedMore pages012undefinedMore pagesNext
+NameDescriptionModified DateMajalahMajalah2020-11-02T07:44:58ZundefinedundefinedPreviousundefinedMore pages012undefinedMore pagesNext
 undefined© 2024 KOMPAS
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 Contact us (Email):"
