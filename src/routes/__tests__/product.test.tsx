@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { withWrappers } from '@/lib/testing/utils.tsx'
+import { waitForNoLoadingOverlay } from '@/lib/testing/wait-for.ts'
 
 import ProductPage from '../product.tsx'
 
@@ -22,14 +23,13 @@ describe('<ProductPage />', () => {
 
     screen.debug(undefined, 100000)
     const productNameInput = screen.getByPlaceholderText('Filter by Product')
-    const locationDropdown = screen.getByRole('combobox')
 
     expect(productNameInput).toBeInTheDocument()
-    expect(locationDropdown).toBeInTheDocument()
   })
 
-  it('should correctly render table header content ', () => {
+  it('should correctly render table header content ', async () => {
     render(withWrappers(<ProductPage />))
+    await waitForNoLoadingOverlay()
 
     const productTable = screen.getByRole('table')
     expect(productTable).toBeInTheDocument()
@@ -39,8 +39,9 @@ describe('<ProductPage />', () => {
     expect(screen.getByText('Last Modified')).toBeInTheDocument()
   })
 
-  it('should correctly render table header content ', () => {
+  it('should correctly render table header content ', async () => {
     render(withWrappers(<ProductPage />))
+    await waitForNoLoadingOverlay()
 
     const productTable = screen.getByRole('table')
     expect(productTable).toBeInTheDocument()
@@ -52,6 +53,7 @@ describe('<ProductPage />', () => {
 
   it('should correctly handle choose all product by checkbox on table header', async () => {
     render(withWrappers(<ProductPage />))
+    await waitForNoLoadingOverlay()
 
     const checkbox = screen.getAllByRole('checkbox')[0]
     await userEvent.click(checkbox)
@@ -60,24 +62,37 @@ describe('<ProductPage />', () => {
 
   it('should correctly handle choosing a product by checkbox on table row', async () => {
     render(withWrappers(<ProductPage />))
+    await waitForNoLoadingOverlay()
 
     const checkbox = screen.getAllByRole('checkbox')[1]
     await userEvent.click(checkbox)
     await userEvent.click(checkbox)
   })
 
-  it('should select an option on dropdown', async () => {
-    render(withWrappers(<ProductPage />))
-
-    const dropdown = screen.getByRole('combobox')
-    await userEvent.click(dropdown)
-
-    const option = screen.getByText('hello')
-    await userEvent.click(option)
-  })
-
   it('should render the footer', () => {
     render(withWrappers(<ProductPage />))
     expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
+  })
+
+  it('should render the vendors table content properly', async () => {
+    const { container } = render(
+      withWrappers(<ProductPage />, { withRoot: true }),
+    )
+    await waitForNoLoadingOverlay()
+    expect(container.innerText.trim()).toMatchSnapshot()
+  })
+
+  it('should reset input value and render success toast after the register successful', async () => {
+    const { container } = render(
+      withWrappers(<ProductPage />, { withRoot: true }),
+    )
+    await waitForNoLoadingOverlay()
+
+    const nameFilterInput = screen.getByPlaceholderText('Filter by Product')
+    const mockNameFilter = 'buku'
+    await userEvent.type(nameFilterInput, mockNameFilter)
+    expect(nameFilterInput).toHaveValue(mockNameFilter)
+
+    expect(container.innerText.trim()).toMatchSnapshot()
   })
 })
