@@ -1,12 +1,12 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`<ProductPage /> > should render the vendors table content properly 1`] = `
+exports[`<ProductPage /> > should filter by name successfully 1`] = `
 "Evaluation Form
 SearchLog out
 Search Product
 Lorem Ipsum
 
-Product NameDescriptionPriceLast ModifiedBukuBukuRp 23.000,002020-11-11T13:22:16ZundefinedKoranKoranRp 290.000,002020-11-02T14:49:06ZundefinedMajalahMajalahRp 450.000,002020-11-04T11:23:28Zundefined
+Product NameDescriptionPriceLast ModifiedBukuBukuRp 23.000,002020-11-11T13:22:16Zundefined
 undefinedPreviousundefinedMore pages012undefinedMore pagesNext
 undefined
 0 of 99 row(s) selected© 2024 KOMPAS
@@ -14,13 +14,27 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 Contact us (Email):"
 `;
 
-exports[`<ProductPage /> > should reset input value and render success toast after the register successful 1`] = `
+exports[`<ProductPage /> > should handle when filter by name is empty 1`] = `
 "Evaluation Form
 SearchLog out
 Search Product
 Lorem Ipsum
 
-Product NameDescriptionPriceLast ModifiedBukuBukuRp 23.000,002020-11-11T13:22:16Zundefined
+Product NameDescriptionPriceLast Modified
+undefinedPreviousundefinedMore pages012undefinedMore pagesNext
+undefined
+0 of 99 row(s) selected© 2024 KOMPAS
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Contact us (Email):"
+`;
+
+exports[`<ProductPage /> > should render the vendors table content properly 1`] = `
+"Evaluation Form
+SearchLog out
+Search Product
+Lorem Ipsum
+
+Product NameDescriptionPriceLast ModifiedBukuBukuRp 23.000,002020-11-11T13:22:16ZundefinedKoranKoranRp 290.000,002020-11-02T14:49:06ZundefinedMajalahMajalahRp 450.000,002020-11-04T11:23:28Zundefined
 undefinedPreviousundefinedMore pages012undefinedMore pagesNext
 undefined
 0 of 99 row(s) selected© 2024 KOMPAS

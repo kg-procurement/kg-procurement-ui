@@ -82,7 +82,7 @@ describe('<ProductPage />', () => {
     expect(container.innerText.trim()).toMatchSnapshot()
   })
 
-  it('should reset input value and render success toast after the register successful', async () => {
+  it('should filter by name successfully', async () => {
     const { container } = render(
       withWrappers(<ProductPage />, { withRoot: true }),
     )
@@ -90,6 +90,20 @@ describe('<ProductPage />', () => {
 
     const nameFilterInput = screen.getByPlaceholderText('Filter by Product')
     const mockNameFilter = 'buku'
+    await userEvent.type(nameFilterInput, mockNameFilter)
+    expect(nameFilterInput).toHaveValue(mockNameFilter)
+
+    expect(container.innerText.trim()).toMatchSnapshot()
+  })
+
+  it('should handle when filter by name is empty', async () => {
+    const { container } = render(
+      withWrappers(<ProductPage />, { withRoot: true }),
+    )
+    await waitForNoLoadingOverlay()
+
+    const nameFilterInput = screen.getByPlaceholderText('Filter by Product')
+    const mockNameFilter = 'keyboard'
     await userEvent.type(nameFilterInput, mockNameFilter)
     expect(nameFilterInput).toHaveValue(mockNameFilter)
 

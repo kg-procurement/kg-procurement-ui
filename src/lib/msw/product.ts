@@ -69,7 +69,17 @@ export const productHandlers = [
   http.get(`${API_BASE_URL}/product/vendor`, ({ request }) => {
     const url = new URL(request.url)
     const name = url.searchParams.get('name')
-    if (name && 'buku'.includes(name.toLowerCase())) {
+    if (name && !name.toLowerCase().includes('buku') && !name.toLowerCase().includes('koran') && !name.toLowerCase().includes('majalah')) {
+      return HttpResponse.json({
+        product_vendors: null,
+        metadata: {
+          total_page: 0,
+          current_page: 0,
+          total_entries: 0,
+        },
+      } satisfies GetProductsByVendorResponse)
+    }
+    else if (name && name.toLowerCase().includes('buku')) {
       return HttpResponse.json({
         product_vendors: [
           {
