@@ -69,6 +69,11 @@ describe('EmailForm', () => {
       ),
     )
 
+    screen.debug(undefined, 100000)
+
+    const subjectInput = screen.getByTestId('subject-input')
+    await userEvent.clear(subjectInput)
+
     const nextButton = screen.getByText('Next')
     await userEvent.click(nextButton)
 
@@ -132,5 +137,27 @@ describe('EmailForm', () => {
       expect(toast.innerText).includes('500')
       expect(toast.innerText).includes('error')
     })
+  })
+
+  it('should render email editor components with default content', () => {
+    render(
+      withWrappers(
+        <EmailForm
+          toggleDialog={true}
+          setToggleDialog={mockToggleDialog}
+          vendorIds={selectedVendors}
+        />,
+        { withRoot: true },
+      ),
+    )
+
+    expect(screen.getByRole('heading', { name: /compose email/i })).toBeInTheDocument()
+    expect(screen.getByText(/compose your email to/i)).toBeInTheDocument()
+    expect(screen.getByTestId('rich-text-editor')).toBeInTheDocument()
+    expect(screen.getByText('Cancel')).toBeInTheDocument()
+    expect(screen.getByText('Next')).toBeInTheDocument()
+
+    const subjectInput = screen.getByTestId('subject-input') as HTMLInputElement
+    expect(subjectInput.value).toBe('Request for products')
   })
 })

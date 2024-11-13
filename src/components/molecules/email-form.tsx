@@ -35,8 +35,13 @@ export function EmailForm({
   setToggleDialog,
 }: Readonly<EmailFormProps>) {
   const [isConfirmation, setIsConfirmation] = useState<boolean>(false)
-  const [emailBody, setEmailBody] = useState<string>(defaultContent)
-  const [emailSubject, setEmailSubject] = useState<string>('')
+
+  // Default values for subject and body
+  const defaultSubject = 'Request for products'
+  const defaultBody = 'Kepada Yth {{name}},\n\nKami mengajukan permintaan untuk pengadaan produk tertentu yang dibutuhkan oleh perusahaan kami. Mohon informasi mengenai ketersediaan, harga, dan waktu pengiriman untuk produk tersebut.\n\nTerima kasih atas perhatian dan kerjasamanya.\n\nHormat kami'
+
+  const [emailBody, setEmailBody] = useState<string>(defaultContent || defaultBody)
+  const [emailSubject, setEmailSubject] = useState<string>(defaultSubject)
   const [showPopover, setShowPopover] = useState(false)
 
   const [blastEmail] = useBlastEmailMutation()
@@ -122,7 +127,7 @@ export function EmailForm({
                   Note:
                   <br />
                   -
-                  { '{{vendor}} '}
+                  { '{{name}} '}
                   = Vendor Name
                 </Typography>
                 <DialogFooter>
