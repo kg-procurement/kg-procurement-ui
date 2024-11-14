@@ -31,7 +31,7 @@ describe('<ProductPage />', () => {
     render(withWrappers(<ProductPage />))
     await waitForNoLoadingOverlay()
 
-    const productTable = screen.getByRole('table')
+    const productTable = screen.getByTestId('product-vendors-table')
     expect(productTable).toBeInTheDocument()
 
     expect(screen.getByText('Product Name')).toBeInTheDocument()
@@ -43,7 +43,7 @@ describe('<ProductPage />', () => {
     render(withWrappers(<ProductPage />))
     await waitForNoLoadingOverlay()
 
-    const productTable = screen.getByRole('table')
+    const productTable = screen.getByTestId('product-vendors-table')
     expect(productTable).toBeInTheDocument()
 
     expect(screen.getByText('Product Name')).toBeInTheDocument()
