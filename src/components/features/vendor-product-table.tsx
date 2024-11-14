@@ -50,7 +50,7 @@ function VendorProductTable({
           </TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Description</TableHead>
-          <TableHead>Modified Date</TableHead>
+          <TableHead>Price</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -74,7 +74,7 @@ function VendorProductTable({
                 </TableCell>
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.description}</TableCell>
-                <TableCell>{product.modified_date}</TableCell>
+                <TableCell>{pv.price.price}</TableCell>
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
