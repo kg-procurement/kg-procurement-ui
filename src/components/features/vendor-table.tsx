@@ -93,7 +93,6 @@ function VendorTable({
                         <Button
                           className="h-fit w-full px-3 py-1"
                           variant="ghost"
-                          onClick={() => console.log('hai')}
                         >
                           Detailed View
                         </Button>

@@ -21,8 +21,6 @@ export const baseQueryWithZodValidation: (baseQuery: BaseQuery) => BaseQuery =
     const returnValue = await baseQuery(args, api, extraOptions)
 
     const zodSchema = extraOptions?.responseValidator
-    console.log('test: ', returnValue)
-    console.log('schema: ', zodSchema)
 
     if (returnValue.data && zodSchema) {
       try {
