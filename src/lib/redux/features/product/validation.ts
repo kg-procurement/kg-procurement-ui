@@ -4,7 +4,7 @@ import { PaginationArgs, paginationSpecSchema } from '@/schemas/common.ts'
 import { Product, productSchema, productVendorSchema } from '@/schemas/product.ts'
 
 export const getProductsByVendorResponseSchema = paginationSpecSchema.extend({
-  product_vendors: z.array(productVendorSchema),
+  product_vendors: z.array(productVendorSchema).nullable(),
 })
 
 export const updateProductResponseSchema = productSchema
@@ -17,6 +17,10 @@ export type UpdateProductResponse = z.infer<typeof updateProductResponseSchema>
 
 export interface GetProductsByVendorArgs extends PaginationArgs {
   id: string
+  name: string
+}
+
+export interface GetProductVendorsArgs extends PaginationArgs {
   name: string
 }
 

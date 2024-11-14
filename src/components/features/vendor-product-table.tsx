@@ -42,7 +42,7 @@ function VendorProductTable({
 }: Readonly<VendorProductTableProps>) {
   const [currentlyActiveDialog, setCurrentlyActiveDialog] = useState<string>('')
   return (
-    <Table className="rounded-md border">
+    <Table className="rounded-md border" data-testid="product-table">
       <TableHeader>
         <TableRow>
           <TableHead>

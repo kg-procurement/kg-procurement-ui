@@ -46,7 +46,7 @@ export default function VendorDetailPage() {
       {
         selectFromResult: result => ({
           ...result,
-          product_vendors: result.data?.product_vendors,
+          product_vendors: result.data?.product_vendors ?? [],
           metadata: result.data?.metadata,
         }),
       },
@@ -162,7 +162,7 @@ export default function VendorDetailPage() {
             <Typography variant="h6">Inventory List</Typography>
             <Input
               className="text-sm"
-              placeholder="Filter vendor ..."
+              placeholder="Filter product name ..."
               onChange={e => setFilter(e.target.value)}
               value={filter}
             />

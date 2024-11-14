@@ -4,6 +4,7 @@ import {
   GetProductsByVendorArgs,
   GetProductsByVendorResponse,
   getProductsByVendorResponseSchema,
+  GetProductVendorsArgs,
   UpdateProductRequestArgs,
   UpdateProductResponse,
   updateProductResponseSchema,
@@ -29,11 +30,32 @@ export const productApi = api.injectEndpoints({
       providesTags: resp =>
         resp
           ? [
-              ...resp.product_vendors.map(pv => ({
+              ...(resp.product_vendors ?? []).map(pv => ({
                 type: 'Product' as const,
                 id: pv.id,
               })),
               { type: 'Product', id: 'LIST' },
+            ]
+          : [],
+    }),
+    getProductVendors: builder.query<
+      GetProductsByVendorResponse,
+      GetProductVendorsArgs
+    >({
+      extraOptions: { responseValidator: getProductsByVendorResponseSchema },
+      query: args => ({
+        method: 'GET',
+        url: `/product/vendor`,
+        params: args,
+      }),
+      providesTags: resp =>
+        resp
+          ? [
+              ...(resp.product_vendors ?? []).map(pv => ({
+                type: 'ProductVendor' as const,
+                id: pv.id,
+              })),
+              { type: 'ProductVendor', id: 'LIST' },
             ]
           : [],
     }),
@@ -53,5 +75,8 @@ export const productApi = api.injectEndpoints({
   }),
 })
 
-export const { useGetProductsByVendorQuery, useUpdateProductMutation } =
-  productApi
+export const {
+  useGetProductsByVendorQuery,
+  useGetProductVendorsQuery,
+  useUpdateProductMutation,
+} = productApi
