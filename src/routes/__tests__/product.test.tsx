@@ -1,6 +1,9 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { http, HttpResponse } from 'msw'
 
+import { API_BASE_URL } from '@/env.ts'
+import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 import { waitForNoLoadingOverlay } from '@/lib/testing/wait-for.ts'
 
@@ -85,5 +88,30 @@ describe('<ProductPage />', () => {
     expect(nameFilterInput).toHaveValue(mockNameFilter)
 
     expect(screen.getByTestId('product-vendors-table').innerText).toMatchSnapshot()
+  })
+
+  it('should handle when filter by product name returns null', async () => {
+    render(withWrappers(<ProductPage />, { withRoot: true }))
+    await waitForNoLoadingOverlay()
+
+    const nameFilterInput = screen.getByPlaceholderText('Filter by Product')
+    const mockNameFilter = 'keyboard'
+    await userEvent.type(nameFilterInput, mockNameFilter)
+    expect(nameFilterInput).toHaveValue(mockNameFilter)
+
+    expect(screen.getByTestId('product-vendors-table').innerText).toMatchSnapshot()
+  })
+
+  it('should handle null response in providesTags', async () => {
+    mswServer.use(
+      http.get(`${API_BASE_URL}/product/vendor`, () =>
+        HttpResponse.json({ error: 'pq: OFFSET must not be negative' }, { status: 500 }),
+      ),
+    )
+
+    render(withWrappers(<ProductPage />, { withRoot: true }))
+    await waitFor(() => {
+      expect(screen.queryByText('pq: OFFSET must not be negative')).toBeInTheDocument()
+    })
   })
 })

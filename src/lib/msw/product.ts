@@ -11,11 +11,15 @@ export const productHandlers = [
     const url = new URL(request.url)
     const name = url.searchParams.get('name')
 
-    if (name && !'buku'.includes(name.toLowerCase())) {
-      // If name doesn't match 'buku', return an empty array
+    if (name && !name.toLowerCase().includes('majalah')) {
       return HttpResponse.json({
-        products: [],
-      })
+        product_vendors: null,
+        metadata: {
+          total_page: 0,
+          current_page: 0,
+          total_entries: 0,
+        },
+      } satisfies GetProductsByVendorResponse)
     }
 
     return HttpResponse.json({
