@@ -69,7 +69,12 @@ export const productHandlers = [
   http.get(`${API_BASE_URL}/product/vendor`, ({ request }) => {
     const url = new URL(request.url)
     const name = url.searchParams.get('name')
-    if (name && !name.toLowerCase().includes('buku') && !name.toLowerCase().includes('koran') && !name.toLowerCase().includes('majalah')) {
+    if (
+      name &&
+      !name.toLowerCase().includes('buku') &&
+      !name.toLowerCase().includes('koran') &&
+      !name.toLowerCase().includes('majalah')
+    ) {
       return HttpResponse.json({
         product_vendors: null,
         metadata: {
@@ -86,7 +91,14 @@ export const productHandlers = [
             id: '1',
             product: {
               id: '1',
-              product_category_id: '59',
+              product_category: {
+                id: '59',
+                category_name: 'Stationary',
+                description:
+                  'Kertas, Amplot, Balpen, Ordner, Binder, Staple...',
+                modified_date: '2020-10-27T23:20:39Z',
+                modified_by: '0',
+              },
               uom_id: '26',
               income_tax_id: '0',
               product_type_id: '3',
@@ -129,7 +141,13 @@ export const productHandlers = [
           id: '1',
           product: {
             id: '1',
-            product_category_id: '59',
+            product_category: {
+              id: '59',
+              category_name: 'Stationary',
+              description: 'Kertas, Amplot, Balpen, Ordner, Binder, Staple...',
+              modified_date: '2020-10-27T23:20:39Z',
+              modified_by: '0',
+            },
             uom_id: '26',
             income_tax_id: '0',
             product_type_id: '3',
@@ -161,7 +179,13 @@ export const productHandlers = [
           id: '2',
           product: {
             id: '2',
-            product_category_id: '1',
+            product_category: {
+              id: '1',
+              category_name: 'Buku, Majalah, Tabloid, Harian',
+              description: 'Buku, Majalah, Harian (koran)',
+              modified_date: '2020-10-27T23:20:39Z',
+              modified_by: '0',
+            },
             uom_id: '26',
             income_tax_id: '0',
             product_type_id: '3',
@@ -193,7 +217,13 @@ export const productHandlers = [
           id: '3',
           product: {
             id: '3',
-            product_category_id: '1',
+            product_category: {
+              id: '1',
+              category_name: 'Buku, Majalah, Tabloid, Harian',
+              description: 'Buku, Majalah, Harian (koran)',
+              modified_date: '2020-10-27T23:20:39Z',
+              modified_by: '0',
+            },
             uom_id: '26',
             income_tax_id: '0',
             product_type_id: '3',
@@ -223,9 +253,9 @@ export const productHandlers = [
         },
       ],
       metadata: {
-        total_page: 1,
+        total_page: 34,
         current_page: 1,
-        total_entries: 3,
+        total_entries: 100,
       },
     } satisfies GetProductsByVendorResponse)
   }),
