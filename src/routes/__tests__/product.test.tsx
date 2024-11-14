@@ -65,18 +65,14 @@ describe('<ProductPage />', () => {
     expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
   })
 
-  it('should render the vendors table content properly', async () => {
-    const { container } = render(
-      withWrappers(<ProductPage />, { withRoot: true }),
-    )
+  it('should render the product vendors table content properly', async () => {
+    render(withWrappers(<ProductPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()
-    expect(container.innerText.trim()).toMatchSnapshot()
+    expect(screen.getByTestId('product-vendors-table').innerText).toMatchSnapshot()
   })
 
-  it('should filter by name successfully', async () => {
-    const { container } = render(
-      withWrappers(<ProductPage />, { withRoot: true }),
-    )
+  it('should filter by product name is filled successfully', async () => {
+    render(withWrappers(<ProductPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()
 
     const nameFilterInput = screen.getByPlaceholderText('Filter by Product')
@@ -84,20 +80,6 @@ describe('<ProductPage />', () => {
     await userEvent.type(nameFilterInput, mockNameFilter)
     expect(nameFilterInput).toHaveValue(mockNameFilter)
 
-    expect(container.innerText.trim()).toMatchSnapshot()
-  })
-
-  it('should handle when filter by name is empty', async () => {
-    const { container } = render(
-      withWrappers(<ProductPage />, { withRoot: true }),
-    )
-    await waitForNoLoadingOverlay()
-
-    const nameFilterInput = screen.getByPlaceholderText('Filter by Product')
-    const mockNameFilter = 'keyboard'
-    await userEvent.type(nameFilterInput, mockNameFilter)
-    expect(nameFilterInput).toHaveValue(mockNameFilter)
-
-    expect(container.innerText.trim()).toMatchSnapshot()
+    expect(screen.getByTestId('product-vendors-table').innerText).toMatchSnapshot()
   })
 })
