@@ -15,6 +15,7 @@ import { Route as VendorImport } from './routes/vendor'
 import { Route as RegisterImport } from './routes/register'
 import { Route as ProductImport } from './routes/product'
 import { Route as LoginImport } from './routes/login'
+import { Route as EmailImport } from './routes/email'
 import { Route as IndexImport } from './routes/index'
 import { Route as DashboardVendorVendorIdImport } from './routes/dashboard.vendor.$vendorId'
 
@@ -40,6 +41,11 @@ const LoginRoute = LoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const EmailRoute = EmailImport.update({
+  path: '/email',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
@@ -59,6 +65,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/email': {
+      id: '/email'
+      path: '/email'
+      fullPath: '/email'
+      preLoaderRoute: typeof EmailImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -103,6 +116,7 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/email': typeof EmailRoute
   '/login': typeof LoginRoute
   '/product': typeof ProductRoute
   '/register': typeof RegisterRoute
@@ -112,6 +126,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/email': typeof EmailRoute
   '/login': typeof LoginRoute
   '/product': typeof ProductRoute
   '/register': typeof RegisterRoute
@@ -122,6 +137,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/email': typeof EmailRoute
   '/login': typeof LoginRoute
   '/product': typeof ProductRoute
   '/register': typeof RegisterRoute
@@ -133,6 +149,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/email'
     | '/login'
     | '/product'
     | '/register'
@@ -141,6 +158,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/email'
     | '/login'
     | '/product'
     | '/register'
@@ -149,6 +167,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/email'
     | '/login'
     | '/product'
     | '/register'
@@ -159,6 +178,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EmailRoute: typeof EmailRoute
   LoginRoute: typeof LoginRoute
   ProductRoute: typeof ProductRoute
   RegisterRoute: typeof RegisterRoute
@@ -168,6 +188,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EmailRoute: EmailRoute,
   LoginRoute: LoginRoute,
   ProductRoute: ProductRoute,
   RegisterRoute: RegisterRoute,
@@ -188,6 +209,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/email",
         "/login",
         "/product",
         "/register",
@@ -197,6 +219,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/email": {
+      "filePath": "email.tsx"
     },
     "/login": {
       "filePath": "login.tsx"
