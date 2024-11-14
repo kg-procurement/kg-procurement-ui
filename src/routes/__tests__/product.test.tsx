@@ -51,18 +51,13 @@ describe('<ProductPage />', () => {
     expect(screen.getByText('Last Modified')).toBeInTheDocument()
   })
 
-  it('should correctly handle choose all product by checkbox on table header', async () => {
+  it('should correctly handle choose all product by checkbox on table header and choosing a product by checkbox on table row', async () => {
     render(withWrappers(<ProductPage />))
     await waitForNoLoadingOverlay()
 
-    const checkbox = screen.getAllByRole('checkbox')[0]
-    await userEvent.click(checkbox)
-    await userEvent.click(checkbox)
-  })
-
-  it('should correctly handle choosing a product by checkbox on table row', async () => {
-    render(withWrappers(<ProductPage />))
-    await waitForNoLoadingOverlay()
+    const checkboxAll = screen.getAllByRole('checkbox')[0]
+    await userEvent.click(checkboxAll)
+    await userEvent.click(checkboxAll)
 
     const checkbox = screen.getAllByRole('checkbox')[1]
     await userEvent.click(checkbox)
