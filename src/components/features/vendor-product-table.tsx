@@ -77,7 +77,7 @@ function VendorProductTable({
                 <TableCell>{product.modified_date}</TableCell>
                 <TableCell>
                   <Popover>
-                    <PopoverTrigger>
+                    <PopoverTrigger asChild>
                       <button data-testid="elip-button">
                         <EllipsisVertical size={16} />
                       </button>

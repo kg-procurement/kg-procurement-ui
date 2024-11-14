@@ -24,7 +24,13 @@ export const productHandlers = [
           id: '3',
           product: {
             id: '3',
-            product_category_id: '1',
+            product_category: {
+              id: '59',
+              category_name: 'Stationary',
+              description: 'Kertas, Amplot, Balpen, Ordner, Binder, Staple...',
+              modified_date: '2020-10-27T23:20:39Z',
+              modified_by: '0',
+            },
             uom_id: '26',
             income_tax_id: '0',
             product_type_id: '3',
@@ -64,7 +70,13 @@ export const productHandlers = [
     const { id } = params
     return HttpResponse.json({
       id: Array.isArray(id) ? id[0] : id,
-      product_category_id: '38',
+      product_category: {
+        id: '59',
+        category_name: 'Stationary',
+        description: 'Kertas, Amplot, Balpen, Ordner, Binder, Staple...',
+        modified_date: '2020-10-27T23:20:39Z',
+        modified_by: '0',
+      },
       uom_id: '26',
       income_tax_id: '0',
       product_type_id: '3',

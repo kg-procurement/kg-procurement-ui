@@ -1,8 +1,16 @@
 import { z } from 'zod'
 
+export const productCategorySchema = z.object({
+  id: z.string(),
+  category_name: z.string(),
+  description: z.string(),
+  modified_date: z.string(),
+  modified_by: z.string(),
+})
+
 export const productSchema = z.object({
   id: z.string(),
-  product_category_id: z.string(),
+  product_category: productCategorySchema,
   uom_id: z.string(),
   income_tax_id: z.string(),
   product_type_id: z.string(),
