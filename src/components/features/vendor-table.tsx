@@ -115,7 +115,7 @@ function VendorTable({
         </Typography>
         <EmailForm vendorIds={[...vendorIds]} toggleDialog={toggleDialog} setToggleDialog={setToggleDialog} />
         <Popover open={togglePopover}>
-          <PopoverTrigger>
+          <PopoverTrigger asChild>
             <Button onClick={() => handleOpenDialog()}>Email Selected Vendor</Button>
           </PopoverTrigger>
           <PopoverContent className="p-2 w-fit">

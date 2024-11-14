@@ -29,7 +29,7 @@ export const productApi = api.injectEndpoints({
       providesTags: resp =>
         resp
           ? [
-              ...resp.product_vendors.map(pv => ({
+              ...(resp.product_vendors).map(pv => ({
                 type: 'Product' as const,
                 id: pv.id,
               })),
