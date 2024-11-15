@@ -65,7 +65,7 @@ export default function ProductForm({ initialData, onDone }: ProductFormProps) {
       </Label>
       <Input
         name="product_category_id"
-        value={initialData.product_category_id}
+        value={initialData.product_category.id}
         disabled
       />
       <Label htmlFor="name" className="mb-1 mt-3">

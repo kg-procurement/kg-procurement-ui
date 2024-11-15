@@ -93,7 +93,6 @@ function VendorTable({
                         <Button
                           className="h-fit w-full px-3 py-1"
                           variant="ghost"
-                          onClick={() => console.log('hai')}
                         >
                           Detailed View
                         </Button>
@@ -115,7 +114,7 @@ function VendorTable({
         </Typography>
         <EmailForm vendorIds={[...vendorIds]} toggleDialog={toggleDialog} setToggleDialog={setToggleDialog} />
         <Popover open={togglePopover}>
-          <PopoverTrigger>
+          <PopoverTrigger asChild>
             <Button onClick={() => handleOpenDialog()}>Email Selected Vendor</Button>
           </PopoverTrigger>
           <PopoverContent className="p-2 w-fit">

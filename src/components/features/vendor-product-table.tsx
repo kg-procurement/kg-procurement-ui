@@ -42,7 +42,7 @@ function VendorProductTable({
 }: Readonly<VendorProductTableProps>) {
   const [currentlyActiveDialog, setCurrentlyActiveDialog] = useState<string>('')
   return (
-    <Table className="rounded-md border">
+    <Table className="rounded-md border" data-testid="product-table">
       <TableHeader>
         <TableRow>
           <TableHead>
@@ -77,7 +77,7 @@ function VendorProductTable({
                 <TableCell>{product.modified_date}</TableCell>
                 <TableCell>
                   <Popover>
-                    <PopoverTrigger>
+                    <PopoverTrigger asChild>
                       <button data-testid="elip-button">
                         <EllipsisVertical size={16} />
                       </button>
