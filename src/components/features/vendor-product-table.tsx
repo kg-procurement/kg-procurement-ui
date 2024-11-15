@@ -26,7 +26,7 @@ import {
 import CustomPagination from '@/components/molecules/custom-pagination.tsx'
 import ProductForm from '@/components/organisms/product/form.tsx'
 import { ProductVendor } from '@/schemas/product.ts'
-import { rupiah } from '@/utils/common'
+import { rupiah } from '@/utils/common.ts'
 
 interface VendorProductTableProps {
   product_vendors: ProductVendor[]
