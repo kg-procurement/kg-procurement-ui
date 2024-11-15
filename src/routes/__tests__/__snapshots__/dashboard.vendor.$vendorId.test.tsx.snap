@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`<VendorDetailPage /> > should handle when filter by product name returns null 1`] = `
-"NameDescriptionModified DateundefinedPreviousundefinedMore pages-101undefinedMore pagesNext
+"NameCategoryDescriptionCategoryundefinedPreviousundefinedMore pages-101undefinedMore pagesNext
 undefined"
 `;
 
@@ -12,7 +12,7 @@ Showing vendor performance by .....
 
 Inventory List
 
-NameDescriptionModified DateMajalahMajalah2020-11-02T07:44:58ZundefinedundefinedPreviousundefinedMore pages012undefinedMore pagesNext
+NameCategoryDescriptionCategoryMajalahStationaryMajalahundefinedundefinedPreviousundefinedMore pages012undefinedMore pagesNext
 undefined© 2024 KOMPAS
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 Contact us (Email):"

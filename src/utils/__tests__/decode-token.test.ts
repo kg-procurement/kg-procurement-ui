@@ -9,7 +9,7 @@ describe('decodeToken()', () => {
   it('should throw when given an invalid jwt', () => {
     const invalidJwt = 'some.invalid.jwt'
     expect(() => decodeToken(invalidJwt)).toThrowErrorMatchingInlineSnapshot(
-      `[SyntaxError: Unexpected token '', "{Ú'" is not valid JSON]`,
+      `[SyntaxError: Unexpected token  in JSON at position 0]`,
     )
   })
 })
