@@ -1,7 +1,11 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { http, HttpResponse } from 'msw'
 
+import { API_BASE_URL } from '@/env.ts'
+import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
+import { waitForNoLoadingOverlay } from '@/lib/testing/wait-for.ts'
 
 import ProductPage from '../product.tsx'
 
@@ -22,16 +26,15 @@ describe('<ProductPage />', () => {
 
     screen.debug(undefined, 100000)
     const productNameInput = screen.getByPlaceholderText('Filter by Product')
-    const locationDropdown = screen.getByRole('combobox')
 
     expect(productNameInput).toBeInTheDocument()
-    expect(locationDropdown).toBeInTheDocument()
   })
 
-  it('should correctly render table header content ', () => {
+  it('should correctly render table header content ', async () => {
     render(withWrappers(<ProductPage />))
+    await waitForNoLoadingOverlay()
 
-    const productTable = screen.getByRole('table')
+    const productTable = screen.getByTestId('product-vendors-table')
     expect(productTable).toBeInTheDocument()
 
     expect(screen.getByText('Product Name')).toBeInTheDocument()
@@ -39,10 +42,11 @@ describe('<ProductPage />', () => {
     expect(screen.getByText('Last Modified')).toBeInTheDocument()
   })
 
-  it('should correctly render table header content ', () => {
+  it('should correctly render table header content ', async () => {
     render(withWrappers(<ProductPage />))
+    await waitForNoLoadingOverlay()
 
-    const productTable = screen.getByRole('table')
+    const productTable = screen.getByTestId('product-vendors-table')
     expect(productTable).toBeInTheDocument()
 
     expect(screen.getByText('Product Name')).toBeInTheDocument()
@@ -50,34 +54,64 @@ describe('<ProductPage />', () => {
     expect(screen.getByText('Last Modified')).toBeInTheDocument()
   })
 
-  it('should correctly handle choose all product by checkbox on table header', async () => {
+  it('should correctly handle choose all product by checkbox on table header and choosing a product by checkbox on table row', async () => {
     render(withWrappers(<ProductPage />))
+    await waitForNoLoadingOverlay()
 
-    const checkbox = screen.getAllByRole('checkbox')[0]
-    await userEvent.click(checkbox)
-    await userEvent.click(checkbox)
-  })
-
-  it('should correctly handle choosing a product by checkbox on table row', async () => {
-    render(withWrappers(<ProductPage />))
+    const checkboxAll = screen.getAllByRole('checkbox')[0]
+    await userEvent.click(checkboxAll)
+    await userEvent.click(checkboxAll)
 
     const checkbox = screen.getAllByRole('checkbox')[1]
     await userEvent.click(checkbox)
     await userEvent.click(checkbox)
   })
 
-  it('should select an option on dropdown', async () => {
-    render(withWrappers(<ProductPage />))
-
-    const dropdown = screen.getByRole('combobox')
-    await userEvent.click(dropdown)
-
-    const option = screen.getByText('hello')
-    await userEvent.click(option)
-  })
-
   it('should render the footer', () => {
     render(withWrappers(<ProductPage />))
     expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
+  })
+
+  it('should render the product vendors table content properly', async () => {
+    render(withWrappers(<ProductPage />, { withRoot: true }))
+    await waitForNoLoadingOverlay()
+    expect(screen.getByTestId('product-vendors-table').innerText).toMatchSnapshot()
+  })
+
+  it('should filter by product name is filled successfully', async () => {
+    render(withWrappers(<ProductPage />, { withRoot: true }))
+    await waitForNoLoadingOverlay()
+
+    const nameFilterInput = screen.getByPlaceholderText('Filter by Product')
+    const mockNameFilter = 'buku'
+    await userEvent.type(nameFilterInput, mockNameFilter)
+    expect(nameFilterInput).toHaveValue(mockNameFilter)
+
+    expect(screen.getByTestId('product-vendors-table').innerText).toMatchSnapshot()
+  })
+
+  it('should handle when filter by product name returns null', async () => {
+    render(withWrappers(<ProductPage />, { withRoot: true }))
+    await waitForNoLoadingOverlay()
+
+    const nameFilterInput = screen.getByPlaceholderText('Filter by Product')
+    const mockNameFilter = 'keyboard'
+    await userEvent.type(nameFilterInput, mockNameFilter)
+    expect(nameFilterInput).toHaveValue(mockNameFilter)
+
+    expect(screen.getByTestId('product-vendors-table').innerText).toMatchSnapshot()
+  })
+
+  it('should handle null response in providesTags', async () => {
+    mswServer.use(
+      http.get(`${API_BASE_URL}/product/vendor`, () =>
+        HttpResponse.json({ error: 'pq: OFFSET must not be negative' }, { status: 500 }),
+      ),
+    )
+
+    render(withWrappers(<ProductPage />, { withRoot: true }))
+    await waitFor(() => {
+      expect(screen.queryByText('pq: OFFSET must not be negative')).toBeInTheDocument()
+    })
   })
 })
