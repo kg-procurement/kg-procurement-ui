@@ -58,6 +58,7 @@ function ProductTable({
                 />
               </TableHead>
               <TableHead className="w-[200px]">Product Name</TableHead>
+              <TableHead className="w-[200px]">Category</TableHead>
               <TableHead className="w-[200px]">Description</TableHead>
               <TableHead className="w-[200px]">Price</TableHead>
               <TableHead>Last Modified</TableHead>
@@ -81,6 +82,7 @@ function ProductTable({
                   <TableCell className="font-medium">
                     {pv.product.name}
                   </TableCell>
+                  <TableCell>{pv.product.product_category.category_name}</TableCell>
                   <TableCell>{pv.product.description}</TableCell>
                   <TableCell>{price}</TableCell>
                   <TableCell>{pv.modified_date}</TableCell>
