@@ -23,6 +23,8 @@ import { noop } from '@/utils/common.ts'
 
 import { Button } from '../atoms/button.tsx'
 import CustomPagination from '../molecules/custom-pagination.tsx'
+import { formatPrice } from '@/utils/common.ts'
+
 interface ProductTableProps {
   productVendors: ProductVendor[]
   metadata: PaginationSpec['metadata']
@@ -67,10 +69,6 @@ function ProductTable({
           </TableHeader>
           <TableBody>
             {productVendors.map((pv) => {
-              const price = new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: pv.price.currency_code,
-              }).format(pv.price.price)
               return (
                 <TableRow key={pv.id}>
                   <TableCell className="font-medium">
@@ -84,7 +82,14 @@ function ProductTable({
                   </TableCell>
                   <TableCell>{pv.product.product_category.category_name}</TableCell>
                   <TableCell>{pv.product.description}</TableCell>
-                  <TableCell>{price}</TableCell>
+                  <TableCell>
+                    {formatPrice(
+                      pv.price.price,
+                      pv.price.price_quantity,
+                      pv.price.currency_code,
+                      pv.price.uom.uom_name
+                    )}
+                  </TableCell>
                   <TableCell>{pv.modified_date}</TableCell>
                   <TableCell className="text-right">
                     <Popover>
