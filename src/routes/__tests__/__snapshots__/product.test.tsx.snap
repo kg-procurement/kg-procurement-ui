@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`<ProductPage /> > should filter by product name is filled successfully 1`] = `"Product NameDescriptionPriceLast ModifiedBukuBukuRp 23.000,002020-11-11T13:22:16Zundefined"`;
+exports[`<ProductPage /> > should filter by product name is filled successfully 1`] = `"Product NameCategoryDescriptionPriceLast ModifiedBukuStationaryBukuRp 23.000,002020-11-11T13:22:16Zundefined"`;
 
-exports[`<ProductPage /> > should handle when filter by product name returns null 1`] = `"Product NameDescriptionPriceLast Modified"`;
+exports[`<ProductPage /> > should handle when filter by product name returns null 1`] = `"Product NameCategoryDescriptionPriceLast Modified"`;
 
-exports[`<ProductPage /> > should render the product vendors table content properly 1`] = `"Product NameDescriptionPriceLast ModifiedBukuBukuRp 23.000,002020-11-11T13:22:16ZundefinedKoranKoranRp 290.000,002020-11-02T14:49:06ZundefinedMajalahMajalahRp 450.000,002020-11-04T11:23:28Zundefined"`;
+exports[`<ProductPage /> > should render the product vendors table content properly 1`] = `"Product NameCategoryDescriptionPriceLast ModifiedBukuStationaryBukuRp 23.000,002020-11-11T13:22:16ZundefinedKoranBuku, Majalah, Tabloid, HarianKoranRp 290.000,002020-11-02T14:49:06ZundefinedMajalahBuku, Majalah, Tabloid, HarianMajalahRp 450.000,002020-11-04T11:23:28Zundefined"`;

@@ -50,6 +50,7 @@ function VendorProductTable({
             <Checkbox />
           </TableHead>
           <TableHead>Name</TableHead>
+          <TableHead>Category</TableHead>
           <TableHead>Description</TableHead>
           <TableHead>Price</TableHead>
         </TableRow>
@@ -74,6 +75,7 @@ function VendorProductTable({
                   <Checkbox />
                 </TableCell>
                 <TableCell>{product.name}</TableCell>
+                <TableCell>{product.product_category.category_name}</TableCell>
                 <TableCell>{product.description}</TableCell>
                 <TableCell>{rupiah(pv.price.price)}</TableCell>
                 <TableCell>
@@ -104,8 +106,8 @@ function VendorProductTable({
         })}
       </TableBody>
       <TableFooter>
-        <TableRow>
-          <TableCell colSpan={4} className="py-2.5">
+        <TableRow className="">
+          <TableCell colSpan={6} className="py-2.5">
             <CustomPagination
               current_page={current_page}
               total_page={total_page}
