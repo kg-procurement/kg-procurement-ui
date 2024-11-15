@@ -26,6 +26,7 @@ import {
 import CustomPagination from '@/components/molecules/custom-pagination.tsx'
 import ProductForm from '@/components/organisms/product/form.tsx'
 import { ProductVendor } from '@/schemas/product.ts'
+import { rupiah } from '@/utils/common'
 
 interface VendorProductTableProps {
   product_vendors: ProductVendor[]
@@ -74,7 +75,7 @@ function VendorProductTable({
                 </TableCell>
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.description}</TableCell>
-                <TableCell>{pv.price.price}</TableCell>
+                <TableCell>{rupiah(pv.price.price)}</TableCell>
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
