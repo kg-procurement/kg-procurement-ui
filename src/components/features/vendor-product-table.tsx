@@ -49,8 +49,8 @@ function VendorProductTable({
             <Checkbox />
           </TableHead>
           <TableHead>Name</TableHead>
+          <TableHead>Category</TableHead>
           <TableHead>Description</TableHead>
-          <TableHead>Modified Date</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -73,8 +73,8 @@ function VendorProductTable({
                   <Checkbox />
                 </TableCell>
                 <TableCell>{product.name}</TableCell>
+                <TableCell>{product.product_category.category_name}</TableCell>
                 <TableCell>{product.description}</TableCell>
-                <TableCell>{product.modified_date}</TableCell>
                 <TableCell>
                   <Popover>
                     <PopoverTrigger asChild>
