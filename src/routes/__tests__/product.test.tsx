@@ -55,7 +55,7 @@ describe('<ProductPage />', () => {
   })
 
   it('should correctly handle choose all product by checkbox on table header and choosing a product by checkbox on table row', async () => {
-    render(withWrappers(<ProductPage />))
+    render(withWrappers(<ProductPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()
 
     const checkboxAll = screen.getAllByRole('checkbox')[0]

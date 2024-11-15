@@ -69,7 +69,9 @@ describe('<VendorDetailPage />', () => {
     await userEvent.click(firstEllipsisButton)
     const editButton = screen.getAllByTestId('edit-button')[0]
     await userEvent.click(editButton)
-    const closeButton = screen.getByText('Close')
+    screen.debug(undefined, 100000)
+    // const closeButton = screen.getByRole('button', { name: /close/i })
+    const closeButton = screen.getAllByText('Close')[1]
     await userEvent.click(closeButton)
   })
 
