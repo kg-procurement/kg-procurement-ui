@@ -19,11 +19,10 @@ import {
 import { Typography } from '@/components/atoms/typography.tsx'
 import { PaginationSpec } from '@/schemas/common.ts'
 import { ProductVendor } from '@/schemas/product.ts'
-import { noop } from '@/utils/common.ts'
+import { noop, formatPrice } from '@/utils/common.ts'
 
 import { Button } from '../atoms/button.tsx'
 import CustomPagination from '../molecules/custom-pagination.tsx'
-import { formatPrice } from '@/utils/common.ts'
 
 interface ProductTableProps {
   productVendors: ProductVendor[]
