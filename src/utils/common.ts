@@ -1,11 +1,20 @@
 export const noop = () => {}
 
-export const rupiah = (amount: number) => Intl.NumberFormat('id-ID', {
-  style: 'currency',
-  currency: 'IDR',
-}).format(amount)
+export const formatPrice = (
+  amount: number,
+  quantityPrice: number,
+  currencyCode: string,
+  uomName: string
+): string => {
+  const formattedPrice = new Intl.NumberFormat(
+    currencyCode === 'IDR' ? 'id-ID' : 'en-US',
+    {
+      style: 'currency',
+      currency: currencyCode,
+    }
+  ).format(amount);
 
-export const us_dollar = (amount: number) => Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-}).format(amount)
+  return quantityPrice > 1
+    ? `${formattedPrice} / ${quantityPrice} ${uomName}`
+    : `${formattedPrice} / ${uomName}`;
+};
