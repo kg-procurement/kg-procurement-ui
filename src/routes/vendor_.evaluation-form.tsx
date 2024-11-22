@@ -44,65 +44,63 @@ export default function EvaluationFormPage() {
   }
 
   return (
-    <>
-      <div className="flex min-h-screen w-full flex-col gap-10">
-        <PageHeader>
-          <Typography variant="h2" className="text-white text-center">
-            Vendor Performance
-            <br />
-            Evaluation Form
-          </Typography>
-          <Typography variant="body1" className="text-white">
-            Vendor A
-          </Typography>
-        </PageHeader>
-        <div className="flex justify-center w-full">
-          <div className="flex w-2/3 flex-col gap-5 rounded-lg border p-6 shadow-xl">
-            <div className="w-full rounded-lg border">
-              <Table data-testid="vendor-evaluation-form-table">
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[200px]">
-                      Kriterian penilaian
-                    </TableHead>
-                    <TableHead className="w-[100px] text-center">1</TableHead>
-                    <TableHead className="w-[100px] text-center">2</TableHead>
-                    <TableHead className="w-[100px] text-center">3</TableHead>
-                    <TableHead className="w-[100px] text-center">4</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {kriteriaPenilaian.map((kriteria, kriteriaIndex) => {
-                    return (
-                      <TableRow>
-                        <TableCell className="font-medium">
-                          {kriteria}
-                        </TableCell>
-                        {['1', '2', '3', '4'].map((value, i) => {
-                          return (
-                            <TableCell className="text-center" key={i}>
-                              <RadioGroup
-                                defaultValue="0"
-                                className="flex justify-center"
-                                onValueChange={(value) => {
-                                  handleSelectRadioButton(kriteriaIndex, value)
-                                }}
-                              >
-                                <RadioGroupItem value={value} checked={penilaianScores[kriteriaIndex] === Number(value)} />
-                              </RadioGroup>
-                            </TableCell>
-                          )
-                        })}
-                      </TableRow>
-                    )
-                  })}
-                </TableBody>
-              </Table>
-            </div>
+    <div className="flex min-h-screen w-full flex-col gap-10">
+      <PageHeader>
+        <Typography variant="h2" className="text-white text-center">
+          Vendor Performance
+          <br />
+          Evaluation Form
+        </Typography>
+        <Typography variant="body1" className="text-white">
+          Vendor A
+        </Typography>
+      </PageHeader>
+      <div className="flex justify-center w-full">
+        <div className="flex w-2/3 flex-col gap-5 rounded-lg border p-6 shadow-xl">
+          <div className="w-full rounded-lg border">
+            <Table data-testid="vendor-evaluation-form-table">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[200px]">
+                    Kriterian penilaian
+                  </TableHead>
+                  <TableHead className="w-[100px] text-center">1</TableHead>
+                  <TableHead className="w-[100px] text-center">2</TableHead>
+                  <TableHead className="w-[100px] text-center">3</TableHead>
+                  <TableHead className="w-[100px] text-center">4</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {kriteriaPenilaian.map((kriteria, kriteriaIndex) => {
+                  return (
+                    <TableRow key={kriteria}>
+                      <TableCell className="font-medium">
+                        {kriteria}
+                      </TableCell>
+                      {['1', '2', '3', '4'].map((value) => {
+                        return (
+                          <TableCell className="text-center" key={value}>
+                            <RadioGroup
+                              defaultValue="0"
+                              className="flex justify-center"
+                              onValueChange={(value) => {
+                                handleSelectRadioButton(kriteriaIndex, value)
+                              }}
+                            >
+                              <RadioGroupItem value={value} checked={penilaianScores[kriteriaIndex] === Number(value)} />
+                            </RadioGroup>
+                          </TableCell>
+                        )
+                      })}
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
           </div>
         </div>
-        <Footer />
       </div>
-    </>
+      <Footer />
+    </div>
   )
 }
