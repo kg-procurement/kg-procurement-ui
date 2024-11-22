@@ -47,7 +47,12 @@ export const productHandlers = [
             id: '3',
             price: 450000,
             currency_code: 'IDR',
+            price_quantity: 1,
             vendor_id: '3',
+            uom: {
+              id: "26",
+              uom_name: "Pcs"
+            },
             modified_date: '2024-10-01T14:47:46Z',
             modified_by: '166',
           },
@@ -85,7 +90,55 @@ export const productHandlers = [
             id: '3',
             price: 450000,
             currency_code: 'USD',
+            price_quantity: 1,
             vendor_id: '3',
+            uom: {
+              id: "26",
+              uom_name: "Pcs"
+            },
+            modified_date: '2024-10-01T14:47:46Z',
+            modified_by: '166',
+          },
+          code: '',
+          name: 'Majalah',
+          income_tax_id: '0',
+          income_tax_name: '',
+          income_tax_percentage: '0',
+          description: 'Majalah',
+          uom_id: '35',
+          sap_code: '',
+          modified_date: '2020-11-04T11:23:28Z',
+          modified_by: '1',
+        },
+        {
+          id: '3',
+          product: {
+            id: '3',
+            product_category: {
+              id: '59',
+              category_name: 'Stationary',
+              description: 'Kertas, Amplot, Balpen, Ordner, Binder, Staple...',
+              modified_date: '2020-10-27T23:20:39Z',
+              modified_by: '0',
+            },
+            uom_id: '26',
+            income_tax_id: '0',
+            product_type_id: '3',
+            name: 'Majalah',
+            description: 'Majalah',
+            modified_date: '2020-11-02T07:44:58Z',
+            modified_by: '0',
+          },
+          price: {
+            id: '3',
+            price: 450000,
+            currency_code: 'USD',
+            price_quantity: 1,
+            vendor_id: '3',
+            uom: {
+              id: "26",
+              uom_name: "Pcs"
+            },
             modified_date: '2024-10-01T14:47:46Z',
             modified_by: '166',
           },
@@ -153,7 +206,12 @@ export const productHandlers = [
               id: '1',
               price: 23000,
               currency_code: 'IDR',
+              price_quantity: 1,
               vendor_id: '1',
+              uom: {
+                id: "26",
+                uom_name: "Pcs"
+              },
               modified_date: '2024-10-01T15:16:47Z',
               modified_by: '1075',
             },
@@ -202,7 +260,12 @@ export const productHandlers = [
             id: '1',
             price: 23000,
             currency_code: 'IDR',
+            price_quantity: 1,
             vendor_id: '1',
+            uom: {
+              id: "26",
+              uom_name: "Pcs"
+            },
             modified_date: '2024-10-01T15:16:47Z',
             modified_by: '1075',
           },
@@ -240,7 +303,12 @@ export const productHandlers = [
             id: '2',
             price: 290000,
             currency_code: 'IDR',
+            price_quantity: 1,
             vendor_id: '2',
+            uom: {
+              id: "26",
+              uom_name: "Pcs"
+            },
             modified_date: '2024-10-01T14:47:46Z',
             modified_by: '166',
           },
@@ -278,7 +346,12 @@ export const productHandlers = [
             id: '3',
             price: 450000,
             currency_code: 'IDR',
+            price_quantity: 1,
             vendor_id: '3',
+            uom: {
+              id: "26",
+              uom_name: "Pcs"
+            },
             modified_date: '2024-10-01T14:47:46Z',
             modified_by: '166',
           },

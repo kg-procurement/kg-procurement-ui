@@ -20,11 +20,18 @@ export const productSchema = z.object({
   modified_by: z.string(),
 })
 
+export const uomSchema = z.object({
+  id: z.string(),
+  uom_name: z.string(),
+})
+
 export const priceSchema = z.object({
   id: z.string(),
   price: z.number(),
   currency_code: z.string(),
+  price_quantity: z.number(),
   vendor_id: z.string(),
+  uom: uomSchema,
   modified_date: z.string().datetime(),
   modified_by: z.string(),
 })
