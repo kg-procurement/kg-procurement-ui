@@ -1,5 +1,5 @@
 import { CheckedState } from '@radix-ui/react-checkbox'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useSearch } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 
 import Dropdown from '@/components/atoms/dropdown.tsx'
@@ -11,16 +11,22 @@ import PageHeader from '@/components/molecules/page-header.tsx'
 import { useGetLocationsQuery, useGetVendorsQuery } from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
-import { Vendor } from '@/schemas/vendor.ts'
+import { Vendor, vendorPageSearchSchema } from '@/schemas/vendor.ts'
 
 export const Route = createFileRoute('/vendor')({
   component: VendorPage,
+  validateSearch: vendorPageSearchSchema,
 })
 
 export default function VendorPage() {
-  const [page, setPage] = useState<number>(1)
-  const [productFilter, setProductFilter] = useState('')
-  const [locationFilter, setLocationFilter] = useState('')
+  const {
+    page: searchPage,
+    product_name: searchProduct,
+    location: searchLocation,
+  } = useSearch({ from: '/vendor' })
+  const [page, setPage] = useState<number>(searchPage)
+  const [productFilter, setProductFilter] = useState(searchProduct)
+  const [locationFilter, setLocationFilter] = useState(searchLocation)
   const { setShowLoadingOverlay } = useCommonStore()
   const { vendors, metadata, isSuccess, error } = useGetVendorsQuery(
     { page, product: productFilter, location: locationFilter },

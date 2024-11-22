@@ -15,4 +15,10 @@ export const vendorSchema = z.object({
   dt: z.string().datetime(),
 })
 
+export const vendorPageSearchSchema = z.object({
+  page: z.number().catch(1),
+  product_name: z.string().catch(''),
+  location: z.string().catch(''),
+})
+
 export type Vendor = z.infer<typeof vendorSchema>

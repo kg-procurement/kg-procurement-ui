@@ -4,6 +4,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@radix-ui/react-popover'
+import { Link } from '@tanstack/react-router'
 import { EllipsisVertical } from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
 
@@ -19,7 +20,7 @@ import {
 import { Typography } from '@/components/atoms/typography.tsx'
 import { PaginationSpec } from '@/schemas/common.ts'
 import { ProductVendor } from '@/schemas/product.ts'
-import { noop, formatPrice } from '@/utils/common.ts'
+import { formatPrice, noop } from '@/utils/common.ts'
 
 import { Button } from '../atoms/button.tsx'
 import CustomPagination from '../molecules/custom-pagination.tsx'
@@ -73,20 +74,23 @@ function ProductTable({
                   <TableCell className="font-medium">
                     <Checkbox
                       checked={productIds.has(pv.id)}
-                      onCheckedChange={event => handleUpdateChosenProduct(event, pv.id)}
+                      onCheckedChange={event =>
+                        handleUpdateChosenProduct(event, pv.id)}
                     />
                   </TableCell>
                   <TableCell className="font-medium">
                     {pv.product.name}
                   </TableCell>
-                  <TableCell>{pv.product.product_category.category_name}</TableCell>
+                  <TableCell>
+                    {pv.product.product_category.category_name}
+                  </TableCell>
                   <TableCell>{pv.product.description}</TableCell>
                   <TableCell>
                     {formatPrice(
                       pv.price.price,
                       pv.price.price_quantity,
                       pv.price.currency_code,
-                      pv.price.uom.uom_name
+                      pv.price.uom.uom_name,
                     )}
                   </TableCell>
                   <TableCell>{pv.modified_date}</TableCell>
@@ -97,13 +101,28 @@ function ProductTable({
                           <EllipsisVertical size={16} />
                         </button>
                       </PopoverTrigger>
-                      <PopoverContent className="w-fit p-2 bg-slate-200 rounded-lg">
+                      <PopoverContent className="flex w-fit flex-col gap-1 rounded-lg bg-slate-200 p-2">
                         <Button
                           className="h-fit w-full px-3 py-1"
-                          variant="ghost"
+                          variant="outline"
                           onClick={() => console.log('hai')}
                         >
                           Send email to all vendors of this product
+                        </Button>
+                        <Button
+                          className="h-fit w-full px-3 py-1"
+                          variant="outline"
+                        >
+                          <Link
+                            to="/vendor"
+                            search={{
+                              page: 1,
+                              product_name: pv.product.name,
+                              location: '',
+                            }}
+                          >
+                            See all vendors with this product
+                          </Link>
                         </Button>
                       </PopoverContent>
                     </Popover>
