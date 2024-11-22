@@ -20,7 +20,7 @@ interface RichTextEditorProps {
   setContent: (content: string) => void
 }
 
-export function RichTextEditor({
+export default function RichTextEditor({
   content,
   setContent,
 }: Readonly<RichTextEditorProps>) {

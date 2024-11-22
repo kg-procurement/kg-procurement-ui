@@ -1,5 +1,6 @@
 import { DialogClose } from '@radix-ui/react-dialog'
 import { Dispatch, SetStateAction, useState } from 'react'
+import { lazy } from 'react'
 
 import { Button } from '@/components/atoms/button.tsx'
 import {
@@ -10,16 +11,22 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/atoms/dialog.tsx'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/atoms/popover.tsx'
-import { RichTextEditor } from '@/components/atoms/rich-text-editor.tsx'
+import { Input } from '@/components/atoms/input.tsx'
+import { Label } from '@/components/atoms/label.tsx'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/atoms/popover.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
 import { useToast } from '@/hooks/use-toast.ts'
 import { useBlastEmailMutation } from '@/lib/redux/features/vendor/api.ts'
 import { EmailVendorsArgs } from '@/lib/redux/features/vendor/validation.ts'
 import { toastForError } from '@/lib/redux/utils.tsx'
 
-import { Input } from '../atoms/input.tsx'
-import { Label } from '../atoms/label.tsx'
+const RichTextEditor = lazy(
+  () => import('@/components/atoms/rich-text-editor.tsx'),
+)
 
 interface EmailFormProps {
   vendorIds: string[]
@@ -38,9 +45,12 @@ export function EmailForm({
 
   // Default values for subject and body
   const defaultSubject = 'Request for products'
-  const defaultBody = 'Kepada Yth {{name}},\n\nKami mengajukan permintaan untuk pengadaan produk tertentu yang dibutuhkan oleh perusahaan kami. Mohon informasi mengenai ketersediaan, harga, dan waktu pengiriman untuk produk tersebut.\n\nTerima kasih atas perhatian dan kerjasamanya.\n\nHormat kami'
+  const defaultBody =
+    'Kepada Yth {{name}},\n\nKami mengajukan permintaan untuk pengadaan produk tertentu yang dibutuhkan oleh perusahaan kami. Mohon informasi mengenai ketersediaan, harga, dan waktu pengiriman untuk produk tersebut.\n\nTerima kasih atas perhatian dan kerjasamanya.\n\nHormat kami'
 
-  const [emailBody, setEmailBody] = useState<string>(defaultContent || defaultBody)
+  const [emailBody, setEmailBody] = useState<string>(
+    defaultContent || defaultBody,
+  )
   const [emailSubject, setEmailSubject] = useState<string>(defaultSubject)
   const [showPopover, setShowPopover] = useState(false)
 
@@ -85,23 +95,28 @@ export function EmailForm({
   return (
     <Dialog open={toggleDialog} onOpenChange={setToggleDialog}>
       <DialogContent onInteractOutside={() => setIsConfirmation(false)}>
-        {isConfirmation ?
-            (
+        {isConfirmation
+          ? (
               <>
                 <DialogHeader>
                   <DialogTitle>Confirm Send Email</DialogTitle>
                   <DialogDescription>
-                    Are you sure you want to send the following email to the selected vendors? This action cannot be undone.
+                    Are you sure you want to send the following email to the
+                    selected vendors? This action cannot be undone.
                   </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
-                  <Button className="bg-red-500 hover:bg-red-600" onClick={() => setIsConfirmation(false)}>No, Go Back</Button>
+                  <Button
+                    className="bg-red-500 hover:bg-red-600"
+                    onClick={() => setIsConfirmation(false)}
+                  >
+                    No, Go Back
+                  </Button>
                   <Button onClick={handleEmailVendors}>Yes, Send</Button>
                 </DialogFooter>
               </>
             )
-          :
-            (
+          : (
               <>
                 <DialogHeader>
                   <DialogTitle>Compose Email</DialogTitle>
@@ -116,7 +131,12 @@ export function EmailForm({
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col gap-2">
                     <Label>Email Subject</Label>
-                    <Input data-testid="subject-input" placeholder="Type here...." onChange={event => setEmailSubject(event.target.value)} defaultValue={emailSubject} />
+                    <Input
+                      data-testid="subject-input"
+                      placeholder="Type here...."
+                      onChange={event => setEmailSubject(event.target.value)}
+                      defaultValue={emailSubject}
+                    />
                   </div>
                   <div className="flex flex-col gap-2">
                     <Label>Email Body</Label>
@@ -127,7 +147,7 @@ export function EmailForm({
                   Note:
                   <br />
                   -
-                  { '{{name}} '}
+                  {'{{name}} '}
                   = Vendor Name
                 </Typography>
                 <DialogFooter>
@@ -140,7 +160,8 @@ export function EmailForm({
                     </PopoverTrigger>
                     <PopoverContent className="p-2">
                       <Typography variant="body2" className="text-red-600">
-                        Email body or subject cannot be empty. Please write your email before proceeding.
+                        Email body or subject cannot be empty. Please write your
+                        email before proceeding.
                       </Typography>
                     </PopoverContent>
                   </Popover>
