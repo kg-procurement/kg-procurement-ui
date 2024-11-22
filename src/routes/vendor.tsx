@@ -22,8 +22,15 @@ export default function VendorPage() {
   const [productFilter, setProductFilter] = useState('')
   const [locationFilter, setLocationFilter] = useState('')
   const { setShowLoadingOverlay } = useCommonStore()
+  const [sortBy, setSortBy] = useState<'name' | 'area_group_name' | 'rating' | ''>('');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | ''>('');
+
   const { vendors, metadata, isSuccess, error } = useGetVendorsQuery(
-    { page, product: productFilter, location: locationFilter },
+    { page, 
+      product: productFilter, 
+      location: locationFilter, 
+      order_by: sortBy, 
+      order: sortOrder },
     {
       selectFromResult: result => ({
         ...result,
@@ -68,6 +75,15 @@ export default function VendorPage() {
     setVendorIds(updatedSet)
   }
 
+  const handleSort = (column: 'name' | 'area_group_name' | 'rating') => {
+    if (sortBy === column) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortBy(column)
+      setSortOrder('asc')
+    }
+  }
+
   return (
     <div className="flex min-h-screen w-full flex-col gap-10">
       <PageHeader>
@@ -108,6 +124,9 @@ export default function VendorPage() {
             vendorIds={vendorIds}
             chooseAllVendor={chooseAllVendor}
             handleUpdateChosenVendor={handleUpdateChosenVendor}
+            handleSort={handleSort}
+            sortBy={sortBy}
+            sortOrder={sortOrder}
           />
         )}
       </div>

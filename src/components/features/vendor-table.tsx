@@ -34,6 +34,9 @@ interface VendorTableProps {
   vendorIds: Set<string>
   handleUpdateChosenVendor: (checked: CheckedState, vendorId: string) => void
   chooseAllVendor: (vendors: Vendor[], toggle: boolean) => void
+  handleSort: (column: 'name' | 'area_group_name' | 'rating') => void
+  sortBy: 'name' | 'area_group_name' | 'rating' | ''
+  sortOrder: 'asc' | 'desc' | ''
 }
 
 function VendorTable({
@@ -44,6 +47,9 @@ function VendorTable({
   vendorIds,
   chooseAllVendor,
   handleUpdateChosenVendor,
+  handleSort,
+  sortBy,
+  sortOrder
 }: VendorTableProps) {
   const [toggleDialog, setToggleDialog] = useState<boolean>(false)
   const [togglePopover, setTogglePopover] = useState<boolean>(false)
@@ -57,6 +63,7 @@ function VendorTable({
       setTimeout(() => setTogglePopover(false), 2000)
     }
   }
+
   return (
     <div className="flex w-3/4 flex-col gap-5 rounded-lg border p-6 shadow-xl">
       <div className="w-full rounded-lg border">
@@ -68,7 +75,14 @@ function VendorTable({
               </TableHead>
               <TableHead className="w-[200px]">Vendor Name</TableHead>
               <TableHead className="w-[200px]">Location</TableHead>
-              <TableHead>Performance Score</TableHead>
+              <TableHead
+                className="cursor-pointer"
+                data-testid = "sort-rating"
+                onClick={() => handleSort('rating')}
+              >
+                Performance Score
+                {sortBy === 'rating' && (sortOrder === 'asc' ? ' ↑' : ' ↓')}
+              </TableHead>
               <TableHead className="text-right"></TableHead>
             </TableRow>
           </TableHeader>
