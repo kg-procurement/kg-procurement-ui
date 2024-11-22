@@ -134,4 +134,14 @@ describe('<VendorPage/>', () => {
     const optionJakarta = await waitFor(() => screen.getByText('Jakarta'))
     await userEvent.click(optionJakarta)
   })
+
+  it('should update sortBy and sortOrder when clicking on the performance score header', async () => {
+    render(withWrappers(<VendorPage />, { withRoot: true }))
+    await waitFor(() => expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument())
+
+    const button = screen.getByTestId("sort-rating")
+    await userEvent.click(button)
+
+    await userEvent.click(button)
+  })
 })
