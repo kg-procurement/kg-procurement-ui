@@ -76,12 +76,8 @@ export default function VendorPage() {
   }
 
   const handleSort = (column: 'name' | 'area_group_name' | 'rating') => {
-    if (sortBy === column) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
-    } else {
-      setSortBy(column)
-      setSortOrder('asc')
-    }
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+    setSortBy(column)
   }
 
   return (
