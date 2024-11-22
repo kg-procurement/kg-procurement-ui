@@ -1,5 +1,5 @@
 import { DialogClose } from '@radix-ui/react-dialog'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction, Suspense, useState } from 'react'
 import { lazy } from 'react'
 
 import { Button } from '@/components/atoms/button.tsx'
@@ -140,7 +140,12 @@ export function EmailForm({
                   </div>
                   <div className="flex flex-col gap-2">
                     <Label>Email Body</Label>
-                    <RichTextEditor content={emailBody} setContent={setEmailBody} />
+                    <Suspense fallback="Loading Rich Text Editor ...">
+                      <RichTextEditor
+                        content={emailBody}
+                        setContent={setEmailBody}
+                      />
+                    </Suspense>
                   </div>
                 </div>
                 <Typography variant="body2" className="mt-2">
