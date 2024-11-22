@@ -10,6 +10,25 @@ import { waitForNoLoadingOverlay } from '@/lib/testing/wait-for.ts'
 
 import VendorPage from '../vendor.tsx'
 
+const { mockGetVendorsUseSearch } = vi.hoisted(() => ({
+  mockGetVendorsUseSearch: vi.fn(() => ({
+    page: 1,
+    product_name: '',
+    location: '',
+  })),
+}))
+
+vi.mock('@tanstack/react-router', async () => {
+  const actual = await vi.importActual('@tanstack/react-router')
+
+  return {
+    ...actual,
+    useSearch: mockGetVendorsUseSearch,
+    useNavigate: vi.fn(() => vi.fn()),
+    useLocation: vi.fn(() => ({ href: '/vendor' })),
+  }
+})
+
 describe('<VendorPage/>', () => {
   it('should render the header section with the logo', () => {
     render(withWrappers(<VendorPage />))
