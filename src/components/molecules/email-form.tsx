@@ -1,6 +1,5 @@
 import { DialogClose } from '@radix-ui/react-dialog'
-import { Dispatch, SetStateAction, Suspense, useState } from 'react'
-import { lazy } from 'react'
+import { Dispatch, lazy, SetStateAction, Suspense, useState } from 'react'
 
 import { Button } from '@/components/atoms/button.tsx'
 import {
