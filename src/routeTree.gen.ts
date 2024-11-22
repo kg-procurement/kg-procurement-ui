@@ -17,6 +17,7 @@ import { Route as ProductImport } from './routes/product'
 import { Route as LoginImport } from './routes/login'
 import { Route as EmailImport } from './routes/email'
 import { Route as IndexImport } from './routes/index'
+import { Route as VendorEvaluationFormImport } from './routes/vendor_.evaluation-form'
 import { Route as DashboardVendorVendorIdImport } from './routes/dashboard.vendor.$vendorId'
 
 // Create/Update Routes
@@ -48,6 +49,11 @@ const EmailRoute = EmailImport.update({
 
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const VendorEvaluationFormRoute = VendorEvaluationFormImport.update({
+  path: '/vendor/evaluation-form',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -102,6 +108,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VendorImport
       parentRoute: typeof rootRoute
     }
+    '/vendor/evaluation-form': {
+      id: '/vendor/evaluation-form'
+      path: '/vendor/evaluation-form'
+      fullPath: '/vendor/evaluation-form'
+      preLoaderRoute: typeof VendorEvaluationFormImport
+      parentRoute: typeof rootRoute
+    }
     '/dashboard/vendor/$vendorId': {
       id: '/dashboard/vendor/$vendorId'
       path: '/dashboard/vendor/$vendorId'
@@ -121,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/product': typeof ProductRoute
   '/register': typeof RegisterRoute
   '/vendor': typeof VendorRoute
+  '/vendor/evaluation-form': typeof VendorEvaluationFormRoute
   '/dashboard/vendor/$vendorId': typeof DashboardVendorVendorIdRoute
 }
 
@@ -131,6 +145,7 @@ export interface FileRoutesByTo {
   '/product': typeof ProductRoute
   '/register': typeof RegisterRoute
   '/vendor': typeof VendorRoute
+  '/vendor/evaluation-form': typeof VendorEvaluationFormRoute
   '/dashboard/vendor/$vendorId': typeof DashboardVendorVendorIdRoute
 }
 
@@ -142,6 +157,7 @@ export interface FileRoutesById {
   '/product': typeof ProductRoute
   '/register': typeof RegisterRoute
   '/vendor': typeof VendorRoute
+  '/vendor/evaluation-form': typeof VendorEvaluationFormRoute
   '/dashboard/vendor/$vendorId': typeof DashboardVendorVendorIdRoute
 }
 
@@ -154,6 +170,7 @@ export interface FileRouteTypes {
     | '/product'
     | '/register'
     | '/vendor'
+    | '/vendor/evaluation-form'
     | '/dashboard/vendor/$vendorId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -163,6 +180,7 @@ export interface FileRouteTypes {
     | '/product'
     | '/register'
     | '/vendor'
+    | '/vendor/evaluation-form'
     | '/dashboard/vendor/$vendorId'
   id:
     | '__root__'
@@ -172,6 +190,7 @@ export interface FileRouteTypes {
     | '/product'
     | '/register'
     | '/vendor'
+    | '/vendor/evaluation-form'
     | '/dashboard/vendor/$vendorId'
   fileRoutesById: FileRoutesById
 }
@@ -183,6 +202,7 @@ export interface RootRouteChildren {
   ProductRoute: typeof ProductRoute
   RegisterRoute: typeof RegisterRoute
   VendorRoute: typeof VendorRoute
+  VendorEvaluationFormRoute: typeof VendorEvaluationFormRoute
   DashboardVendorVendorIdRoute: typeof DashboardVendorVendorIdRoute
 }
 
@@ -193,6 +213,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductRoute: ProductRoute,
   RegisterRoute: RegisterRoute,
   VendorRoute: VendorRoute,
+  VendorEvaluationFormRoute: VendorEvaluationFormRoute,
   DashboardVendorVendorIdRoute: DashboardVendorVendorIdRoute,
 }
 
@@ -214,6 +235,7 @@ export const routeTree = rootRoute
         "/product",
         "/register",
         "/vendor",
+        "/vendor/evaluation-form",
         "/dashboard/vendor/$vendorId"
       ]
     },
@@ -234,6 +256,9 @@ export const routeTree = rootRoute
     },
     "/vendor": {
       "filePath": "vendor.tsx"
+    },
+    "/vendor/evaluation-form": {
+      "filePath": "vendor_.evaluation-form.tsx"
     },
     "/dashboard/vendor/$vendorId": {
       "filePath": "dashboard.vendor.$vendorId.tsx"

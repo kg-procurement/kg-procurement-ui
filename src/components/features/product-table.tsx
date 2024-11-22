@@ -19,7 +19,7 @@ import {
 import { Typography } from '@/components/atoms/typography.tsx'
 import { PaginationSpec } from '@/schemas/common.ts'
 import { ProductVendor } from '@/schemas/product.ts'
-import { noop, formatPrice } from '@/utils/common.ts'
+import { formatPrice, noop } from '@/utils/common.ts'
 
 import { Button } from '../atoms/button.tsx'
 import CustomPagination from '../molecules/custom-pagination.tsx'
@@ -86,7 +86,7 @@ function ProductTable({
                       pv.price.price,
                       pv.price.price_quantity,
                       pv.price.currency_code,
-                      pv.price.uom.uom_name
+                      pv.price.uom.uom_name,
                     )}
                   </TableCell>
                   <TableCell>{pv.modified_date}</TableCell>
