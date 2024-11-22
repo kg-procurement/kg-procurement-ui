@@ -77,7 +77,7 @@ export default function EvaluationFormPage() {
                       <TableCell className="font-medium">
                         {kriteria}
                       </TableCell>
-                      {['1', '2', '3', '4'].map((value) => {
+                      {[1, 2, 3, 4].map((value) => {
                         return (
                           <TableCell className="text-center" key={value}>
                             <RadioGroup

@@ -7,6 +7,7 @@ import {
 import { EllipsisVertical } from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
 
+import { Button } from '@/components/atoms/button.tsx'
 import { Checkbox } from '@/components/atoms/checkbox.tsx'
 import {
   Table,
@@ -21,7 +22,6 @@ import { PaginationSpec } from '@/schemas/common.ts'
 import { ProductVendor } from '@/schemas/product.ts'
 import { formatPrice, noop } from '@/utils/common.ts'
 
-import { Button } from '../atoms/button.tsx'
 import CustomPagination from '../molecules/custom-pagination.tsx'
 
 interface ProductTableProps {
