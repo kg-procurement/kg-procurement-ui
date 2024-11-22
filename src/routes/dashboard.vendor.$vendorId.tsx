@@ -1,5 +1,5 @@
 import { createFileRoute, useParams } from '@tanstack/react-router'
-import { Edit } from 'lucide-react'
+import { Edit, MapPin } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 
@@ -104,7 +104,13 @@ export default function VendorDetailPage() {
         <Typography variant="caption" className="max-w-prose text-white">
           {vendorData?.description}
         </Typography>
-        <div className="mt-2 flex gap-2">
+        <div className="flex gap-1 items-center">
+          <MapPin size={16} className="text-white" />
+          <Typography variant="subtitle2" className="text-white">
+            {vendorData?.area_group_name}
+          </Typography>
+        </div>
+        <div className="mt-1 flex gap-2">
           <Typography variant="subtitle2" className="text-white">
             Rating:
             {' '}
