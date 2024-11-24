@@ -24,6 +24,7 @@ export default mergeConfig(
           'src/main.tsx',
           // TODO: ignore schema for now
           '**/schemas/*',
+          'vite.config.ts',
         ],
       },
       include: ['**/*.{spec,test}.{ts,tsx}'],

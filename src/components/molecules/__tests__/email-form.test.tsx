@@ -36,7 +36,7 @@ describe('EmailForm', () => {
 
   const selectedVendors: string[] = ['1', '2']
 
-  it('should render email editor components', () => {
+  it('should render email editor components', async () => {
     render(
       withWrappers(
         <EmailForm
@@ -52,7 +52,12 @@ describe('EmailForm', () => {
       screen.getByRole('heading', { name: /compose email/i }),
     ).toBeInTheDocument()
     expect(screen.getByText(/compose your email to/i)).toBeInTheDocument()
-    expect(screen.getByTestId('rich-text-editor')).toBeInTheDocument()
+    await waitFor(
+      () => {
+        expect(screen.getByTestId('rich-text-editor')).toBeInTheDocument()
+      },
+      { timeout: 3000 },
+    )
     expect(screen.getByText('Cancel')).toBeInTheDocument()
     expect(screen.getByText('Next')).toBeInTheDocument()
   })
@@ -139,7 +144,7 @@ describe('EmailForm', () => {
     })
   })
 
-  it('should render email editor components with default content', () => {
+  it('should render email editor components with default content', async () => {
     render(
       withWrappers(
         <EmailForm
@@ -151,13 +156,22 @@ describe('EmailForm', () => {
       ),
     )
 
-    expect(screen.getByRole('heading', { name: /compose email/i })).toBeInTheDocument()
+    expect(
+      screen.getByRole('heading', { name: /compose email/i }),
+    ).toBeInTheDocument()
     expect(screen.getByText(/compose your email to/i)).toBeInTheDocument()
-    expect(screen.getByTestId('rich-text-editor')).toBeInTheDocument()
+    await waitFor(
+      () => {
+        expect(screen.getByTestId('rich-text-editor')).toBeInTheDocument()
+      },
+      { timeout: 3000 },
+    )
     expect(screen.getByText('Cancel')).toBeInTheDocument()
     expect(screen.getByText('Next')).toBeInTheDocument()
 
-    const subjectInput = screen.getByTestId('subject-input') as HTMLInputElement
+    const subjectInput = screen.getByTestId(
+      'subject-input',
+    ) as HTMLInputElement
     expect(subjectInput.value).toBe('Request for products')
   })
 })
