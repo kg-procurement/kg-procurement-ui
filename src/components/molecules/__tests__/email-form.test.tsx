@@ -74,8 +74,6 @@ describe('EmailForm', () => {
       ),
     )
 
-    screen.debug(undefined, 100000)
-
     const subjectInput = screen.getByTestId('subject-input')
     await userEvent.clear(subjectInput)
 
