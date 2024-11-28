@@ -139,8 +139,9 @@ export function EmailForm({
                 </DialogHeader>
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col gap-2">
-                    <Label>Email Subject</Label>
+                    <Label htmlFor="subject-input">Email Subject</Label>
                     <Input
+                      id="subject-input"
                       data-testid="subject-input"
                       placeholder="Type here...."
                       onChange={event => setEmailSubject(event.target.value)}
@@ -167,7 +168,10 @@ export function EmailForm({
                       e.target.files && setAttachments([...e.target.files])}
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div
+                  data-testid="email-attachments"
+                  className="grid grid-cols-2 gap-4"
+                >
                   {attachments.map(attachment => (
                     <img
                       key={attachment.name}
