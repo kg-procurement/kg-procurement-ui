@@ -202,6 +202,9 @@ describe('EmailForm', () => {
     })
     const fooTxt = new File(['foo'], 'foo.txt', { type: 'text/plain' })
     await userEvent.upload(attachmentsFileInput, [chuckNorrisImage, fooTxt])
+    expect(
+      screen.getByTestId('email-attachments').querySelectorAll('img').length,
+    ).toBe(2)
     await userEvent.click(screen.getByTestId('dialog-close'))
 
     // Try to re-open the dialog
