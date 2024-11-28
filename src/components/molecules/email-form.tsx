@@ -100,7 +100,10 @@ export function EmailForm({
         setToggleDialog(open)
       }}
     >
-      <DialogContent onInteractOutside={() => setIsConfirmation(false)}>
+      <DialogContent
+        onInteractOutside={() => setIsConfirmation(false)}
+        className="max-h-[calc(100vh-100px)] overflow-auto"
+      >
         {isConfirmation
           ? (
               <>
