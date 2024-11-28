@@ -23,7 +23,7 @@ export default function VendorPage() {
   const [locationFilter, setLocationFilter] = useState('')
   const { setShowLoadingOverlay } = useCommonStore()
   const [sortBy, setSortBy] = useState<'name' | 'area_group_name' | 'rating' | ''>('');
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | ''>('');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   const { vendors, metadata, isSuccess, error } = useGetVendorsQuery(
     { page, 
