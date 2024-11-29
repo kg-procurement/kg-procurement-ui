@@ -9,6 +9,7 @@ import Cookies from 'js-cookie'
 import { LoaderCircle } from 'lucide-react'
 import { ReactNode, useEffect } from 'react'
 
+import { Footer } from '@/components/molecules/footer.tsx'
 import Navbar from '@/components/molecules/navbar.tsx'
 import { AUTH_COOKIE_KEY } from '@/lib/zustand/auth.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
@@ -59,6 +60,9 @@ export default function Root(props: RootProps) {
       {import.meta.env.DEV && process.env.NODE_ENV !== 'test' && (
         <TanStackRouterDevtools position="bottom-right" />
       )}
+      <div className="mt-5">
+        <Footer />
+      </div>
     </div>
   )
 }

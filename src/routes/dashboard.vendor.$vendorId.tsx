@@ -24,7 +24,6 @@ import {
 import { Input } from '@/components/atoms/input.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
 import VendorProductTable from '@/components/features/vendor-product-table.tsx'
-import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
 import EditVendorForm from '@/components/organisms/vendor/form-edit-vendor.tsx'
 import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
@@ -85,7 +84,7 @@ export default function VendorDetailPage() {
 
   useQueryErrorHandler(error)
   return (
-    <div className="flex min-h-screen w-full flex-col">
+    <div className="flex w-full flex-col">
       <PageHeader>
         <div className="relative">
           <Typography variant="h2" className="text-white">
@@ -104,7 +103,7 @@ export default function VendorDetailPage() {
         <Typography variant="caption" className="max-w-prose text-white">
           {vendorData?.description}
         </Typography>
-        <div className="flex gap-1 items-center">
+        <div className="flex items-center gap-1">
           <MapPin size={16} className="text-white" />
           <Typography variant="subtitle2" className="text-white">
             {vendorData?.area_group_name}
@@ -183,7 +182,6 @@ export default function VendorDetailPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   )
 }

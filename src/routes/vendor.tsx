@@ -6,9 +6,11 @@ import Dropdown from '@/components/atoms/dropdown.tsx'
 import { Input } from '@/components/atoms/input.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
 import VendorTable from '@/components/features/vendor-table.tsx'
-import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
-import { useGetLocationsQuery, useGetVendorsQuery } from '@/lib/redux/features/vendor/api.ts'
+import {
+  useGetLocationsQuery,
+  useGetVendorsQuery,
+} from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
 import { Vendor, vendorPageSearchSchema } from '@/schemas/vendor.ts'
@@ -28,15 +30,19 @@ export default function VendorPage() {
   const [productFilter, setProductFilter] = useState(searchProduct)
   const [locationFilter, setLocationFilter] = useState(searchLocation)
   const { setShowLoadingOverlay } = useCommonStore()
-  const [sortBy, setSortBy] = useState<'name' | 'area_group_name' | 'rating' | ''>('');
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [sortBy, setSortBy] = useState<
+    'name' | 'area_group_name' | 'rating' | ''
+  >('')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
 
   const { vendors, metadata, isSuccess, error } = useGetVendorsQuery(
-    { page, 
-      product: productFilter, 
-      location: locationFilter, 
-      order_by: sortBy, 
-      order: sortOrder },
+    {
+      page,
+      product: productFilter,
+      location: locationFilter,
+      order_by: sortBy,
+      order: sortOrder,
+    },
     {
       selectFromResult: result => ({
         ...result,
@@ -46,7 +52,11 @@ export default function VendorPage() {
     },
   )
 
-  const { data: locationsData, isSuccess: isLocationsSuccess, error: locationsError } = useGetLocationsQuery()
+  const {
+    data: locationsData,
+    isSuccess: isLocationsSuccess,
+    error: locationsError,
+  } = useGetLocationsQuery()
 
   useQueryErrorHandler(error)
   useQueryErrorHandler(locationsError)
@@ -55,29 +65,31 @@ export default function VendorPage() {
     setShowLoadingOverlay(!isSuccess && !isLocationsSuccess)
   }, [isSuccess, isLocationsSuccess, setShowLoadingOverlay])
 
-  const locationOptions = locationsData?.locations.map(location => ({
-    value: location,
-    label: location
-      .split(' ')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(' '),
-  })) || []
+  const locationOptions =
+    locationsData?.locations.map(location => ({
+      value: location,
+      label: location
+        .split(' ')
+        .map(
+          word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+        )
+        .join(' '),
+    })) || []
 
   const [vendorIds, setVendorIds] = useState<Set<string>>(new Set())
-  const handleUpdateChosenVendor = (checked: CheckedState, vendorId: string) => {
+  const handleUpdateChosenVendor = (
+    checked: CheckedState,
+    vendorId: string,
+  ) => {
     const udpatedSet = new Set(vendorIds)
-    if (checked)
-      udpatedSet.add(vendorId)
-    else
-      udpatedSet.delete(vendorId)
+    if (checked) udpatedSet.add(vendorId)
+    else udpatedSet.delete(vendorId)
     setVendorIds(udpatedSet)
   }
   const chooseAllVendor = (vendors: Vendor[], toggle: boolean) => {
     const updatedSet = new Set(vendorIds)
-    if (toggle)
-      vendors.forEach(vendor => updatedSet.add(vendor.id))
-    else
-      vendors.forEach(vendor => updatedSet.delete(vendor.id))
+    if (toggle) vendors.forEach(vendor => updatedSet.add(vendor.id))
+    else vendors.forEach(vendor => updatedSet.delete(vendor.id))
     setVendorIds(updatedSet)
   }
 
@@ -87,7 +99,7 @@ export default function VendorPage() {
   }
 
   return (
-    <div className="flex min-h-screen w-full flex-col gap-10">
+    <div className="flex w-full flex-col gap-10">
       <PageHeader>
         <Typography variant="h2" className="text-white">
           Search Vendor
@@ -96,7 +108,7 @@ export default function VendorPage() {
           Lorem Ipsum
         </Typography>
         <div className="flex w-3/4 justify-between">
-          <div className="flex-grow flex justify-stretch">
+          <div className="flex flex-grow justify-stretch">
             <Input
               className="w-full flex-grow"
               placeholder="Filter by Product"
@@ -104,7 +116,7 @@ export default function VendorPage() {
               onChange={e => setProductFilter(e.target.value)}
             />
           </div>
-          <div className="flex-grow-0 flex justify-stretch items-center">
+          <div className="flex flex-grow-0 items-center justify-stretch">
             <Dropdown
               options={locationOptions}
               onSelect={(selectedValue) => {
@@ -132,7 +144,6 @@ export default function VendorPage() {
           />
         )}
       </div>
-      <Footer />
     </div>
   )
 }

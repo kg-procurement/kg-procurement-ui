@@ -50,8 +50,8 @@ export const productHandlers = [
             price_quantity: 1,
             vendor_id: '3',
             uom: {
-              id: "26",
-              uom_name: "Pcs"
+              id: '26',
+              uom_name: 'Pcs',
             },
             modified_date: '2024-10-01T14:47:46Z',
             modified_by: '166',
@@ -93,8 +93,8 @@ export const productHandlers = [
             price_quantity: 1,
             vendor_id: '3',
             uom: {
-              id: "26",
-              uom_name: "Pcs"
+              id: '26',
+              uom_name: 'Pcs',
             },
             modified_date: '2024-10-01T14:47:46Z',
             modified_by: '166',
@@ -136,8 +136,8 @@ export const productHandlers = [
             price_quantity: 1,
             vendor_id: '3',
             uom: {
-              id: "26",
-              uom_name: "Pcs"
+              id: '26',
+              uom_name: 'Pcs',
             },
             modified_date: '2024-10-01T14:47:46Z',
             modified_by: '166',
@@ -209,8 +209,8 @@ export const productHandlers = [
               price_quantity: 1,
               vendor_id: '1',
               uom: {
-                id: "26",
-                uom_name: "Pcs"
+                id: '26',
+                uom_name: 'Pcs',
               },
               modified_date: '2024-10-01T15:16:47Z',
               modified_by: '1075',
@@ -263,8 +263,8 @@ export const productHandlers = [
             price_quantity: 1,
             vendor_id: '1',
             uom: {
-              id: "26",
-              uom_name: "Pcs"
+              id: '26',
+              uom_name: 'Pcs',
             },
             modified_date: '2024-10-01T15:16:47Z',
             modified_by: '1075',
@@ -306,8 +306,8 @@ export const productHandlers = [
             price_quantity: 1,
             vendor_id: '2',
             uom: {
-              id: "26",
-              uom_name: "Pcs"
+              id: '26',
+              uom_name: 'Pcs',
             },
             modified_date: '2024-10-01T14:47:46Z',
             modified_by: '166',
@@ -349,8 +349,8 @@ export const productHandlers = [
             price_quantity: 1,
             vendor_id: '3',
             uom: {
-              id: "26",
-              uom_name: "Pcs"
+              id: '26',
+              uom_name: 'Pcs',
             },
             modified_date: '2024-10-01T14:47:46Z',
             modified_by: '166',

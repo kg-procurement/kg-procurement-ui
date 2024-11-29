@@ -2,7 +2,6 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 
 import EmailStatusTable from '@/components/features/email-status-table.tsx'
-import { Footer } from '@/components/molecules/footer.tsx'
 import { useGetEmailStatusesQuery } from '@/lib/redux/features/email/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
@@ -34,7 +33,7 @@ export default function EmailPage() {
   }, [isSuccess, setShowLoadingOverlay])
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-center">
+    <div className="flex w-full flex-col items-center">
       <div className="mt-4">
         {emails && metadata && (
           <EmailStatusTable
@@ -45,7 +44,6 @@ export default function EmailPage() {
           />
         )}
       </div>
-      <Footer />
     </div>
   )
 }

@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { Button } from '@/components/atoms/button.tsx'
 import { Input } from '@/components/atoms/input.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
-import { Footer } from '@/components/molecules/footer.tsx'
 import { useToast } from '@/hooks/use-toast.ts'
 import { useLoginAccountMutation } from '@/lib/redux/features/account/api.ts'
 import { LoginAccountRequestArgs } from '@/lib/redux/features/account/validation.ts'
@@ -46,7 +45,10 @@ export default function LoginPage() {
           description: 'Login successful!',
         })
         setAccount(initialValue)
-        navigate({ to: '/vendor' })
+        navigate({
+          to: '/vendor',
+          search: { page: 1, product_name: '', location: '' },
+        })
       }
     }
     catch (err) {
@@ -55,7 +57,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen w-full flex-col">
+    <div className="flex w-full flex-col">
       <div className="mx-auto my-auto max-w-[300px] space-y-4 rounded-xl bg-white p-8 shadow-lg">
         <Typography variant="h3" className="text-center text-primary">
           Login
@@ -88,7 +90,6 @@ export default function LoginPage() {
           </a>
         </div>
       </div>
-      <Footer />
     </div>
   )
 }

@@ -158,7 +158,7 @@ describe('<VendorPage/>', () => {
     render(withWrappers(<VendorPage />, { withRoot: true }))
     await waitFor(() => expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument())
 
-    const button = screen.getByTestId("sort-rating")
+    const button = screen.getByTestId('sort-rating')
     await userEvent.click(button)
 
     await userEvent.click(button)

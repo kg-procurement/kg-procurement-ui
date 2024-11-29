@@ -28,7 +28,6 @@ import ProductForm from '@/components/organisms/product/form.tsx'
 import { ProductVendor } from '@/schemas/product.ts'
 import { formatPrice } from '@/utils/common.ts'
 
-
 interface VendorProductTableProps {
   product_vendors: ProductVendor[]
   total_page: number
@@ -83,7 +82,7 @@ function VendorProductTable({
                     pv.price.price,
                     pv.price.price_quantity,
                     pv.price.currency_code,
-                    pv.price.uom.uom_name
+                    pv.price.uom.uom_name,
                   )}
                 </TableCell>
                 <TableCell>
