@@ -1,6 +1,17 @@
-// mixpanelClient.test.ts
-import { MixpanelContext, NoOpMixpanelStrategy } from "../index";
-import { describe, test, expect, afterEach, vi } from "vitest";
+import { MixpanelContext, NoOpMixpanelStrategy, ProductionMixpanelStrategy } from "../index";
+import mixpanel from "mixpanel-browser";
+
+vi.mock("mixpanel-browser", () => ({
+  default: {
+    init: vi.fn(),
+    identify: vi.fn(),
+    alias: vi.fn(),
+    track: vi.fn(),
+    people: {
+      set: vi.fn(),
+    },
+  },
+}));
 
 describe("MixpanelClient Strategy Selection", () => {
   const originalEnv = process.env.NODE_ENV;
@@ -108,5 +119,73 @@ describe("NoOpMixpanelStrategy", () => {
 
   test("peopleSet method does not throw error", () => {
     expect(() => noOpStrategy.peopleSet({ prop: "value" })).not.toThrow();
+  });
+});
+
+describe("ProductionMixpanelStrategy", () => {
+  let strategy: ProductionMixpanelStrategy;
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    strategy = new ProductionMixpanelStrategy();
+  });
+
+  test("identify should call mixpanel.identify with correct id", () => {
+    const testId = "test-user-id";
+    strategy.identify(testId);
+    expect(mixpanel.identify).toHaveBeenCalledWith(testId);
+  });
+
+  test("alias should call mixpanel.alias with correct id", () => {
+    const testId = "test-alias-id";
+    strategy.alias(testId);
+    expect(mixpanel.alias).toHaveBeenCalledWith(testId);
+  });
+
+  test("track should call mixpanel.track with correct name and props", () => {
+    const eventName = "test-event";
+    const eventProps = { key: "value" };
+    strategy.track(eventName, eventProps);
+    expect(mixpanel.track).toHaveBeenCalledWith(eventName, eventProps);
+  });
+
+  test("peopleSet should call mixpanel.people.set with correct props", () => {
+    const props = { name: "Test User" };
+    strategy.peopleSet(props);
+    expect(mixpanel.people.set).toHaveBeenCalledWith(props);
+  });
+});
+
+describe("MixpanelContext setStrategy", () => {
+  let context: MixpanelContext;
+  let noOpStrategy: NoOpMixpanelStrategy;
+  let productionStrategy: ProductionMixpanelStrategy;
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    noOpStrategy = new NoOpMixpanelStrategy();
+    productionStrategy = new ProductionMixpanelStrategy();
+    context = new MixpanelContext(noOpStrategy);
+  });
+
+  test("should update strategy when setStrategy is called", () => {
+    context.setStrategy(productionStrategy);
+    expect(context["strategy"]).toBe(productionStrategy);
+  });
+
+  test("should use new strategy for tracking after setStrategy", () => {
+    context.track("test-event");
+    expect(mixpanel.track).not.toHaveBeenCalled();
+
+    context.setStrategy(productionStrategy);
+    context.track("test-event");
+    expect(mixpanel.track).toHaveBeenCalledWith("test-event", undefined);
+  });
+
+  test("should use new strategy for identify after setStrategy", () => {
+    const userId = "test-user";
+    context.setStrategy(productionStrategy);
+    context.identify(userId);
+    expect(mixpanel.identify).toHaveBeenCalledWith(userId);
   });
 });
