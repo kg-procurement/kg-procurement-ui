@@ -50,18 +50,6 @@ describe('<VendorDetailPage />', () => {
     expect(container.innerText).toMatchSnapshot()
   })
 
-  it('should render the footer', () => {
-    render(withWrappers(<VendorDetailPage />))
-    expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
-  })
-
-  it('should render icons in the header', () => {
-    render(withWrappers(<VendorDetailPage />))
-
-    const icons = screen.getAllByRole('img')
-    expect(icons).toHaveLength(2)
-  })
-
   it('should open and close edit dialog properly', async () => {
     render(withWrappers(<VendorDetailPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()

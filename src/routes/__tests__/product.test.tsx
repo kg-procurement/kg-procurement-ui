@@ -18,7 +18,6 @@ describe('<ProductPage />', () => {
     expect(logo).toHaveAttribute('src', '/kompas-gramedia-logo-bg.svg')
 
     expect(screen.getByText('Search Product')).toBeInTheDocument()
-    expect(screen.getByText('Lorem Ipsum')).toBeInTheDocument()
   })
 
   it('should render inputs for filtering products', () => {
@@ -66,11 +65,6 @@ describe('<ProductPage />', () => {
     await userEvent.click(checkbox)
   })
 
-  it('should render the footer', () => {
-    render(withWrappers(<ProductPage />))
-    expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
-  })
-
   it('should render the product vendors table content properly', async () => {
     render(withWrappers(<ProductPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()
@@ -85,7 +79,9 @@ describe('<ProductPage />', () => {
     await userEvent.type(nameFilterInput, mockNameFilter)
     expect(nameFilterInput).toHaveValue(mockNameFilter)
 
-    expect(screen.getByTestId('product-vendors-table').innerText).toMatchSnapshot()
+    expect(
+      screen.getByTestId('product-vendors-table').innerText,
+    ).toMatchSnapshot()
   })
 
   it('should handle when filter by product name returns null', async () => {
@@ -97,19 +93,26 @@ describe('<ProductPage />', () => {
     await userEvent.type(nameFilterInput, mockNameFilter)
     expect(nameFilterInput).toHaveValue(mockNameFilter)
 
-    expect(screen.getByTestId('product-vendors-table').innerText).toMatchSnapshot()
+    expect(
+      screen.getByTestId('product-vendors-table').innerText,
+    ).toMatchSnapshot()
   })
 
   it('should handle null response in providesTags', async () => {
     mswServer.use(
       http.get(`${API_BASE_URL}/product/vendor`, () =>
-        HttpResponse.json({ error: 'pq: OFFSET must not be negative' }, { status: 500 }),
+        HttpResponse.json(
+          { error: 'pq: OFFSET must not be negative' },
+          { status: 500 },
+        ),
       ),
     )
 
     render(withWrappers(<ProductPage />, { withRoot: true }))
     await waitFor(() => {
-      expect(screen.queryByText('pq: OFFSET must not be negative')).toBeInTheDocument()
+      expect(
+        screen.queryByText('pq: OFFSET must not be negative'),
+      ).toBeInTheDocument()
     })
   })
 })

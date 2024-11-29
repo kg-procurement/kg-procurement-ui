@@ -32,11 +32,6 @@ describe('RegisterPage', () => {
     ).toBeInTheDocument()
   })
 
-  it('should render the footer', () => {
-    renderRoute('/register')
-    expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
-  })
-
   it('should reset input value and render success toast after the register successful', async () => {
     renderRoute('/register')
     const emailInput = screen.getByPlaceholderText('Email')

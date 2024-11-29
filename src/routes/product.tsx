@@ -63,9 +63,6 @@ export default function ProductPage() {
         <Typography variant="h2" className="text-white">
           Search Product
         </Typography>
-        <Typography variant="body1" className="text-white">
-          Lorem Ipsum
-        </Typography>
         <div className="flex w-3/4 justify-between">
           <div className="flex flex-grow justify-stretch">
             <Input

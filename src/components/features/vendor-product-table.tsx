@@ -41,7 +41,8 @@ function VendorProductTable({
   current_page,
   setPage,
 }: Readonly<VendorProductTableProps>) {
-  const [currentlyActiveDialog, setCurrentlyActiveDialog] = useState<string>('')
+  const [currentlyActiveDialog, setCurrentlyActiveDialog] =
+    useState<string>('')
   return (
     <Table className="rounded-md border" data-testid="product-table">
       <TableHeader>
@@ -62,7 +63,8 @@ function VendorProductTable({
             <TableRow key={product.id}>
               <Dialog
                 open={currentlyActiveDialog === product.id}
-                onOpenChange={open => setCurrentlyActiveDialog(open ? product.id : '')}
+                onOpenChange={open =>
+                  setCurrentlyActiveDialog(open ? product.id : '')}
               >
                 <DialogContent aria-describedby="dialog-description">
                   <DialogTitle>Product Form</DialogTitle>
@@ -113,7 +115,7 @@ function VendorProductTable({
         })}
       </TableBody>
       <TableFooter>
-        <TableRow className="">
+        <TableRow>
           <TableCell colSpan={6} className="py-2.5">
             <CustomPagination
               current_page={current_page}
