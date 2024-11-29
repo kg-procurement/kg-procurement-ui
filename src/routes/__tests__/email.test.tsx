@@ -28,4 +28,13 @@ describe('<EmailPage />', () => {
       screen.getByTestId('email-status-table').innerText,
     ).toMatchSnapshot()
   })
+
+  it('should render input boxes for filtering by email', () => {
+    render(withWrappers(<EmailPage />))
+
+    const emailFiterInput = screen.getByTestId('filter-by-email')
+
+    expect(screen.getByPlaceholderText('Filter by Email')).toBeInTheDocument()
+    expect(emailFiterInput).toBeInTheDocument()
+  })
 })
