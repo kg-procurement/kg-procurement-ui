@@ -10,6 +10,17 @@ describe('<EmailPage />', () => {
     render(withWrappers(<EmailPage />))
   })
 
+  it('should render the header section with the logo', () => {
+    render(withWrappers(<EmailPage />))
+
+    const logo = screen.getByAltText('Kompas Gramedia Logo Background')
+    expect(logo).toBeInTheDocument()
+    expect(logo).toHaveAttribute('src', '/kompas-gramedia-logo-bg.svg')
+
+    expect(screen.getByText('Email Status')).toBeInTheDocument()
+    expect(screen.getByText('Lorem Ipsum')).toBeInTheDocument()
+  })
+
   it('should render email status content properly', async () => {
     render(withWrappers(<EmailPage />))
     await waitForNoLoadingOverlay()
