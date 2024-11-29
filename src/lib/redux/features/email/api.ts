@@ -2,6 +2,7 @@ import { api } from '@/lib/redux/services/api.ts'
 import { PaginationArgs } from '@/schemas/common.ts'
 
 import {
+  GetEmailRequestArgs,
   GetEmailStatusesResponse,
   getEmailStatusesResponseSchema,
 } from './validator.ts'
@@ -9,7 +10,7 @@ import {
 export const emailApi = api.injectEndpoints({
   overrideExisting: import.meta.env.DEV,
   endpoints: builder => ({
-    getEmailStatuses: builder.query<GetEmailStatusesResponse, PaginationArgs>({
+    getEmailStatuses: builder.query<GetEmailStatusesResponse, GetEmailRequestArgs>({
       extraOptions: { responseValidator: getEmailStatusesResponseSchema },
       query: args => ({
         method: 'GET',
