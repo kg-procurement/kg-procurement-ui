@@ -10,6 +10,7 @@ import { router } from '@/lib/router.ts'
 
 import { Toaster } from './components/atoms/toaster.tsx'
 import "../sentry.config.ts"
+import "../mixpanel.config.ts"
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

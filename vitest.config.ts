@@ -26,6 +26,7 @@ export default mergeConfig(
           '**/schemas/*',
           'vite.config.ts',
           'sentry.config.ts',
+          'mixpanel.config.ts',
         ],
       },
       include: ['**/*.{spec,test}.{ts,tsx}'],
