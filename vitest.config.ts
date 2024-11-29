@@ -25,6 +25,7 @@ export default mergeConfig(
           // TODO: ignore schema for now
           '**/schemas/*',
           'vite.config.ts',
+          'sentry.config.ts',
         ],
       },
       include: ['**/*.{spec,test}.{ts,tsx}'],

@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { TanStackRouterVite } from '@tanstack/router-vite-plugin'
 import react from '@vitejs/plugin-react-swc'
 import path from 'path'
@@ -11,12 +12,11 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  plugins: [
-    process.env.NODE_ENV !== 'test' &&
-    TanStackRouterVite({ routeFileIgnorePattern: '__tests__' }),
-    visualizer({ emitFile: true, filename: 'stats.html' }),
-    react(),
-  ],
+  plugins: [process.env.NODE_ENV !== 'test' &&
+  TanStackRouterVite({ routeFileIgnorePattern: '__tests__' }), visualizer({ emitFile: true, filename: 'stats.html' }), react(), sentryVitePlugin({
+    org: "adudu",
+    project: "javascript-react"
+  })],
   build: {
     rollupOptions: {
       output: {
@@ -30,5 +30,7 @@ export default defineConfig({
         },
       },
     },
+
+    sourcemap: true
   },
 })
