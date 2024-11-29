@@ -87,13 +87,6 @@ export default function LoginPage() {
             Register here
           </a>
         </div>
-        <button
-          onClick={() => {
-            throw new Error("This is your second error!");
-          }}
-        >
-          Break the world
-        </button>
       </div>
       <Footer />
     </div>
