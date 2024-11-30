@@ -1,5 +1,4 @@
 import { api } from '@/lib/redux/services/api.ts'
-import { PaginationArgs } from '@/schemas/common.ts'
 
 import {
   GetEmailRequestArgs,
