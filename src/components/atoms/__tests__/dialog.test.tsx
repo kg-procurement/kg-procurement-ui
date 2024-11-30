@@ -44,7 +44,7 @@ describe('<Dialog />', () => {
         <DialogContent>
           <DialogTitle>Dialog Title</DialogTitle>
           <DialogDescription>Dialog Description</DialogDescription>
-          <DialogClose data-testid="dialog-close">Close</DialogClose>
+          <DialogClose>Close</DialogClose>
         </DialogContent>
       </Dialog>,
     )

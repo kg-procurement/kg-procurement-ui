@@ -37,11 +37,20 @@ export const vendorApi = api.injectEndpoints({
           : [],
     }),
     blastEmail: builder.mutation<void, EmailVendorsArgs>({
-      query: args => ({
-        method: 'POST',
-        url: `/vendor/blast`,
-        body: args,
-      }),
+      query: (args) => {
+        const bodyFormData = new FormData()
+        bodyFormData.append('vendor_ids', JSON.stringify(args.vendor_ids))
+        bodyFormData.append('body', args.body)
+        bodyFormData.append('subject', args.subject)
+        for (const attachment of args.attachments) {
+          bodyFormData.append('attachments', attachment)
+        }
+        return {
+          method: 'POST',
+          url: `/vendor/blast`,
+          body: bodyFormData,
+        }
+      },
     }),
     getVendorById: builder.query<
       GetVendorByIdResponse,
@@ -81,9 +90,14 @@ export const vendorApi = api.injectEndpoints({
         resp
           ? [{ type: 'Vendor', id: arg.id }]
           : [{ type: 'Vendor', id: 'LIST' }],
-
     }),
   }),
 })
 
-export const { useGetVendorsQuery, useBlastEmailMutation, useGetVendorByIdQuery, useUpdateVendorMutation, useGetLocationsQuery } = vendorApi
+export const {
+  useGetVendorsQuery,
+  useBlastEmailMutation,
+  useGetVendorByIdQuery,
+  useUpdateVendorMutation,
+  useGetLocationsQuery,
+} = vendorApi

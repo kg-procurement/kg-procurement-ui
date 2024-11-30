@@ -19,12 +19,11 @@ import {
   TableRow,
 } from '@/components/atoms/table.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
+import CustomPagination from '@/components/molecules/custom-pagination.tsx'
+import { EmailForm } from '@/components/molecules/email-form.tsx'
 import { PaginationSpec } from '@/schemas/common.ts'
 import { Vendor } from '@/schemas/vendor.ts'
 import { noop } from '@/utils/common.ts'
-
-import CustomPagination from '../molecules/custom-pagination.tsx'
-import { EmailForm } from '../molecules/email-form.tsx'
 
 interface VendorTableProps {
   vendors: Vendor[]
@@ -71,7 +70,10 @@ function VendorTable({
           <TableHeader>
             <TableRow>
               <TableHead className="w-[50px]">
-                <Checkbox onCheckedChange={check => chooseAllVendor(vendors, Boolean(check))} />
+                <Checkbox
+                  onCheckedChange={check =>
+                    chooseAllVendor(vendors, Boolean(check))}
+                />
               </TableHead>
               <TableHead className="w-[200px]">Vendor Name</TableHead>
               <TableHead className="w-[200px]">Location</TableHead>
@@ -90,7 +92,11 @@ function VendorTable({
             {vendors.map((vendor, i) => (
               <TableRow key={i}>
                 <TableCell className="font-medium">
-                  <Checkbox checked={vendorIds.has(vendor.id)} onCheckedChange={event => handleUpdateChosenVendor(event, vendor.id)} />
+                  <Checkbox
+                    checked={vendorIds.has(vendor.id)}
+                    onCheckedChange={event =>
+                      handleUpdateChosenVendor(event, vendor.id)}
+                  />
                 </TableCell>
                 <TableCell className="font-medium">{vendor.name}</TableCell>
                 <TableCell>{vendor.area_group_name}</TableCell>
@@ -103,7 +109,10 @@ function VendorTable({
                       </button>
                     </PopoverTrigger>
                     <PopoverContent className="w-fit p-2">
-                      <Link to="/dashboard/vendor/$vendorId" params={{ vendorId: vendor.id }}>
+                      <Link
+                        to="/dashboard/vendor/$vendorId"
+                        params={{ vendorId: vendor.id }}
+                      >
                         <Button
                           className="h-fit w-full px-3 py-1"
                           variant="ghost"
@@ -120,18 +129,28 @@ function VendorTable({
         </Table>
       </div>
       <div className="flex w-full justify-center">
-        <CustomPagination current_page={page} setPage={setPage} total_page={metadata.total_page} />
+        <CustomPagination
+          current_page={page}
+          setPage={setPage}
+          total_page={metadata.total_page}
+        />
       </div>
       <div className="flex justify-between">
         <Typography variant="body2" className="text- text-[#71717A]">
           0 of 99 row(s) selected
         </Typography>
-        <EmailForm vendorIds={[...vendorIds]} toggleDialog={toggleDialog} setToggleDialog={setToggleDialog} />
+        <EmailForm
+          vendorIds={[...vendorIds]}
+          toggleDialog={toggleDialog}
+          setToggleDialog={setToggleDialog}
+        />
         <Popover open={togglePopover}>
           <PopoverTrigger asChild>
-            <Button onClick={() => handleOpenDialog()}>Email Selected Vendor</Button>
+            <Button onClick={() => handleOpenDialog()}>
+              Email Selected Vendor
+            </Button>
           </PopoverTrigger>
-          <PopoverContent className="p-2 w-fit">
+          <PopoverContent className="w-fit p-2">
             <Typography variant="body2" className="text-red-600">
               Please choose at leat one vendor to continue
             </Typography>
