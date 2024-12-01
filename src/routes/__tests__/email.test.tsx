@@ -18,7 +18,6 @@ describe('<EmailPage />', () => {
     expect(logo).toHaveAttribute('src', '/kompas-gramedia-logo-bg.svg')
 
     expect(screen.getByText('Email Status')).toBeInTheDocument()
-    expect(screen.getByText('Lorem Ipsum')).toBeInTheDocument()
   })
 
   it('should render email status content properly', async () => {

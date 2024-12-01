@@ -46,9 +46,6 @@ export default function EmailPage() {
         <Typography variant="h2" className="text-white">
           Email Status
         </Typography>
-        <Typography variant="body1" className="text-white">
-          Lorem Ipsum
-        </Typography>
         <div className="flex w-3/4 justify-between">
           <div className="flex-grow flex justify-stretch">
             <Input
