@@ -10,8 +10,6 @@ exports[`<VendorDetailPage /> > should render the table content properly 1`] = `
 undefined
 Indonesia
 Rating: 0
-Showing vendor performance by .....
-
 Inventory List
 
 NameCategoryDescriptionPriceMajalahStationaryMajalahRp 450.000,00 / PcsundefinedMajalahStationaryMajalah$450,000.00 / PcsundefinedMajalahStationaryMajalah$450,000.00 / PcsundefinedundefinedPreviousundefinedMore pages012undefinedMore pagesNext

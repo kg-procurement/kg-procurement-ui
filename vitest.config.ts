@@ -18,8 +18,6 @@ export default mergeConfig(
         exclude: [
           '**/*.{spec,test}.{ts,tsx}',
           '{postcss,tailwind,eslint,vite,vitest}.{config,setup}.{js,ts}',
-          // Ignore chart from tests, since it uses a third part library anyway
-          'src/components/atoms/chart.tsx',
           'src/vite-env.d.ts',
           'src/main.tsx',
           // TODO: ignore schema for now
