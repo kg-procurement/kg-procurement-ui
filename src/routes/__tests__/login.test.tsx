@@ -19,11 +19,6 @@ describe('<LoginPage />', () => {
     expect(screen.getByPlaceholderText(/password/i)).toBeInTheDocument()
   })
 
-  it('should render the footer', () => {
-    renderRoute('/login')
-    expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
-  })
-
   it('should allow the user to type in the email and password fields', async () => {
     renderRoute('/login')
     const emailInput = screen.getByPlaceholderText(/email/i)

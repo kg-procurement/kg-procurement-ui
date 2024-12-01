@@ -1,20 +1,7 @@
 import { createFileRoute, useParams } from '@tanstack/react-router'
 import { Edit, MapPin } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-} from '@/components/atoms/card.tsx'
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@/components/atoms/chart.tsx'
 import {
   Dialog,
   DialogContent,
@@ -24,7 +11,6 @@ import {
 import { Input } from '@/components/atoms/input.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
 import VendorProductTable from '@/components/features/vendor-product-table.tsx'
-import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
 import EditVendorForm from '@/components/organisms/vendor/form-edit-vendor.tsx'
 import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
@@ -62,21 +48,6 @@ export default function VendorDetailPage() {
 
   useQueryErrorHandler(error)
   useQueryErrorHandler(vendorError)
-
-  const chartConfig = {
-    desktop: {
-      label: 'Desktop',
-      color: 'hsl(var(--chart-1))',
-    },
-  } satisfies ChartConfig
-  const chartData = [
-    { month: 'January', desktop: 186 },
-    { month: 'February', desktop: 305 },
-    { month: 'March', desktop: 237 },
-    { month: 'April', desktop: 73 },
-    { month: 'May', desktop: 209 },
-    { month: 'June', desktop: 214 },
-  ]
   const { setShowLoadingOverlay } = useCommonStore()
 
   useEffect(() => {
@@ -85,7 +56,7 @@ export default function VendorDetailPage() {
 
   useQueryErrorHandler(error)
   return (
-    <div className="flex min-h-screen w-full flex-col">
+    <div className="flex w-full flex-col">
       <PageHeader>
         <div className="relative">
           <Typography variant="h2" className="text-white">
@@ -101,10 +72,13 @@ export default function VendorDetailPage() {
             </DialogContent>
           </Dialog>
         </div>
-        <Typography variant="caption" className="max-w-prose text-white">
+        <Typography
+          variant="caption"
+          className="max-w-prose text-center text-sm text-white"
+        >
           {vendorData?.description}
         </Typography>
-        <div className="flex gap-1 items-center">
+        <div className="flex items-center gap-1">
           <MapPin size={16} className="text-white" />
           <Typography variant="subtitle2" className="text-white">
             {vendorData?.area_group_name}
@@ -119,52 +93,8 @@ export default function VendorDetailPage() {
         </div>
       </PageHeader>
       <div className="flex flex-grow items-center justify-center bg-[#F8F8F8] p-16">
-        <div className="grid h-full w-full flex-grow grid-cols-2 items-center gap-2 rounded-md bg-white p-4 shadow-md">
-          <div className="col-span-1 flex flex-col gap-4">
-            {/* <Typography variant="h6">Vendor Performance</Typography> */}
-            <Card className="border-none">
-              <CardHeader>
-                <CardDescription>
-                  Showing vendor performance by .....
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-6" role="charts-content">
-                <ChartContainer config={chartConfig} className="">
-                  <AreaChart
-                    accessibilityLayer
-                    data={chartData}
-                    margin={{
-                      left: 12,
-                      right: 12,
-                    }}
-                  >
-                    <CartesianGrid vertical={false} />
-                    <XAxis
-                      dataKey="month"
-                      tickLine={false}
-                      axisLine={false}
-                      tickMargin={8}
-                      tickFormatter={value => value.slice(0, 3)}
-                    />
-                    <ChartTooltip
-                      cursor={false}
-                      content={
-                        <ChartTooltipContent indicator="dot" hideLabel />
-                      }
-                    />
-                    <Area
-                      dataKey="desktop"
-                      type="linear"
-                      fill="var(--color-desktop)"
-                      fillOpacity={0.4}
-                      stroke="var(--color-desktop)"
-                    />
-                  </AreaChart>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-          </div>
-          <div className="col-span-1 flex flex-col gap-4">
+        <div className="h-full w-full flex-grow items-center gap-2 rounded-md bg-white p-4 shadow-md">
+          <div className="flex flex-col gap-4">
             <Typography variant="h6">Inventory List</Typography>
             <Input
               className="text-sm"
@@ -183,7 +113,6 @@ export default function VendorDetailPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   )
 }

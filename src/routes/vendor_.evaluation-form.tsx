@@ -1,7 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 
-import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-button.tsx'
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from '@/components/atoms/radio-button.tsx'
 import {
   Table,
   TableBody,
@@ -11,7 +14,6 @@ import {
   TableRow,
 } from '@/components/atoms/table.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
-import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
 
 export const Route = createFileRoute('/vendor/evaluation-form')({
@@ -34,7 +36,9 @@ export default function EvaluationFormPage() {
     'Kualitas layanan after services* (jika ada?)',
   ]
 
-  const [penilaianScores, setPenilaianScores] = useState<number[]>(kriteriaPenilaian.map(() => 0))
+  const [penilaianScores, setPenilaianScores] = useState<number[]>(
+    kriteriaPenilaian.map(() => 0),
+  )
 
   // implemeneting a manual radio button group logic
   const handleSelectRadioButton = (index: number, value: string) => {
@@ -44,9 +48,9 @@ export default function EvaluationFormPage() {
   }
 
   return (
-    <div className="flex min-h-screen w-full flex-col gap-10">
+    <div className="flex w-full flex-col gap-10">
       <PageHeader>
-        <Typography variant="h2" className="text-white text-center">
+        <Typography variant="h2" className="text-center text-white">
           Vendor Performance
           <br />
           Evaluation Form
@@ -55,7 +59,7 @@ export default function EvaluationFormPage() {
           Vendor A
         </Typography>
       </PageHeader>
-      <div className="flex justify-center w-full">
+      <div className="flex w-full justify-center">
         <div className="flex w-2/3 flex-col gap-5 rounded-lg border p-6 shadow-xl">
           <div className="w-full rounded-lg border">
             <Table data-testid="vendor-evaluation-form-table">
@@ -74,9 +78,7 @@ export default function EvaluationFormPage() {
                 {kriteriaPenilaian.map((kriteria, kriteriaIndex) => {
                   return (
                     <TableRow key={kriteria}>
-                      <TableCell className="font-medium">
-                        {kriteria}
-                      </TableCell>
+                      <TableCell className="font-medium">{kriteria}</TableCell>
                       {[1, 2, 3, 4].map((value) => {
                         return (
                           <TableCell className="text-center" key={value}>
@@ -87,7 +89,13 @@ export default function EvaluationFormPage() {
                                 handleSelectRadioButton(kriteriaIndex, value)
                               }}
                             >
-                              <RadioGroupItem value={value} checked={penilaianScores[kriteriaIndex] === Number(value)} />
+                              <RadioGroupItem
+                                value={value.toString()}
+                                checked={
+                                  penilaianScores[kriteriaIndex] ===
+                                  Number(value)
+                                }
+                              />
                             </RadioGroup>
                           </TableCell>
                         )
@@ -100,7 +108,6 @@ export default function EvaluationFormPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   )
 }

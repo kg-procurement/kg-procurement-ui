@@ -48,7 +48,7 @@ function VendorTable({
   handleUpdateChosenVendor,
   handleSort,
   sortBy,
-  sortOrder
+  sortOrder,
 }: VendorTableProps) {
   const [toggleDialog, setToggleDialog] = useState<boolean>(false)
   const [togglePopover, setTogglePopover] = useState<boolean>(false)
@@ -79,7 +79,7 @@ function VendorTable({
               <TableHead className="w-[200px]">Location</TableHead>
               <TableHead
                 className="cursor-pointer"
-                data-testid = "sort-rating"
+                data-testid="sort-rating"
                 onClick={() => handleSort('rating')}
               >
                 Performance Score

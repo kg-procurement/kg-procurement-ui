@@ -28,7 +28,6 @@ import ProductForm from '@/components/organisms/product/form.tsx'
 import { ProductVendor } from '@/schemas/product.ts'
 import { formatPrice } from '@/utils/common.ts'
 
-
 interface VendorProductTableProps {
   product_vendors: ProductVendor[]
   total_page: number
@@ -42,7 +41,8 @@ function VendorProductTable({
   current_page,
   setPage,
 }: Readonly<VendorProductTableProps>) {
-  const [currentlyActiveDialog, setCurrentlyActiveDialog] = useState<string>('')
+  const [currentlyActiveDialog, setCurrentlyActiveDialog] =
+    useState<string>('')
   return (
     <Table className="rounded-md border" data-testid="product-table">
       <TableHeader>
@@ -63,7 +63,8 @@ function VendorProductTable({
             <TableRow key={product.id}>
               <Dialog
                 open={currentlyActiveDialog === product.id}
-                onOpenChange={open => setCurrentlyActiveDialog(open ? product.id : '')}
+                onOpenChange={open =>
+                  setCurrentlyActiveDialog(open ? product.id : '')}
               >
                 <DialogContent aria-describedby="dialog-description">
                   <DialogTitle>Product Form</DialogTitle>
@@ -83,7 +84,7 @@ function VendorProductTable({
                     pv.price.price,
                     pv.price.price_quantity,
                     pv.price.currency_code,
-                    pv.price.uom.uom_name
+                    pv.price.uom.uom_name,
                   )}
                 </TableCell>
                 <TableCell>
@@ -114,7 +115,7 @@ function VendorProductTable({
         })}
       </TableBody>
       <TableFooter>
-        <TableRow className="">
+        <TableRow>
           <TableCell colSpan={6} className="py-2.5">
             <CustomPagination
               current_page={current_page}

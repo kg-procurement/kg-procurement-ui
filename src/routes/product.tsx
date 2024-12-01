@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import { Input } from '@/components/atoms/input.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
 import ProductTable from '@/components/features/product-table.tsx'
-import { Footer } from '@/components/molecules/footer.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
 import { useGetProductVendorsQuery } from '@/lib/redux/features/product/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
@@ -59,13 +58,10 @@ export default function ProductPage() {
   }
 
   return (
-    <div className="flex min-h-screen w-full flex-col gap-10">
+    <div className="flex w-full flex-col gap-10">
       <PageHeader>
         <Typography variant="h2" className="text-white">
           Search Product
-        </Typography>
-        <Typography variant="body1" className="text-white">
-          Lorem Ipsum
         </Typography>
         <div className="flex w-3/4 justify-between">
           <div className="flex flex-grow justify-stretch">
@@ -91,7 +87,6 @@ export default function ProductPage() {
           />
         )}
       </div>
-      <Footer />
     </div>
   )
 }

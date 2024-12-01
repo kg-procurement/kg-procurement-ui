@@ -1,16 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 
+import { Input } from '@/components/atoms/input.tsx'
+import { Typography } from '@/components/atoms/typography.tsx'
 import EmailStatusTable from '@/components/features/email-status-table.tsx'
-import { Footer } from '@/components/molecules/footer.tsx'
+import PageHeader from '@/components/molecules/page-header.tsx'
 import { useGetEmailStatusesQuery } from '@/lib/redux/features/email/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { useCommonStore } from '@/lib/zustand/common.ts'
-import { Input } from '@/components/atoms/input.tsx'
-import PageHeader from '@/components/molecules/page-header.tsx'
-import { Typography } from '@/components/atoms/typography.tsx'
-
-
 
 export const Route = createFileRoute('/email')({
   component: () => <EmailPage />,
@@ -23,8 +20,7 @@ export default function EmailPage() {
     state => state.setShowLoadingOverlay,
   )
   const { emails, metadata, isSuccess, error } = useGetEmailStatusesQuery(
-    { page, 
-      email_to: emailToFilter },
+    { page, email_to: emailToFilter },
     {
       selectFromResult: result => ({
         emails: result.data?.email_status,
@@ -41,13 +37,13 @@ export default function EmailPage() {
   }, [isSuccess, setShowLoadingOverlay])
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-center">
+    <div className="flex w-full flex-col items-center">
       <PageHeader>
         <Typography variant="h2" className="text-white">
           Email Status
         </Typography>
         <div className="flex w-3/4 justify-between">
-          <div className="flex-grow flex justify-stretch">
+          <div className="flex flex-grow justify-stretch">
             <Input
               className="w-full flex-grow"
               placeholder="Filter by Email"
@@ -68,7 +64,6 @@ export default function EmailPage() {
           />
         )}
       </div>
-      <Footer />
     </div>
   )
 }

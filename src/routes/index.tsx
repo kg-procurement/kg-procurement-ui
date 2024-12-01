@@ -5,5 +5,9 @@ export const Route = createFileRoute('/')({
 })
 
 export default function IndexPage() {
-  return <div className="font-bold text-red-600">PPL KG Procurement</div>
+  return (
+    <div className="text-center text-2xl font-bold">
+      Welcome! The app is working :D
+    </div>
+  )
 }

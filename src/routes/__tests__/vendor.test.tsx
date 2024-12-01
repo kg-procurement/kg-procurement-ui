@@ -38,7 +38,6 @@ describe('<VendorPage/>', () => {
     expect(logo).toHaveAttribute('src', '/kompas-gramedia-logo-bg.svg')
 
     expect(screen.getByText('Search Vendor')).toBeInTheDocument()
-    expect(screen.getByText('Lorem Ipsum')).toBeInTheDocument()
   })
 
   it('should render the vendors table content properly', async () => {
@@ -49,11 +48,6 @@ describe('<VendorPage/>', () => {
       expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument()
     })
     expect(container.innerText.trim()).toMatchSnapshot()
-  })
-
-  it('should render the footer', () => {
-    render(withWrappers(<VendorPage />))
-    expect(screen.getByText(/© 2024 KOMPAS/i)).toBeInTheDocument()
   })
 
   it('should render input boxes for filtering by product and location', () => {
@@ -156,9 +150,11 @@ describe('<VendorPage/>', () => {
 
   it('should update sortBy and sortOrder when clicking on the performance score header', async () => {
     render(withWrappers(<VendorPage />, { withRoot: true }))
-    await waitFor(() => expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument())
+    await waitFor(() =>
+      expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument(),
+    )
 
-    const button = screen.getByTestId("sort-rating")
+    const button = screen.getByTestId('sort-rating')
     await userEvent.click(button)
 
     await userEvent.click(button)
