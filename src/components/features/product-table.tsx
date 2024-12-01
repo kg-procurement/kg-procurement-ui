@@ -19,11 +19,10 @@ import {
   TableRow,
 } from '@/components/atoms/table.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
+import CustomPagination from '@/components/molecules/custom-pagination.tsx'
 import { PaginationSpec } from '@/schemas/common.ts'
 import { ProductVendor } from '@/schemas/product.ts'
 import { formatPrice, noop } from '@/utils/common.ts'
-
-import CustomPagination from '../molecules/custom-pagination.tsx'
 
 interface ProductTableProps {
   productVendors: ProductVendor[]

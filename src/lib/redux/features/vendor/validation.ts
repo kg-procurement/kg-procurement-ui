@@ -16,10 +16,9 @@ export interface GetVendorsRequestArgs extends PaginationArgs {
 
 export interface EmailVendorsArgs {
   vendor_ids: string[]
-  email_template: {
-    subject: string
-    body: string
-  }
+  subject: string
+  body: string
+  attachments: File[]
 }
 export const getVendorByIdResponseSchema = vendorSchema
 

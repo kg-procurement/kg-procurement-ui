@@ -20,7 +20,6 @@ import {
 import { Typography } from '@/components/atoms/typography.tsx'
 import { useToast } from '@/hooks/use-toast.ts'
 import { useBlastEmailMutation } from '@/lib/redux/features/vendor/api.ts'
-import { EmailVendorsArgs } from '@/lib/redux/features/vendor/validation.ts'
 import { toastForError } from '@/lib/redux/utils.tsx'
 
 const RichTextEditor = lazy(
@@ -50,6 +49,7 @@ export function EmailForm({
   const [emailBody, setEmailBody] = useState<string>(
     defaultContent || defaultBody,
   )
+  const [attachments, setAttachments] = useState<File[]>([])
   const [emailSubject, setEmailSubject] = useState<string>(defaultSubject)
   const [showPopover, setShowPopover] = useState(false)
 
@@ -57,19 +57,17 @@ export function EmailForm({
   const { toast } = useToast()
   const handleEmailVendors = async () => {
     try {
-      const args: EmailVendorsArgs = {
-        vendor_ids: vendorIds,
-        email_template: {
-          body: emailBody,
-          subject: emailSubject,
-        },
-      }
       toast({
         title: 'On Progress',
         description: 'Executing email blast',
         duration: 2000,
       })
-      await blastEmail(args).unwrap()
+      await blastEmail({
+        vendor_ids: vendorIds,
+        body: emailBody,
+        subject: emailSubject,
+        attachments,
+      }).unwrap()
       toast({
         title: 'Success',
         description: 'Email blast has successfully executed',
@@ -92,8 +90,20 @@ export function EmailForm({
   }
 
   return (
-    <Dialog open={toggleDialog} onOpenChange={setToggleDialog}>
-      <DialogContent onInteractOutside={() => setIsConfirmation(false)}>
+    <Dialog
+      open={toggleDialog}
+      onOpenChange={(open) => {
+        if (!open) {
+          setAttachments([])
+          setIsConfirmation(false)
+        }
+        setToggleDialog(open)
+      }}
+    >
+      <DialogContent
+        onInteractOutside={() => setIsConfirmation(false)}
+        className="max-h-[calc(100vh-100px)] overflow-auto"
+      >
         {isConfirmation
           ? (
               <>
@@ -129,8 +139,9 @@ export function EmailForm({
                 </DialogHeader>
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col gap-2">
-                    <Label>Email Subject</Label>
+                    <Label htmlFor="subject-input">Email Subject</Label>
                     <Input
+                      id="subject-input"
                       data-testid="subject-input"
                       placeholder="Type here...."
                       onChange={event => setEmailSubject(event.target.value)}
@@ -146,6 +157,29 @@ export function EmailForm({
                       />
                     </Suspense>
                   </div>
+                </div>
+                <div>
+                  <Label htmlFor="attachments">Attachments</Label>
+                  <Input
+                    id="attachments"
+                    type="file"
+                    multiple
+                    onChange={e =>
+                      e.target.files && setAttachments([...e.target.files])}
+                  />
+                </div>
+                <div
+                  data-testid="email-attachments"
+                  className="grid grid-cols-2 gap-4"
+                >
+                  {attachments.map(attachment => (
+                    <img
+                      key={attachment.name}
+                      src={URL.createObjectURL(attachment)}
+                      alt={attachment.name}
+                      className="w-full"
+                    />
+                  ))}
                 </div>
                 <Typography variant="body2" className="mt-2">
                   Note:

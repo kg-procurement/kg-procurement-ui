@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { http, HttpResponse } from 'msw'
+import { useState } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 
 import { API_BASE_URL } from '@/env.ts'
@@ -171,5 +172,45 @@ describe('EmailForm', () => {
       'subject-input',
     ) as HTMLInputElement
     expect(subjectInput.value).toBe('Request for products')
+  })
+
+  it('should reset upload state when dialog is closed', async () => {
+    function TestComponent() {
+      const [isDialogOpen, setIsDialogOpen] = useState<boolean>(true)
+
+      return (
+        <div>
+          <button
+            data-testid="test-toggle-dialog"
+            onClick={() => setIsDialogOpen(prev => !prev)}
+          >
+            Toggle Dialog
+          </button>
+          <EmailForm
+            vendorIds={selectedVendors}
+            setToggleDialog={setIsDialogOpen}
+            toggleDialog={isDialogOpen}
+          />
+        </div>
+      )
+    }
+
+    render(withWrappers(<TestComponent />))
+    const attachmentsFileInput = screen.getByLabelText('Attachments')
+    const chuckNorrisImage = new File(['(⌐□_□)'], 'chucknorris.png', {
+      type: 'image/png',
+    })
+    const fooTxt = new File(['foo'], 'foo.txt', { type: 'text/plain' })
+    await userEvent.upload(attachmentsFileInput, [chuckNorrisImage, fooTxt])
+    expect(
+      screen.getByTestId('email-attachments').querySelectorAll('img').length,
+    ).toBe(2)
+    await userEvent.click(screen.getByTestId('dialog-close'))
+
+    // Try to re-open the dialog
+    await userEvent.click(screen.getByTestId('test-toggle-dialog'))
+    expect(
+      screen.getByTestId('email-attachments').querySelectorAll('img').length,
+    ).toBe(0)
   })
 })
