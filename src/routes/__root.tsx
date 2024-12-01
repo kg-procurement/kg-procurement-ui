@@ -46,7 +46,7 @@ export default function Root(props: RootProps) {
   }, [location.href, props.mock, navigate])
 
   return (
-    <div className="relative min-h-dvh min-w-full">
+    <div className="relative flex min-h-dvh min-w-full flex-col justify-between">
       {showLoadingOverlay && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80">
           <LoaderCircle
