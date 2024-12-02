@@ -1,6 +1,6 @@
 import { createFileRoute, useParams } from '@tanstack/react-router'
 import { Edit, MapPin } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import {
   Dialog,
@@ -13,10 +13,10 @@ import { Typography } from '@/components/atoms/typography.tsx'
 import VendorProductTable from '@/components/features/vendor-product-table.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
 import EditVendorForm from '@/components/organisms/vendor/form-edit-vendor.tsx'
+import { useLoadingOverlay } from '@/hooks/use-loading-overlay.ts'
 import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts'
 import { useGetVendorByIdQuery } from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
-import { useCommonStore } from '@/lib/zustand/common.ts'
 
 export const Route = createFileRoute('/dashboard/vendor/$vendorId')({
   component: () => <VendorDetailPage />,
@@ -48,13 +48,8 @@ export default function VendorDetailPage() {
 
   useQueryErrorHandler(error)
   useQueryErrorHandler(vendorError)
-  const { setShowLoadingOverlay } = useCommonStore()
+  useLoadingOverlay(!isSuccess && !isVendorSuccess)
 
-  useEffect(() => {
-    setShowLoadingOverlay(!isSuccess && !isVendorSuccess)
-  }, [isSuccess, isVendorSuccess, setShowLoadingOverlay])
-
-  useQueryErrorHandler(error)
   return (
     <div className="flex w-full flex-col">
       <PageHeader>

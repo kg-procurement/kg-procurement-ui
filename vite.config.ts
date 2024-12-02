@@ -12,11 +12,16 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  plugins: [process.env.NODE_ENV !== 'test' &&
-    TanStackRouterVite({ routeFileIgnorePattern: '__tests__' }), visualizer({ emitFile: true, filename: 'stats.html' }), react(), sentryVitePlugin({
-    org: 'adudu',
-    project: 'javascript-react',
-  })],
+  plugins: [
+    process.env.NODE_ENV !== 'test' &&
+    TanStackRouterVite({ routeFileIgnorePattern: '__tests__' }),
+    visualizer({ emitFile: true, filename: 'stats.html' }),
+    react(),
+    sentryVitePlugin({
+      org: 'adudu',
+      project: 'javascript-react',
+    }),
+  ],
   build: {
     rollupOptions: {
       output: {

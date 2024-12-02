@@ -1,18 +1,18 @@
 import { CheckedState } from '@radix-ui/react-checkbox'
 import { createFileRoute, useSearch } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import Dropdown from '@/components/atoms/dropdown.tsx'
 import { Input } from '@/components/atoms/input.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
 import VendorTable from '@/components/features/vendor-table.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
+import { useLoadingOverlay } from '@/hooks/use-loading-overlay.ts'
 import {
   useGetLocationsQuery,
   useGetVendorsQuery,
 } from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
-import { useCommonStore } from '@/lib/zustand/common.ts'
 import { Vendor, vendorPageSearchSchema } from '@/schemas/vendor.ts'
 
 export const Route = createFileRoute('/vendor')({
@@ -29,7 +29,6 @@ export default function VendorPage() {
   const [page, setPage] = useState<number>(searchPage)
   const [productFilter, setProductFilter] = useState(searchProduct)
   const [locationFilter, setLocationFilter] = useState(searchLocation)
-  const { setShowLoadingOverlay } = useCommonStore()
   const [sortBy, setSortBy] = useState<
     'name' | 'area_group_name' | 'rating' | ''
   >('')
@@ -60,10 +59,7 @@ export default function VendorPage() {
 
   useQueryErrorHandler(error)
   useQueryErrorHandler(locationsError)
-
-  useEffect(() => {
-    setShowLoadingOverlay(!isSuccess && !isLocationsSuccess)
-  }, [isSuccess, isLocationsSuccess, setShowLoadingOverlay])
+  useLoadingOverlay(!isSuccess && !isLocationsSuccess)
 
   const locationOptions =
     locationsData?.locations.map(location => ({

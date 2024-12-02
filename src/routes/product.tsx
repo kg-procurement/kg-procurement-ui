@@ -1,14 +1,14 @@
 import { CheckedState } from '@radix-ui/react-checkbox'
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Input } from '@/components/atoms/input.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
 import ProductTable from '@/components/features/product-table.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
+import { useLoadingOverlay } from '@/hooks/use-loading-overlay.ts'
 import { useGetProductVendorsQuery } from '@/lib/redux/features/product/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
-import { useCommonStore } from '@/lib/zustand/common.ts'
 import { ProductVendor } from '@/schemas/product.ts'
 
 export const Route = createFileRoute('/product')({
@@ -18,7 +18,6 @@ export const Route = createFileRoute('/product')({
 export default function ProductPage() {
   const [page, setPage] = useState<number>(1)
   const [nameFilter, setNameFilter] = useState('')
-  const { setShowLoadingOverlay } = useCommonStore()
   const { productVendors, metadata, isSuccess, error } =
     useGetProductVendorsQuery(
       { page, name: nameFilter },
@@ -32,10 +31,7 @@ export default function ProductPage() {
     )
 
   useQueryErrorHandler(error)
-
-  useEffect(() => {
-    setShowLoadingOverlay(!isSuccess)
-  }, [isSuccess, setShowLoadingOverlay])
+  useLoadingOverlay(!isSuccess)
 
   const [productIds, setProductIds] = useState<Set<string>>(new Set())
   const handleUpdateChosenVendor = (
