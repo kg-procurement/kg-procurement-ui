@@ -3,6 +3,7 @@ import { Typography } from '@/components/atoms/typography.tsx'
 import { useAuthStore } from '@/lib/zustand/auth.ts'
 
 export default function Navbar() {
+  const userId = useAuthStore(state => state.userId)
   const logout = useAuthStore(state => state.logout)
 
   return (
@@ -25,9 +26,17 @@ export default function Navbar() {
         >
           Search
         </Typography>
-        <Button variant="default" onClick={() => logout()}>
-          Log out
-        </Button>
+        {userId && (
+          <Button
+            variant="default"
+            onClick={() => {
+              logout()
+              location.reload()
+            }}
+          >
+            Log out
+          </Button>
+        )}
       </div>
     </div>
   )

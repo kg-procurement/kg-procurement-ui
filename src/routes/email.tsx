@@ -1,13 +1,13 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Input } from '@/components/atoms/input.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
 import EmailStatusTable from '@/components/features/email-status-table.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
+import { useLoadingOverlay } from '@/hooks/use-loading-overlay.ts'
 import { useGetEmailStatusesQuery } from '@/lib/redux/features/email/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
-import { useCommonStore } from '@/lib/zustand/common.ts'
 
 export const Route = createFileRoute('/email')({
   component: () => <EmailPage />,
@@ -16,9 +16,6 @@ export const Route = createFileRoute('/email')({
 export default function EmailPage() {
   const [page, setPage] = useState<number>(1)
   const [emailToFilter, setEmailToFilter] = useState('')
-  const setShowLoadingOverlay = useCommonStore(
-    state => state.setShowLoadingOverlay,
-  )
   const { emails, metadata, isSuccess, error } = useGetEmailStatusesQuery(
     { page, email_to: emailToFilter },
     {
@@ -31,10 +28,7 @@ export default function EmailPage() {
   )
 
   useQueryErrorHandler(error)
-
-  useEffect(() => {
-    setShowLoadingOverlay(!isSuccess)
-  }, [isSuccess, setShowLoadingOverlay])
+  useLoadingOverlay(!isSuccess)
 
   return (
     <div className="flex w-full flex-col items-center">
