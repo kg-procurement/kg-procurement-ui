@@ -27,14 +27,33 @@ export default function Navbar() {
         <Typography
           variant="body1"
           className="cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]"
+          onClick={() =>
+            navigate({
+              to: '/product',
+            })}
         >
-          Evaluation Form
+          Products
         </Typography>
         <Typography
           variant="body1"
           className="cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]"
+          onClick={() =>
+            navigate({
+              to: '/vendor',
+              search: { page: 1, product_name: '', location: '' },
+            })}
         >
-          Search
+          Vendors
+        </Typography>
+        <Typography
+          variant="body1"
+          className="cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]"
+          onClick={() =>
+            navigate({
+              to: '/vendor/evaluation-form',
+            })}
+        >
+          Evaluation Form
         </Typography>
         {userId && (
           <Button
