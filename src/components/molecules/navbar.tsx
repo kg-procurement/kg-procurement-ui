@@ -1,11 +1,13 @@
-import { useNavigate } from '@tanstack/react-router'
+import { useLocation, useNavigate } from '@tanstack/react-router'
 
 import { Button } from '@/components/atoms/button.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
 import { useAuthStore } from '@/lib/zustand/auth.ts'
+import { cn } from '@/utils/cn.ts'
 
 export default function Navbar() {
   const navigate = useNavigate()
+  const { pathname } = useLocation()
   const userId = useAuthStore(state => state.userId)
   const logout = useAuthStore(state => state.logout)
 
@@ -19,14 +21,20 @@ export default function Navbar() {
       <div className="flex items-center gap-10">
         <Typography
           variant="body1"
-          className="cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]"
+          className={cn(
+            'cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]',
+            { 'font-bold text-[#005288]': pathname === '/email' },
+          )}
           onClick={() => navigate({ to: '/email' })}
         >
           Email Status
         </Typography>
         <Typography
           variant="body1"
-          className="cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]"
+          className={cn(
+            'cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]',
+            { 'font-bold text-[#005288]': pathname === '/product' },
+          )}
           onClick={() =>
             navigate({
               to: '/product',
@@ -36,7 +44,10 @@ export default function Navbar() {
         </Typography>
         <Typography
           variant="body1"
-          className="cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]"
+          className={cn(
+            'cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]',
+            { 'font-bold text-[#005288]': pathname === '/vendor' },
+          )}
           onClick={() =>
             navigate({
               to: '/vendor',
@@ -47,7 +58,13 @@ export default function Navbar() {
         </Typography>
         <Typography
           variant="body1"
-          className="cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]"
+          className={cn(
+            'cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]',
+            {
+              'font-bold text-[#005288]':
+                pathname === '/vendor/evaluation-form',
+            },
+          )}
           onClick={() =>
             navigate({
               to: '/vendor/evaluation-form',
