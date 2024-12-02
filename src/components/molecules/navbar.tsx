@@ -1,8 +1,11 @@
+import { useNavigate } from '@tanstack/react-router'
+
 import { Button } from '@/components/atoms/button.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
 import { useAuthStore } from '@/lib/zustand/auth.ts'
 
 export default function Navbar() {
+  const navigate = useNavigate()
   const userId = useAuthStore(state => state.userId)
   const logout = useAuthStore(state => state.logout)
 
@@ -14,6 +17,13 @@ export default function Navbar() {
         className="w-52"
       />
       <div className="flex items-center gap-10">
+        <Typography
+          variant="body1"
+          className="cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]"
+          onClick={() => navigate({ to: '/email' })}
+        >
+          Email Status
+        </Typography>
         <Typography
           variant="body1"
           className="cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]"
