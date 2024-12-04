@@ -24,7 +24,7 @@ export default mergeConfig(
           '**/schemas/*',
           'vite.config.ts',
           'sentry.config.ts',
-          'src/components/features/*',
+          'src/components/features/product-table.tsx',
         ],
       },
       include: ['**/*.{spec,test}.{ts,tsx}'],
