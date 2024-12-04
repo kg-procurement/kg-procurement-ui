@@ -4,8 +4,10 @@ exports[`<VendorPage/> > should render the vendors table content properly 1`] = 
 "ZOD_PARSING_ERROR
 Response does not match validator schema:
 locations: Requiredundefined
+Email Status
+Products
+Vendors
 Evaluation Form
-SearchLog out
 Search Vendor
 Select Location...
 undefined

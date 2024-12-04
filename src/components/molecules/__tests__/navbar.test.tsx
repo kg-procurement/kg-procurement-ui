@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 
 import { withWrappers } from '@/lib/testing/utils.tsx'
 
@@ -15,12 +14,14 @@ describe('<Navbar />', () => {
   })
   it('should return navigation option', () => {
     render(withWrappers(<Navbar />))
-    expect(screen.getAllByText('Evaluation Form'))
-    expect(screen.getAllByText('Search'))
-  })
-  it('should be able to log out', async () => {
-    // TODO: Adjust this setup when login guard is done
-    render(withWrappers(<Navbar />))
-    await userEvent.click(screen.getByText('Log out'))
+    expect(screen.getAllByTestId('navigation-menu').map(elm => elm.innerText))
+      .toMatchInlineSnapshot(`
+        [
+          "Email Status",
+          "Products",
+          "Vendors",
+          "Evaluation Form",
+        ]
+      `)
   })
 })

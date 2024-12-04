@@ -1,8 +1,10 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`<EvaluationFormPage/> > should render the form penilaian table content properly 1`] = `
-"Evaluation Form
-SearchLog out
+"Email Status
+Products
+Vendors
+Evaluation Form
 Vendor PerformanceEvaluation Form
 Vendor A
 Kriterian penilaian1234Kesesuaian produk/jasa dengan spesifikasiKualitas produk/jasaKetepatan waktu pengiriman/penyelesaianKompetitifitas hargaResponsivitas dan kemampuan komunikasiKemampuan dalam menangani masalah/keluhanKelengkapan Barang (Vendor Konvensional)Harga (Vendor Konvensional & Online)Term of Payment (Vendor Konvensional)Reputasi (Vendor Online)Ketersediaan Barang (Vendor Konvensional)Kualitas layanan after services* (jika ada?)
