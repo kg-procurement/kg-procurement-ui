@@ -1,7 +1,9 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { useEffect } from 'react'
 
 import { withWrappers } from '@/lib/testing/utils.tsx'
+import { useAuthStore } from '@/lib/zustand/auth.ts'
 
 import Navbar from '../navbar.tsx'
 
@@ -15,12 +17,31 @@ describe('<Navbar />', () => {
   })
   it('should return navigation option', () => {
     render(withWrappers(<Navbar />))
-    expect(screen.getAllByText('Evaluation Form'))
-    expect(screen.getAllByText('Search'))
+    expect(screen.getAllByTestId('navigation-menu').map(elm => elm.innerText))
+      .toMatchInlineSnapshot(`
+        [
+          "Email Status",
+          "Products",
+          "Vendors",
+          "Evaluation Form",
+        ]
+      `)
   })
-  it('should be able to log out', async () => {
-    // TODO: Adjust this setup when login guard is done
-    render(withWrappers(<Navbar />))
-    await userEvent.click(screen.getByText('Log out'))
+  it('should render log out button when cookie is present', async () => {
+    function TestComponent() {
+      const setUserId = useAuthStore(state => state._setUserIdTestOnly)
+
+      useEffect(() => {
+        setUserId('dummy')
+      }, [setUserId])
+
+      return <Navbar />
+    }
+
+    render(withWrappers(<TestComponent />))
+    await waitFor(() => {
+      expect(screen.getByText(/log out/i)).toBeInTheDocument()
+    })
+    await userEvent.click(screen.getByText(/log out/i))
   })
 })

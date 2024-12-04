@@ -20,6 +20,7 @@ export default function Navbar() {
       />
       <div className="flex items-center gap-10">
         <Typography
+          data-testid="navigation-menu"
           variant="body1"
           className={cn(
             'cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]',
@@ -30,6 +31,7 @@ export default function Navbar() {
           Email Status
         </Typography>
         <Typography
+          data-testid="navigation-menu"
           variant="body1"
           className={cn(
             'cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]',
@@ -43,6 +45,7 @@ export default function Navbar() {
           Products
         </Typography>
         <Typography
+          data-testid="navigation-menu"
           variant="body1"
           className={cn(
             'cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]',
@@ -57,6 +60,7 @@ export default function Navbar() {
           Vendors
         </Typography>
         <Typography
+          data-testid="navigation-menu"
           variant="body1"
           className={cn(
             'cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]',
