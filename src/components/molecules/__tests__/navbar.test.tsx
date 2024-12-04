@@ -1,6 +1,9 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { useEffect } from 'react'
 
 import { withWrappers } from '@/lib/testing/utils.tsx'
+import { useAuthStore } from '@/lib/zustand/auth.ts'
 
 import Navbar from '../navbar.tsx'
 
@@ -23,5 +26,22 @@ describe('<Navbar />', () => {
           "Evaluation Form",
         ]
       `)
+  })
+  it('should render log out button when cookie is present', async () => {
+    function TestComponent() {
+      const setUserId = useAuthStore(state => state._setUserIdTestOnly)
+
+      useEffect(() => {
+        setUserId('dummy')
+      }, [setUserId])
+
+      return <Navbar />
+    }
+
+    render(withWrappers(<TestComponent />))
+    await waitFor(() => {
+      expect(screen.getByText(/log out/i)).toBeInTheDocument()
+    })
+    await userEvent.click(screen.getByText(/log out/i))
   })
 })

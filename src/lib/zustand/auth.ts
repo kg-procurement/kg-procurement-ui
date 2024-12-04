@@ -12,6 +12,7 @@ export interface AuthStore {
   token?: string
   login: (token: string) => void
   logout: () => void
+  _setUserIdTestOnly: (userId?: string) => void
 }
 
 const initialToken = Cookies.get(AUTH_COOKIE_KEY)
@@ -42,5 +43,11 @@ export const useAuthStore = create<AuthStore>(set => ({
       token: undefined,
       isAuthenticated: false,
     })
+  },
+  _setUserIdTestOnly: (userId?: string) => {
+    set(prev => ({
+      ...prev,
+      userId,
+    }))
   },
 }))
