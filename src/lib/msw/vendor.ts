@@ -2,6 +2,7 @@ import { http, HttpResponse } from 'msw'
 
 import { API_BASE_URL } from '@/env.ts'
 import {
+  GetEmailStatusesResponse,
   GetLocationsResponse,
   GetVendorByIdResponse,
   GetVendorsResponse,
@@ -9,6 +10,57 @@ import {
 } from '@/lib/redux/features/vendor/validation.ts'
 
 export const vendorHandlers = [
+  http.get(`${API_BASE_URL}/vendor/email`, () => {
+    return HttpResponse.json({
+      email_status: [
+        {
+          id: 's3HmaTb2zM6tk48',
+          email_to: 'Andrewjeremy12345@gmail.com',
+          status: 'failed',
+          vendor_id: '1',
+          date_sent: '2024-12-04T23:19:43.14054Z',
+          modified_date: '2024-12-04T23:19:43.14054Z',
+          vendor_name: 'Multi Kharisma Solusindo, PT',
+          vendor_rating: -100,
+        },
+        {
+          id: 'GMwHBOHLaZterSj',
+          email_to: 'Andrewjeremy12345@gmail.com',
+          status: 'in_progress',
+          vendor_id: '1',
+          date_sent: '2024-12-05T00:11:12.155375Z',
+          modified_date: '2024-12-05T00:11:12.155375Z',
+          vendor_name: 'Multi Kharisma Solusindo, PT',
+          vendor_rating: -100,
+        },
+        {
+          id: '5LLDWBQZeb30jrf',
+          email_to: 'kiminonamaewa98@gmail.com',
+          status: 'success',
+          vendor_id: '10',
+          date_sent: '2024-12-05T00:11:37.379726Z',
+          modified_date: '2024-12-05T00:11:37.379726Z',
+          vendor_name: 'Fors Fortis Indonesia, PT',
+          vendor_rating: 0,
+        },
+        {
+          id: 'oLgqG0V9uf5UTgC',
+          email_to: 'Andrewjeremy12345@gmail.com',
+          status: 'completed',
+          vendor_id: '1',
+          date_sent: '2024-12-05T00:11:37.935501Z',
+          modified_date: '2024-12-05T00:11:37.935501Z',
+          vendor_name: 'Multi Kharisma Solusindo, PT',
+          vendor_rating: -100,
+        },
+      ],
+      metadata: {
+        total_page: 1,
+        current_page: 1,
+        total_entries: 4,
+      },
+    } satisfies GetEmailStatusesResponse)
+  }),
   http.get(`${API_BASE_URL}/vendor`, () => {
     return HttpResponse.json({
       vendors: [

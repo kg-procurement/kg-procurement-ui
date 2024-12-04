@@ -21,7 +21,7 @@ describe('<EmailPage />', () => {
   })
 
   it('should render email status content properly', async () => {
-    render(withWrappers(<EmailPage />))
+    render(withWrappers(<EmailPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()
     expect(
       screen.getByTestId('email-status-table').innerText,
