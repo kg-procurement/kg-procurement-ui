@@ -6,7 +6,7 @@ import { Typography } from '@/components/atoms/typography.tsx'
 import EmailStatusTable from '@/components/features/email-status-table.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
 import { useLoadingOverlay } from '@/hooks/use-loading-overlay.ts'
-import { useGetEmailStatusesQuery } from '@/lib/redux/features/email/api.ts'
+import { useGetEmailStatusesQuery } from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 
 export const Route = createFileRoute('/email')({
