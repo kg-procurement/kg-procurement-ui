@@ -67,6 +67,7 @@ export default function EmailStatusTable({
                     <TableCell>
                       <div className="flex rounded-sm bg-gray-100 p-1">
                         <button
+                          data-testid="email-status-button-failed"
                           className={cn('rounded-sm px-3 py-1 font-medium cursor-pointer', {
                             'bg-red-400': email.status === 'failed',
                           })}
@@ -79,6 +80,7 @@ export default function EmailStatusTable({
                           Failed
                         </button>
                         <button
+                          data-testid="email-status-button-success"
                           className={cn('rounded-sm px-3 py-1 font-medium cursor-pointer', {
                             'bg-green-300': email.status === 'success',
                           })}
@@ -91,6 +93,7 @@ export default function EmailStatusTable({
                           Success
                         </button>
                         <button
+                          data-testid="email-status-button-inprogress"
                           className={cn('rounded-sm px-3 py-1 font-medium cursor-pointer', {
                             'bg-yellow-400': email.status === 'in_progress',
                           })}
@@ -103,7 +106,7 @@ export default function EmailStatusTable({
                           In Progress
                         </button>
                         <button
-                          name="Completed"
+                          data-testid="email-status-button-completed"
                           className={cn('rounded-sm px-3 py-1 font-medium cursor-pointer', {
                             'bg-green-600': email.status === 'completed',
                           })}
