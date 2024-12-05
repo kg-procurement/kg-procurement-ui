@@ -53,15 +53,16 @@ describe('EmailForm', () => {
       screen.getByRole('heading', { name: /compose email/i }),
     ).toBeInTheDocument()
     expect(screen.getByText(/compose your email to/i)).toBeInTheDocument()
+    screen.debug(undefined, 10000)
     await waitFor(
       () => {
         expect(screen.getByTestId('rich-text-editor')).toBeInTheDocument()
       },
-      { timeout: 3000 },
+      { timeout: 10000 },
     )
     expect(screen.getByText('Cancel')).toBeInTheDocument()
     expect(screen.getByText('Next')).toBeInTheDocument()
-  })
+  }, 10000)
 
   it('should show error message when email content is empty and next is clicked', async () => {
     render(

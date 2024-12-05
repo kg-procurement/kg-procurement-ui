@@ -1,6 +1,7 @@
 import { api } from '@/lib/redux/services/api.ts'
 
 import {
+  createVendorEvaluationResponseSchema,
   EmailVendorsArgs,
   GetEmailRequestArgs,
   GetEmailStatusesResponse,
@@ -16,6 +17,8 @@ import {
   UpdateVendorRequestArgs,
   UpdateVendorResponse,
   updateVendorResponseSchema,
+  VendorEvaluationReponse,
+  VendorEvaluationRequestArgs,
 } from './validation.ts'
 
 export const vendorApi = api.injectEndpoints({
@@ -107,6 +110,22 @@ export const vendorApi = api.injectEndpoints({
           ? [{ type: 'Vendor', id: arg.id }]
           : [{ type: 'Vendor', id: 'LIST' }],
     }),
+
+    createVendorEvaluation: builder.mutation<
+      VendorEvaluationReponse,
+      VendorEvaluationRequestArgs
+    >({
+      extraOptions: { responseValidator: createVendorEvaluationResponseSchema },
+      query: payload => ({
+        method: 'POST',
+        url: `/vendor/evaluation`,
+        body: payload,
+      }),
+      invalidatesTags: (resp, _, arg) =>
+        resp
+          ? [{ type: 'Vendor', id: arg.vendor_id }]
+          : [{ type: 'Vendor', id: 'LIST' }],
+    }),
   }),
 })
 
@@ -117,4 +136,5 @@ export const {
   useUpdateVendorMutation,
   useGetLocationsQuery,
   useGetEmailStatusesQuery,
+  useCreateVendorEvaluationMutation,
 } = vendorApi
