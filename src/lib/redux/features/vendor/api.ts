@@ -5,6 +5,9 @@ import {
   AutomatedEmailBlastResponse,
   automatedEmailBlastResponseSchema,
   EmailVendorsArgs,
+  GetEmailRequestArgs,
+  GetEmailStatusesResponse,
+  getEmailStatusesResponseSchema,
   GetLocationsResponse,
   getLocationsResponseSchema,
   GetVendorByIdRequestArgs,
@@ -54,6 +57,19 @@ export const vendorApi = api.injectEndpoints({
           body: bodyFormData,
         }
       },
+      invalidatesTags: ['EmailStatus'],
+    }),
+    getEmailStatuses: builder.query<
+      GetEmailStatusesResponse,
+      GetEmailRequestArgs
+    >({
+      extraOptions: { responseValidator: getEmailStatusesResponseSchema },
+      query: args => ({
+        method: 'GET',
+        url: `/vendor/email`,
+        params: args,
+      }),
+      providesTags: ['EmailStatus'],
     }),
     getVendorById: builder.query<
       GetVendorByIdResponse,
@@ -112,5 +128,6 @@ export const {
   useGetVendorByIdQuery,
   useUpdateVendorMutation,
   useGetLocationsQuery,
+  useGetEmailStatusesQuery,
   useAutomatedEmailBlastMutation,
 } = vendorApi

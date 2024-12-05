@@ -1,3 +1,17 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`<EmailPage /> > should render email status content properly 1`] = `"IDEmail ToStatusModified Date1andrewjeremy12345@gmail.comSENT2024-11-14T09:14:46.914Z10andrewjeremy12345@gmail.comSENT2024-11-14T09:14:46.914Z11andrewjeremy12345@gmail.comSENT2024-11-14T09:14:46.914Z2andrewjeremy12345@gmail.comSENT2024-11-14T09:14:46.914Z3andrewjeremy12345@gmail.comSENT2024-11-14T09:14:46.914Z4andrewjeremy12345@gmail.comSENT2024-11-14T09:14:46.914Z5andrewjeremy12345@gmail.comSENT2024-11-14T09:14:46.914Z6andrewjeremy12345@gmail.comSENT2024-11-14T09:14:46.914Z7andrewjeremy12345@gmail.comSENT2024-11-14T09:14:46.914Z8andrewjeremy12345@gmail.comSENT2024-11-14T09:14:46.914Z"`;
+exports[`<EmailPage /> > should render email status content properly 1`] = `
+"Vendor NameEmail ToPerformance ScoreDate SentStatusMulti Kharisma Solusindo, PTAndrewjeremy12345@gmail.com-1002024-12-04T23:19:43.14054ZFailed
+Success
+In Progress
+CompletedMulti Kharisma Solusindo, PTAndrewjeremy12345@gmail.com-1002024-12-05T00:11:12.155375ZFailed
+Success
+In Progress
+CompletedFors Fortis Indonesia, PTkiminonamaewa98@gmail.com02024-12-05T00:11:37.379726ZFailed
+Success
+In Progress
+CompletedMulti Kharisma Solusindo, PTAndrewjeremy12345@gmail.com-1002024-12-05T00:11:37.935501ZFailed
+Success
+In Progress
+Completed"
+`;
