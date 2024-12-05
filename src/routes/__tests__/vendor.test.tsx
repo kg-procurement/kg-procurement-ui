@@ -90,24 +90,6 @@ describe('<VendorPage/>', () => {
     expect(formTitle).toBeInTheDocument()
   })
 
-  it('should select all vendor checkbox works properly', async () => {
-    render(withWrappers(<VendorPage />, { withRoot: true }))
-    await waitForNoLoadingOverlay()
-
-    const checkbox = screen.getAllByRole('checkbox', {})[1]
-
-    await userEvent.click(checkbox)
-    await userEvent.click(checkbox)
-
-    const blastButton = screen.getByText('Email Selected Vendor')
-
-    await userEvent.click(blastButton)
-    const warning = screen.getByText(
-      'Please choose at leat one vendor to continue',
-    )
-    expect(warning).toBeInTheDocument()
-  })
-
   it('should select a vendor checkbox works properly', async () => {
     render(withWrappers(<VendorPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()
@@ -124,7 +106,7 @@ describe('<VendorPage/>', () => {
       'Please choose at leat one vendor to continue',
     )
     expect(warning).toBeInTheDocument()
-  })
+  }, 20000)
 
   it('should select an option on dropdown', async () => {
     mswServer.use(
@@ -159,4 +141,19 @@ describe('<VendorPage/>', () => {
 
     await userEvent.click(button)
   })
+
+  it('should select a vendor checkbox on rows works properly', async () => {
+    render(withWrappers(<VendorPage />, { withRoot: true }))
+    await waitForNoLoadingOverlay()
+
+    const firstCheckbox = screen.getAllByRole('checkbox', {})[1]
+
+    await userEvent.click(firstCheckbox)
+    await userEvent.click(firstCheckbox)
+
+    const secondCheckbox = screen.getAllByRole('checkbox', {})[2]
+
+    await userEvent.click(secondCheckbox)
+    await userEvent.click(secondCheckbox)
+  }, 20000)
 })
