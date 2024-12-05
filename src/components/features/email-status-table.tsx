@@ -9,6 +9,8 @@ import {
   TableRow,
 } from '@/components/atoms/table.tsx'
 import CustomPagination from '@/components/molecules/custom-pagination.tsx'
+import { useUpdateEmailStatusMutation } from '@/lib/redux/features/vendor/api.ts'
+import { UpdateEmailStatusRequestArgs } from '@/lib/redux/features/vendor/validation.ts'
 import { PaginationSpec } from '@/schemas/common.ts'
 import { EmailStatus } from '@/schemas/email.ts'
 import { cn } from '@/utils/cn.ts'
@@ -27,6 +29,20 @@ export default function EmailStatusTable({
   page = 1,
   setPage = noop,
 }: EmailStatusTableProps) {
+  const [updateEmailStatus] = useUpdateEmailStatusMutation()
+
+  const handleSave = async ({ id, payload }: UpdateEmailStatusRequestArgs) => {
+    try {
+      await updateEmailStatus({
+        id: id,
+        payload: payload,
+      }).unwrap()
+    }
+    catch (e) {
+      console.error('Something went wrong when trying to update vendor:', e)
+    }
+  }
+
   return (
     <div className="flex w-full min-w-[1280px] flex-col rounded-lg border shadow-md">
       <Table data-testid="email-status-table">
@@ -50,34 +66,55 @@ export default function EmailStatusTable({
                     <TableCell>{email.date_sent}</TableCell>
                     <TableCell>
                       <div className="flex rounded-sm bg-gray-100 p-1">
-                        <div
-                          className={cn('rounded-sm px-3 py-1 font-medium', {
+                        <button
+                          className={cn('rounded-sm px-3 py-1 font-medium cursor-pointer', {
                             'bg-red-400': email.status === 'failed',
                           })}
+                          onClick={() =>
+                            handleSave({
+                              id: email.id,
+                              payload: { ...email, status: 'failed' },
+                            })}
                         >
                           Failed
-                        </div>
-                        <div
-                          className={cn('rounded-sm px-3 py-1 font-medium', {
+                        </button>
+                        <button
+                          className={cn('rounded-sm px-3 py-1 font-medium cursor-pointer', {
                             'bg-green-300': email.status === 'success',
                           })}
+                          onClick={() =>
+                            handleSave({
+                              id: email.id,
+                              payload: { ...email, status: 'success' },
+                            })}
                         >
                           Success
-                        </div>
-                        <div
-                          className={cn('rounded-sm px-3 py-1 font-medium', {
+                        </button>
+                        <button
+                          className={cn('rounded-sm px-3 py-1 font-medium cursor-pointer', {
                             'bg-yellow-400': email.status === 'in_progress',
                           })}
+                          onClick={() =>
+                            handleSave({
+                              id: email.id,
+                              payload: { ...email, status: 'in_progress' },
+                            })}
                         >
                           In Progress
-                        </div>
-                        <div
-                          className={cn('rounded-sm px-3 py-1 font-medium', {
+                        </button>
+                        <button
+                          name="Completed"
+                          className={cn('rounded-sm px-3 py-1 font-medium cursor-pointer', {
                             'bg-green-600': email.status === 'completed',
                           })}
+                          onClick={() =>
+                            handleSave({
+                              id: email.id,
+                              payload: { ...email, status: 'completed' },
+                            })}
                         >
                           Completed
-                        </div>
+                        </button>
                       </div>
                     </TableCell>
                   </TableRow>
