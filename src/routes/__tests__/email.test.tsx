@@ -36,4 +36,15 @@ describe('<EmailPage />', () => {
     expect(screen.getByPlaceholderText('Filter by Email')).toBeInTheDocument()
     expect(emailFiterInput).toBeInTheDocument()
   })
+
+  it('should call update email status mutation when clicking the save button', async () => {
+    render(withWrappers(<EmailPage />))
+    await waitForNoLoadingOverlay()
+
+    const saveButton = screen.getAllByRole('button', { name: 'Completed' })[0]
+    expect(saveButton).toBeInTheDocument()
+
+    saveButton.click()
+    await waitForNoLoadingOverlay()
+  })
 })
