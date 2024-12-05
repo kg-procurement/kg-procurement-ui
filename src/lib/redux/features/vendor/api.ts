@@ -13,6 +13,9 @@ import {
   GetVendorsRequestArgs,
   GetVendorsResponse,
   getVendorsResponseSchema,
+  UpdateEmailStatusRequestArgs,
+  UpdateEmailStatusResponse,
+  updateEmailStatusResponseSchema,
   UpdateVendorRequestArgs,
   UpdateVendorResponse,
   updateVendorResponseSchema,
@@ -68,6 +71,18 @@ export const vendorApi = api.injectEndpoints({
       }),
       providesTags: ['EmailStatus'],
     }),
+    updateEmailStatus: builder.mutation<
+      UpdateEmailStatusResponse,
+      UpdateEmailStatusRequestArgs
+    >({
+      extraOptions: { responseValidator: updateEmailStatusResponseSchema },
+      query: ({ id, payload }) => ({
+        method: 'PUT',
+        url: `/email-status/${id}`,
+        body: payload,
+      }),
+      invalidatesTags: ['EmailStatus'],
+    }),
     getVendorById: builder.query<
       GetVendorByIdResponse,
       GetVendorByIdRequestArgs
@@ -117,4 +132,5 @@ export const {
   useUpdateVendorMutation,
   useGetLocationsQuery,
   useGetEmailStatusesQuery,
+  useUpdateEmailStatusMutation,
 } = vendorApi
