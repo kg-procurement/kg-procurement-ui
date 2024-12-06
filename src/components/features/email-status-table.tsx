@@ -78,7 +78,16 @@ export default function EmailStatusTable({
                     <TableCell>{email.vendor_name}</TableCell>
                     <TableCell>{email.email_to}</TableCell>
                     <TableCell>{email.vendor_rating}</TableCell>
-                    <TableCell>{email.date_sent}</TableCell>
+                    
+                    <TableCell>
+                      {new Intl.DateTimeFormat('id-ID', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      }).format(new Date(email.date_sent))}
+                    </TableCell>
                     <TableCell>
                       <div className="flex rounded-sm bg-gray-100 p-1">
                         <button
