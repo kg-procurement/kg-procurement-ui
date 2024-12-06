@@ -77,3 +77,11 @@ export type VendorEvaluationReponse = z.infer<typeof vendorEvaluationSchema>
 export const createVendorEvaluationResponseSchema = z.object({
   vendor_evaluation: vendorEvaluationSchema,
 })
+export const updateEmailStatusResponseSchema = emailStatusSchema
+
+export type UpdateEmailStatusResponse = z.infer<typeof updateEmailStatusResponseSchema>
+
+export interface UpdateEmailStatusRequestArgs {
+  id: string
+  payload: Partial<z.infer<typeof emailStatusSchema>>
+}
