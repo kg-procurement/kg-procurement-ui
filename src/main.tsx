@@ -1,5 +1,4 @@
 import './index.css'
-import '../sentry.config.ts'
 
 import { RouterProvider } from '@tanstack/react-router'
 import { StrictMode } from 'react'

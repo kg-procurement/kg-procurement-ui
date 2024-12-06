@@ -55,3 +55,12 @@ export const getEmailStatusesResponseSchema = paginationSpecSchema.extend({
 export type GetEmailStatusesResponse = z.infer<
   typeof getEmailStatusesResponseSchema
 >
+
+export const updateEmailStatusResponseSchema = emailStatusSchema
+
+export type UpdateEmailStatusResponse = z.infer<typeof updateEmailStatusResponseSchema>
+
+export interface UpdateEmailStatusRequestArgs {
+  id: string
+  payload: Partial<z.infer<typeof emailStatusSchema>>
+}
