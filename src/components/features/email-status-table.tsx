@@ -81,6 +81,7 @@ export default function EmailStatusTable({
                     
                     <TableCell>
                       {new Intl.DateTimeFormat('id-ID', {
+                        timeZone: 'UTC',
                         day: 'numeric',
                         month: 'short',
                         year: 'numeric',
