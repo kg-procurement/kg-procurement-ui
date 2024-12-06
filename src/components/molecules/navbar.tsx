@@ -59,23 +59,6 @@ export default function Navbar() {
         >
           Vendors
         </Typography>
-        <Typography
-          data-testid="navigation-menu"
-          variant="body1"
-          className={cn(
-            'cursor-pointer text-[#828282] hover:font-bold hover:text-[#005288]',
-            {
-              'font-bold text-[#005288]':
-                pathname === '/vendor/evaluation-form',
-            },
-          )}
-          onClick={() =>
-            navigate({
-              to: '/vendor/evaluation-form',
-            })}
-        >
-          Evaluation Form
-        </Typography>
         {userId && (
           <Button
             variant="default"
