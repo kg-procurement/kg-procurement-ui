@@ -13,7 +13,6 @@ describe('<Navbar />', () => {
     expect(
       screen.getByAltText('Kompas Gramedia Logo Image'),
     ).toBeInTheDocument()
-    expect(screen.getAllByText('Evaluation Form'))
   })
   it('should return navigation option', () => {
     render(withWrappers(<Navbar />))
@@ -23,7 +22,6 @@ describe('<Navbar />', () => {
           "Email Status",
           "Products",
           "Vendors",
-          "Evaluation Form",
         ]
       `)
   })

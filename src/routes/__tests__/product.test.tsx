@@ -40,18 +40,6 @@ describe('<ProductPage />', () => {
     expect(screen.getByText('Last Modified')).toBeInTheDocument()
   })
 
-  it('should correctly render table header content ', async () => {
-    render(withWrappers(<ProductPage />))
-    await waitForNoLoadingOverlay()
-
-    const productTable = screen.getByTestId('product-vendors-table')
-    expect(productTable).toBeInTheDocument()
-
-    expect(screen.getByText('Product Name')).toBeInTheDocument()
-    expect(screen.getByText('Description')).toBeInTheDocument()
-    expect(screen.getByText('Last Modified')).toBeInTheDocument()
-  })
-
   it('should correctly handle choose all product by checkbox on table header and choosing a product by checkbox on table row', async () => {
     render(withWrappers(<ProductPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()

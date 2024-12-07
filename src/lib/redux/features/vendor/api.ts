@@ -4,6 +4,7 @@ import {
   AutomatedEmailBlastArgs,
   AutomatedEmailBlastResponse,
   automatedEmailBlastResponseSchema,
+  createVendorEvaluationResponseSchema,
   EmailVendorsArgs,
   GetEmailRequestArgs,
   GetEmailStatusesResponse,
@@ -22,6 +23,8 @@ import {
   UpdateVendorRequestArgs,
   UpdateVendorResponse,
   updateVendorResponseSchema,
+  VendorEvaluationReponse,
+  VendorEvaluationRequestArgs,
 } from './validation.ts'
 
 export const vendorApi = api.injectEndpoints({
@@ -126,7 +129,25 @@ export const vendorApi = api.injectEndpoints({
           : [{ type: 'Vendor', id: 'LIST' }],
     }),
 
-    automatedEmailBlast: builder.mutation<AutomatedEmailBlastResponse, AutomatedEmailBlastArgs>({
+    createVendorEvaluation: builder.mutation<
+      VendorEvaluationReponse,
+      VendorEvaluationRequestArgs
+    >({
+      extraOptions: { responseValidator: createVendorEvaluationResponseSchema },
+      query: payload => ({
+        method: 'POST',
+        url: `/vendor/evaluation`,
+        body: payload,
+      }),
+      invalidatesTags: (resp, _, arg) =>
+        resp
+          ? [{ type: 'Vendor', id: arg.vendor_id }]
+          : [{ type: 'Vendor', id: 'LIST' }],
+    }),
+    automatedEmailBlast: builder.mutation<
+      AutomatedEmailBlastResponse,
+      AutomatedEmailBlastArgs
+    >({
       extraOptions: { responseValidator: automatedEmailBlastResponseSchema },
       query: ({ productName }) => ({
         method: 'POST',
@@ -144,6 +165,7 @@ export const {
   useUpdateVendorMutation,
   useGetLocationsQuery,
   useGetEmailStatusesQuery,
+  useCreateVendorEvaluationMutation,
   useAutomatedEmailBlastMutation,
   useUpdateEmailStatusMutation,
 } = vendorApi

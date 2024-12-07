@@ -1,10 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate, useParams } from '@tanstack/react-router'
 import { useState } from 'react'
 
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from '@/components/atoms/radio-button.tsx'
+import { Button } from '@/components/atoms/button.tsx'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/atoms/popover.tsx'
+import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-button.tsx'
 import {
   Table,
   TableBody,
@@ -15,12 +14,32 @@ import {
 } from '@/components/atoms/table.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
+import { useLoadingOverlay } from '@/hooks/use-loading-overlay.ts'
+import { toast } from '@/hooks/use-toast.ts'
+import { useCreateVendorEvaluationMutation, useGetVendorByIdQuery } from '@/lib/redux/features/vendor/api.ts'
+import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
+import { toastForError } from '@/lib/redux/utils.tsx'
 
-export const Route = createFileRoute('/vendor/evaluation-form')({
+export const Route = createFileRoute('/vendor/$vendorId/evaluation-form')({
   component: EvaluationFormPage,
 })
 
 export default function EvaluationFormPage() {
+  const { vendorId } = useParams({ from: '/vendor/$vendorId/evaluation-form' })
+
+  const navigate = useNavigate()
+
+  const {
+    data: vendorData,
+    error: vendorError,
+    isSuccess: isVendorSuccess,
+  } = useGetVendorByIdQuery({
+    id: vendorId,
+  })
+
+  useQueryErrorHandler(vendorError)
+  useLoadingOverlay(!isVendorSuccess)
+
   const kriteriaPenilaian: string[] = [
     'Kesesuaian produk/jasa dengan spesifikasi',
     'Kualitas produk/jasa',
@@ -47,6 +66,59 @@ export default function EvaluationFormPage() {
     setPenilaianScores(temp)
   }
 
+  const handleSubmitEvaluationForm = () => {
+    if (penilaianScores.includes(0)) {
+      setTogglePopover(true)
+      setTimeout(() => setTogglePopover(false), 2000)
+      return
+    }
+    handleCreateEvaluation()
+  }
+  const [createVendorEvaluation] = useCreateVendorEvaluationMutation()
+
+  const [togglePopover, setTogglePopover] = useState(false)
+
+  const handleCreateEvaluation = async () => {
+    try {
+      toast({
+        title: 'On Progress',
+        description: 'Executing email blast',
+        duration: 2000,
+      })
+      await createVendorEvaluation({
+        kesesuaian_produk: penilaianScores[0],
+        kualitas_produk: penilaianScores[1],
+        ketepatan_waktu_pengiriman: penilaianScores[2],
+        kompetitifitas_harga: penilaianScores[3],
+        responsivitas_kemampuan_komunikasi: penilaianScores[4],
+        kemampuan_dalam_menangani_masalah: penilaianScores[5],
+        kelengkapan_barang: penilaianScores[6],
+        harga: penilaianScores[7],
+        term_of_payment: penilaianScores[8],
+        reputasi: penilaianScores[9],
+        ketersediaan_barang: penilaianScores[10],
+        kualitas_layanan_after_services: penilaianScores[11],
+        vendor_id: vendorId,
+      }).unwrap()
+      toast({
+        title: 'Success',
+        description: 'Email blast has successfully executed',
+        duration: 2000,
+      })
+      navigate({
+        to: '/vendor',
+        search: {
+          page: 1,
+          location: '',
+          product_name: '',
+        },
+      })
+    }
+    catch (err) {
+      toastForError(err)
+    }
+  }
+
   return (
     <div className="flex w-full flex-col gap-10">
       <PageHeader>
@@ -56,7 +128,7 @@ export default function EvaluationFormPage() {
           Evaluation Form
         </Typography>
         <Typography variant="body1" className="text-white">
-          Vendor A
+          {vendorData?.name}
         </Typography>
       </PageHeader>
       <div className="flex w-full justify-center">
@@ -83,7 +155,7 @@ export default function EvaluationFormPage() {
                         return (
                           <TableCell className="text-center" key={value}>
                             <RadioGroup
-                              defaultValue="0"
+                              value={penilaianScores[kriteriaIndex].toString()}
                               className="flex justify-center"
                               onValueChange={(value) => {
                                 handleSelectRadioButton(kriteriaIndex, value)
@@ -106,6 +178,16 @@ export default function EvaluationFormPage() {
               </TableBody>
             </Table>
           </div>
+          <Popover open={togglePopover}>
+            <PopoverTrigger asChild>
+              <Button onClick={handleSubmitEvaluationForm}>Submit Evaluation</Button>
+            </PopoverTrigger>
+            <PopoverContent className="p-2">
+              <Typography variant="body2" className="text-red-600">
+                Some assessment criteria not yet filled
+              </Typography>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
     </div>
