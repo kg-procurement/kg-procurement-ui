@@ -1,6 +1,9 @@
 import { api } from '@/lib/redux/services/api.ts'
 
 import {
+  AutomatedEmailBlastArgs,
+  AutomatedEmailBlastResponse,
+  automatedEmailBlastResponseSchema,
   EmailVendorsArgs,
   GetEmailRequestArgs,
   GetEmailStatusesResponse,
@@ -122,6 +125,15 @@ export const vendorApi = api.injectEndpoints({
           ? [{ type: 'Vendor', id: arg.id }]
           : [{ type: 'Vendor', id: 'LIST' }],
     }),
+
+    automatedEmailBlast: builder.mutation<AutomatedEmailBlastResponse, AutomatedEmailBlastArgs>({
+      extraOptions: { responseValidator: automatedEmailBlastResponseSchema },
+      query: ({ productName }) => ({
+        method: 'POST',
+        url: `/vendor/automated-blast/${productName}`,
+      }),
+      invalidatesTags: [{ type: 'Vendor', id: 'LIST' }],
+    }),
   }),
 })
 
@@ -132,5 +144,6 @@ export const {
   useUpdateVendorMutation,
   useGetLocationsQuery,
   useGetEmailStatusesQuery,
+  useAutomatedEmailBlastMutation,
   useUpdateEmailStatusMutation,
 } = vendorApi

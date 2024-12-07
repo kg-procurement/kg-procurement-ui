@@ -44,6 +44,18 @@ export interface UpdateVendorRequestArgs {
   payload: Partial<z.infer<typeof vendorSchema>>
 }
 
+export interface AutomatedEmailBlastArgs {
+  productName: string
+}
+
+export interface AutomatedEmailBlastResponse {
+  message: string
+}
+
+export const automatedEmailBlastResponseSchema = z.object({
+  message: z.string(),
+})
+
 export interface GetEmailRequestArgs extends PaginationArgs {
   email_to: string
 }
