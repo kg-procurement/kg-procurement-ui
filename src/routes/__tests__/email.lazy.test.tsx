@@ -1,13 +1,13 @@
 import { render, screen, waitFor } from '@testing-library/react'
-import { http, HttpResponse } from 'msw'
 import userEvent from '@testing-library/user-event'
+import { http, HttpResponse } from 'msw'
 
 import { API_BASE_URL } from '@/env.ts'
 import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 import { waitForNoLoadingOverlay } from '@/lib/testing/wait-for.ts'
 
-import EmailPage from '../email.tsx'
+import EmailPage from '../email.lazy.tsx'
 
 describe('<EmailPage />', () => {
   it('should render properly without crashing', () => {
@@ -27,7 +27,9 @@ describe('<EmailPage />', () => {
   it('should render email status content properly', async () => {
     render(withWrappers(<EmailPage />, { withRoot: true }))
     await waitForNoLoadingOverlay()
-    expect(screen.getByTestId('email-status-table').innerText).toMatchSnapshot()
+    expect(
+      screen.getByTestId('email-status-table').innerText,
+    ).toMatchSnapshot()
   })
 
   it('should render input boxes for filtering by email', () => {
@@ -58,8 +60,7 @@ describe('<EmailPage />', () => {
 
   it('should call handle when update email status mutation fail', async () => {
     const statusCode = 500
-    const errorMessage =
-      'error'
+    const errorMessage = 'error'
     mswServer.use(
       http.put(`${API_BASE_URL}/email-status/:id`, () =>
         HttpResponse.json(
@@ -89,9 +90,11 @@ describe('<EmailPage />', () => {
 
   it('should sorted when clicking on the date sent header', async () => {
     render(withWrappers(<EmailPage />, { withRoot: true }))
-    await waitFor(() => expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument())
+    await waitFor(() =>
+      expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument(),
+    )
 
-    const button = screen.getByTestId("sort-date-sent")
+    const button = screen.getByTestId('sort-date-sent')
     await userEvent.click(button)
 
     await userEvent.click(button)

@@ -1,0 +1,5 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<ProductPage /> > should filter by product name is filled successfully 1`] = `"Product NameCategoryDescriptionPriceLast ModifiedBukuStationaryBukuRp 23.000,00 / Pcs2020-11-11T13:22:16Zundefined"`;
+
+exports[`<ProductPage /> > should handle when filter by product name returns null 1`] = `"Product NameCategoryDescriptionPriceLast Modified"`;

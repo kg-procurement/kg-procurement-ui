@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 import { waitForNoLoadingOverlay } from '@/lib/testing/wait-for.ts'
 
-import EvaluationFormPage from '../vendor_.evaluation-form.tsx'
+import EvaluationFormPage from '../vendor_.evaluation-form.lazy.tsx'
 
 describe('<EvaluationFormPage/>', () => {
   it('should render the header section with the logo', () => {
