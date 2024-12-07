@@ -86,7 +86,7 @@ export default function EvaluationFormPage() {
         description: 'Executing email blast',
         duration: 2000,
       })
-      const response = await createVendorEvaluation({
+      await createVendorEvaluation({
         kesesuaian_produk: penilaianScores[0],
         kualitas_produk: penilaianScores[1],
         ketepatan_waktu_pengiriman: penilaianScores[2],
@@ -101,7 +101,6 @@ export default function EvaluationFormPage() {
         kualitas_layanan_after_services: penilaianScores[11],
         vendor_id: vendorId,
       }).unwrap()
-      console.log(response)
       toast({
         title: 'Success',
         description: 'Email blast has successfully executed',

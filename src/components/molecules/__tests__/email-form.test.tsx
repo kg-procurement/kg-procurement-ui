@@ -53,7 +53,6 @@ describe('EmailForm', () => {
       screen.getByRole('heading', { name: /compose email/i }),
     ).toBeInTheDocument()
     expect(screen.getByText(/compose your email to/i)).toBeInTheDocument()
-    screen.debug(undefined, 10000)
     await waitFor(
       () => {
         expect(screen.getByTestId('rich-text-editor')).toBeInTheDocument()
