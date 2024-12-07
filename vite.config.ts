@@ -30,7 +30,7 @@ export default defineConfig({
             return 'ckeditor'
           }
           if (id.includes('node_modules')) {
-            return 'vendor'
+            return 'node_modules'
           }
         },
       },
