@@ -82,7 +82,6 @@ describe('<EvaluationFormPage/>', () => {
     await waitForNoLoadingOverlay()
 
     const radioGroups = screen.getAllByRole('radiogroup')
-    console.log('panjang: ', radioGroups.length)
 
     let radioButton = within(radioGroups[0]).getByRole('radio')
     await userEvent.click(radioButton)
@@ -132,7 +131,6 @@ describe('<EvaluationFormPage/>', () => {
     await waitForNoLoadingOverlay()
 
     const radioGroups = screen.getAllByRole('radiogroup')
-    console.log('panjang: ', radioGroups.length)
 
     let radioButton = within(radioGroups[0]).getByRole('radio')
     await userEvent.click(radioButton)

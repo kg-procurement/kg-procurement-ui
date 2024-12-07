@@ -68,7 +68,6 @@ export default function EvaluationFormPage() {
 
   const handleSubmitEvaluationForm = () => {
     if (penilaianScores.includes(0)) {
-      console.log(penilaianScores)
       setTogglePopover(true)
       setTimeout(() => setTogglePopover(false), 2000)
       return
