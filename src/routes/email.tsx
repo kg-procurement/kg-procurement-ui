@@ -16,8 +16,17 @@ export const Route = createFileRoute('/email')({
 export default function EmailPage() {
   const [page, setPage] = useState<number>(1)
   const [emailToFilter, setEmailToFilter] = useState('')
+  const [sortBy, setSortBy] = useState<'date_sent' | ''>('');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const handleSort = (column: 'date_sent' | '') => {
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+    setSortBy(column)
+  }
   const { emails, metadata, isSuccess, error } = useGetEmailStatusesQuery(
-    { page, email_to: emailToFilter },
+    { page, 
+      email_to: emailToFilter,
+      order_by: sortBy, 
+      order: sortOrder },
     {
       selectFromResult: result => ({
         emails: result.data?.email_status,
@@ -51,6 +60,9 @@ export default function EmailPage() {
       <div className="mt-4">
         {emails && metadata && (
           <EmailStatusTable
+            handleSort={handleSort}
+            sortBy={sortBy}
+            sortOrder={sortOrder}
             emails={emails}
             metadata={metadata}
             page={page}

@@ -21,13 +21,21 @@ interface EmailStatusTableProps {
   metadata: PaginationSpec['metadata']
   page?: number
   setPage?: Dispatch<SetStateAction<number>>
+  handleSort: (column: 'date_sent' | '') => void
+  sortBy: 'date_sent' | ''
+  sortOrder: 'asc' | 'desc' | ''
 }
+
+
 
 export default function EmailStatusTable({
   emails,
   metadata,
   page = 1,
   setPage = noop,
+  handleSort,
+  sortBy,
+  sortOrder
 }: EmailStatusTableProps) {
   const [updateEmailStatus] = useUpdateEmailStatusMutation()
 
@@ -50,8 +58,15 @@ export default function EmailStatusTable({
           <TableRow>
             <TableHead className="w-[300px]">Vendor Name</TableHead>
             <TableHead className="w-[200px]">Email To</TableHead>
-            <TableHead className="w-[200px]">Performance Score</TableHead>
-            <TableHead>Date Sent</TableHead>
+            <TableHead className="w-[160px]">Performance Score</TableHead>
+            <TableHead
+              className="cursor-pointer"
+              data-testid = "sort-date-sent"
+              onClick={() => handleSort('date_sent')}
+            >
+              Date Sent
+              {sortBy === 'date_sent' && (sortOrder === 'asc' ? ' ↑' : ' ↓')}
+            </TableHead>
             <TableHead>Status</TableHead>
           </TableRow>
         </TableHeader>
@@ -63,7 +78,17 @@ export default function EmailStatusTable({
                     <TableCell>{email.vendor_name}</TableCell>
                     <TableCell>{email.email_to}</TableCell>
                     <TableCell>{email.vendor_rating}</TableCell>
-                    <TableCell>{email.date_sent}</TableCell>
+                    
+                    <TableCell>
+                      {new Intl.DateTimeFormat('id-ID', {
+                        timeZone: 'Asia/Jakarta',
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      }).format(new Date(email.date_sent))}
+                    </TableCell>
                     <TableCell>
                       <div className="flex rounded-sm bg-gray-100 p-1">
                         <button
