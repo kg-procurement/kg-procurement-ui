@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 
 import { Button } from '@/components/atoms/button.tsx'
@@ -9,7 +9,7 @@ import { useRegisterAccountMutation } from '@/lib/redux/features/account/api.ts'
 import { RegisterAccountRequestArgs } from '@/lib/redux/features/account/validation.ts'
 import { toastForError } from '@/lib/redux/utils.tsx'
 
-export const Route = createFileRoute('/register')({
+export const Route = createLazyFileRoute('/register')({
   component: () => <RegisterPage />,
 })
 

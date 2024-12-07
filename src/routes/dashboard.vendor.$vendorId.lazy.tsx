@@ -1,4 +1,4 @@
-import { createFileRoute, useParams } from '@tanstack/react-router'
+import { createLazyFileRoute, useParams } from '@tanstack/react-router'
 import { Edit, MapPin } from 'lucide-react'
 import { useState } from 'react'
 
@@ -18,7 +18,7 @@ import { useGetProductsByVendorQuery } from '@/lib/redux/features/product/api.ts
 import { useGetVendorByIdQuery } from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 
-export const Route = createFileRoute('/dashboard/vendor/$vendorId')({
+export const Route = createLazyFileRoute('/dashboard/vendor/$vendorId')({
   component: () => <VendorDetailPage />,
 })
 

@@ -1,10 +1,7 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from '@/components/atoms/radio-button.tsx'
+import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-button.tsx'
 import {
   Table,
   TableBody,
@@ -16,7 +13,7 @@ import {
 import { Typography } from '@/components/atoms/typography.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
 
-export const Route = createFileRoute('/vendor/evaluation-form')({
+export const Route = createLazyFileRoute('/vendor/evaluation-form')({
   component: EvaluationFormPage,
 })
 
