@@ -1,5 +1,6 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
+import userEvent from '@testing-library/user-event'
 
 import { API_BASE_URL } from '@/env.ts'
 import { mswServer } from '@/lib/msw/index.ts'
@@ -84,5 +85,15 @@ describe('<EmailPage />', () => {
       expect(button).toBeInTheDocument()
       button.click()
     })
+  })
+
+  it('should sorted when clicking on the date sent header', async () => {
+    render(withWrappers(<EmailPage />, { withRoot: true }))
+    await waitFor(() => expect(screen.queryByTestId('loading-overlay')).not.toBeInTheDocument())
+
+    const button = screen.getByTestId("sort-date-sent")
+    await userEvent.click(button)
+
+    await userEvent.click(button)
   })
 })

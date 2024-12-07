@@ -20,6 +20,9 @@ import {
 } from '@/components/atoms/table.tsx'
 import { Typography } from '@/components/atoms/typography.tsx'
 import CustomPagination from '@/components/molecules/custom-pagination.tsx'
+import { toast } from '@/hooks/use-toast.ts'
+import { useAutomatedEmailBlastMutation } from '@/lib/redux/features/vendor/api.ts'
+import { toastForError } from '@/lib/redux/utils.tsx'
 import { PaginationSpec } from '@/schemas/common.ts'
 import { ProductVendor } from '@/schemas/product.ts'
 import { formatPrice, noop } from '@/utils/common.ts'
@@ -46,6 +49,22 @@ function ProductTable({
   handleChooseAllProduct,
   handleUpdateChosenProduct,
 }: Readonly<ProductTableProps>) {
+  const [automatedEmailBlast, { isLoading }] = useAutomatedEmailBlastMutation()
+
+  const handleSendEmailBlast = async (productName: string) => {
+    try {
+      const { message } = await automatedEmailBlast({ productName }).unwrap()
+      toast({
+        title: 'Success',
+        description: message,
+        duration: 2000,
+      })
+    }
+    catch (err) {
+      toastForError(err)
+    }
+  }
+
   return (
     <div className="flex w-3/4 flex-col gap-5 rounded-lg border p-6 shadow-xl">
       <div className="w-full rounded-lg border">
@@ -104,7 +123,8 @@ function ProductTable({
                         <Button
                           className="h-fit w-full px-3 py-1"
                           variant="outline"
-                          onClick={() => console.log('hai')}
+                          onClick={() => handleSendEmailBlast(pv.product.name)}
+                          disabled={isLoading}
                         >
                           Send email to all vendors of this product
                         </Button>

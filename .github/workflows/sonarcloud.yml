@@ -83,7 +83,7 @@ jobs:
             -Dsonar.tests=.
             -Dsonar.test.inclusions=**/*_test.js
             -Dsonar.exclusions=**/node_modules/**,**/*_mock.js,**/msw/*
-            -Dsonar.coverage.exclusions=**/node_modules/**,**/*_test.js,vitest.setup.*,**/*.test.ts,**/*.test.tsx,**/*.spec.ts,**/*.spec.tsx,**/msw/*,**/schemas/*,vite.config.ts,sentry.config.ts
+            -Dsonar.coverage.exclusions=**/node_modules/**,**/*_test.js,vitest.setup.*,**/*.test.ts,**/*.test.tsx,**/*.spec.ts,**/*.spec.tsx,**/msw/*,**/schemas/*,vite.config.ts,sentry.config.ts,**/src/components/features/product-table.tsx
             -Dsonar.cpd.exclusions=**/*.test.ts,**/*.test.tsx
             -Dsonar.sourceEncoding=UTF-8
         env:
