@@ -21,4 +21,22 @@ export const vendorPageSearchSchema = z.object({
   location: z.string().catch(''),
 })
 
+export const vendorEvaluationSchema = z.object({
+  id: z.string(),
+  vendor_id: z.string(),
+  kesesuaian_produk: z.number(),
+  kualitas_produk: z.number(),
+  ketepatan_waktu_pengiriman: z.number(),
+  kompetitifitas_harga: z.number(),
+  responsivitas_kemampuan_komunikasi: z.number(),
+  kemampuan_dalam_menangani_masalah: z.number(),
+  kelengkapan_barang: z.number(),
+  harga: z.number(),
+  term_of_payment: z.number(),
+  reputasi: z.number(),
+  ketersediaan_barang: z.number(),
+  kualitas_layanan_after_services: z.number(),
+  modified_date: z.string(),
+})
+
 export type Vendor = z.infer<typeof vendorSchema>

@@ -108,16 +108,27 @@ function VendorTable({
                         <EllipsisVertical size={16} />
                       </button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-fit p-2">
+                    <PopoverContent className="w-fit p-2 flex flex-col gap-2 justify-center items-center">
                       <Link
                         to="/dashboard/vendor/$vendorId"
                         params={{ vendorId: vendor.id }}
                       >
                         <Button
-                          className="h-fit w-full px-3 py-1"
+                          className="h-fit w-full px-3 py-1 border"
                           variant="ghost"
                         >
                           Detailed View
+                        </Button>
+                      </Link>
+                      <Link
+                        to="/vendor/$vendorId/evaluation-form"
+                        params={{ vendorId: vendor.id }}
+                      >
+                        <Button
+                          className="h-fit w-full px-3 py-1 border"
+                          variant="ghost"
+                        >
+                          Evaluate Vendor
                         </Button>
                       </Link>
                     </PopoverContent>

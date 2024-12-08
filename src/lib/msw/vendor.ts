@@ -8,6 +8,7 @@ import {
   GetVendorsResponse,
   UpdateEmailStatusResponse,
   UpdateVendorResponse,
+  VendorEvaluationReponse,
 } from '@/lib/redux/features/vendor/validation.ts'
 
 export const vendorHandlers = [
@@ -282,5 +283,26 @@ export const vendorHandlers = [
     return HttpResponse.json({
       locations: ['Jabodetabek', 'Indonesia'],
     } satisfies GetLocationsResponse)
+  }),
+  http.post(`${API_BASE_URL}/vendor/evaluation`, () => {
+    return HttpResponse.json({
+      vendor_evaluation: {
+        id: 'rnUwlLOXzl3Pbmz',
+        vendor_id: '1',
+        kesesuaian_produk: 1,
+        kualitas_produk: 1,
+        ketepatan_waktu_pengiriman: 1,
+        kompetitifitas_harga: 1,
+        responsivitas_kemampuan_komunikasi: 1,
+        kemampuan_dalam_menangani_masalah: 1,
+        kelengkapan_barang: 1,
+        harga: 1,
+        term_of_payment: 1,
+        reputasi: 1,
+        ketersediaan_barang: 1,
+        kualitas_layanan_after_services: 1,
+        modified_date: '2024-12-05T21:27:02.2506592+07:00',
+      } satisfies VendorEvaluationReponse,
+    })
   }),
 ]

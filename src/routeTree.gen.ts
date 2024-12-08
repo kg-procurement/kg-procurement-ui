@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as VendorImport } from './routes/vendor'
 import { Route as LoginImport } from './routes/login'
+<<<<<<< HEAD
 
 // Create Virtual Routes
 
@@ -28,6 +29,12 @@ const VendorEvaluationFormLazyImport = createFileRoute(
 const DashboardVendorVendorIdLazyImport = createFileRoute(
   '/dashboard/vendor/$vendorId',
 )()
+=======
+import { Route as EmailImport } from './routes/email'
+import { Route as IndexImport } from './routes/index'
+import { Route as VendorVendorIdEvaluationFormImport} from './routes/vendor_.$vendorId.evaluation-form'
+import { Route as DashboardVendorVendorIdImport } from './routes/dashboard.vendor.$vendorId'
+>>>>>>> main
 
 // Create/Update Routes
 
@@ -61,12 +68,20 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
+<<<<<<< HEAD
 const VendorEvaluationFormLazyRoute = VendorEvaluationFormLazyImport.update({
   path: '/vendor/evaluation-form',
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/vendor_.evaluation-form.lazy').then((d) => d.Route),
 )
+=======
+const VendorVendorIdEvaluationFormRoute =
+  VendorVendorIdEvaluationFormImport.update({
+    path: '/vendor/$vendorId/evaluation-form',
+    getParentRoute: () => rootRoute,
+  } as any)
+>>>>>>> main
 
 const DashboardVendorVendorIdLazyRoute =
   DashboardVendorVendorIdLazyImport.update({
@@ -101,6 +116,7 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VendorImport
       parentRoute: typeof rootRoute
     }
+<<<<<<< HEAD
     '/email': {
       id: '/email'
       path: '/email'
@@ -129,11 +145,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VendorEvaluationFormLazyImport
       parentRoute: typeof rootRoute
     }
+=======
+>>>>>>> main
     '/dashboard/vendor/$vendorId': {
       id: '/dashboard/vendor/$vendorId'
       path: '/dashboard/vendor/$vendorId'
       fullPath: '/dashboard/vendor/$vendorId'
       preLoaderRoute: typeof DashboardVendorVendorIdLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/vendor/$vendorId/evaluation-form': {
+      id: '/vendor/$vendorId/evaluation-form'
+      path: '/vendor/$vendorId/evaluation-form'
+      fullPath: '/vendor/$vendorId/evaluation-form'
+      preLoaderRoute: typeof VendorVendorIdEvaluationFormImport
       parentRoute: typeof rootRoute
     }
   }
@@ -145,22 +170,32 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/login': typeof LoginRoute
   '/vendor': typeof VendorRoute
+<<<<<<< HEAD
   '/email': typeof EmailLazyRoute
   '/product': typeof ProductLazyRoute
   '/register': typeof RegisterLazyRoute
   '/vendor/evaluation-form': typeof VendorEvaluationFormLazyRoute
   '/dashboard/vendor/$vendorId': typeof DashboardVendorVendorIdLazyRoute
+=======
+  '/dashboard/vendor/$vendorId': typeof DashboardVendorVendorIdRoute
+  '/vendor/$vendorId/evaluation-form': typeof VendorVendorIdEvaluationFormRoute
+>>>>>>> main
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/login': typeof LoginRoute
   '/vendor': typeof VendorRoute
+<<<<<<< HEAD
   '/email': typeof EmailLazyRoute
   '/product': typeof ProductLazyRoute
   '/register': typeof RegisterLazyRoute
   '/vendor/evaluation-form': typeof VendorEvaluationFormLazyRoute
   '/dashboard/vendor/$vendorId': typeof DashboardVendorVendorIdLazyRoute
+=======
+  '/dashboard/vendor/$vendorId': typeof DashboardVendorVendorIdRoute
+  '/vendor/$vendorId/evaluation-form': typeof VendorVendorIdEvaluationFormRoute
+>>>>>>> main
 }
 
 export interface FileRoutesById {
@@ -168,11 +203,16 @@ export interface FileRoutesById {
   '/': typeof IndexLazyRoute
   '/login': typeof LoginRoute
   '/vendor': typeof VendorRoute
+<<<<<<< HEAD
   '/email': typeof EmailLazyRoute
   '/product': typeof ProductLazyRoute
   '/register': typeof RegisterLazyRoute
   '/vendor/evaluation-form': typeof VendorEvaluationFormLazyRoute
   '/dashboard/vendor/$vendorId': typeof DashboardVendorVendorIdLazyRoute
+=======
+  '/dashboard/vendor/$vendorId': typeof DashboardVendorVendorIdRoute
+  '/vendor/$vendorId/evaluation-form': typeof VendorVendorIdEvaluationFormRoute
+>>>>>>> main
 }
 
 export interface FileRouteTypes {
@@ -184,8 +224,13 @@ export interface FileRouteTypes {
     | '/email'
     | '/product'
     | '/register'
+<<<<<<< HEAD
     | '/vendor/evaluation-form'
+=======
+    | '/vendor'
+>>>>>>> main
     | '/dashboard/vendor/$vendorId'
+    | '/vendor/$vendorId/evaluation-form'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -194,8 +239,13 @@ export interface FileRouteTypes {
     | '/email'
     | '/product'
     | '/register'
+<<<<<<< HEAD
     | '/vendor/evaluation-form'
+=======
+    | '/vendor'
+>>>>>>> main
     | '/dashboard/vendor/$vendorId'
+    | '/vendor/$vendorId/evaluation-form'
   id:
     | '__root__'
     | '/'
@@ -204,8 +254,13 @@ export interface FileRouteTypes {
     | '/email'
     | '/product'
     | '/register'
+<<<<<<< HEAD
     | '/vendor/evaluation-form'
+=======
+    | '/vendor'
+>>>>>>> main
     | '/dashboard/vendor/$vendorId'
+    | '/vendor/$vendorId/evaluation-form'
   fileRoutesById: FileRoutesById
 }
 
@@ -213,22 +268,32 @@ export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   LoginRoute: typeof LoginRoute
   VendorRoute: typeof VendorRoute
+<<<<<<< HEAD
   EmailLazyRoute: typeof EmailLazyRoute
   ProductLazyRoute: typeof ProductLazyRoute
   RegisterLazyRoute: typeof RegisterLazyRoute
   VendorEvaluationFormLazyRoute: typeof VendorEvaluationFormLazyRoute
   DashboardVendorVendorIdLazyRoute: typeof DashboardVendorVendorIdLazyRoute
+=======
+  DashboardVendorVendorIdRoute: typeof DashboardVendorVendorIdRoute
+  VendorVendorIdEvaluationFormRoute: typeof VendorVendorIdEvaluationFormRoute
+>>>>>>> main
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   LoginRoute: LoginRoute,
   VendorRoute: VendorRoute,
+<<<<<<< HEAD
   EmailLazyRoute: EmailLazyRoute,
   ProductLazyRoute: ProductLazyRoute,
   RegisterLazyRoute: RegisterLazyRoute,
   VendorEvaluationFormLazyRoute: VendorEvaluationFormLazyRoute,
   DashboardVendorVendorIdLazyRoute: DashboardVendorVendorIdLazyRoute,
+=======
+  DashboardVendorVendorIdRoute: DashboardVendorVendorIdRoute,
+  VendorVendorIdEvaluationFormRoute: VendorVendorIdEvaluationFormRoute,
+>>>>>>> main
 }
 
 export const routeTree = rootRoute
@@ -249,8 +314,14 @@ export const routeTree = rootRoute
         "/email",
         "/product",
         "/register",
+<<<<<<< HEAD
         "/vendor/evaluation-form",
         "/dashboard/vendor/$vendorId"
+=======
+        "/vendor",
+        "/dashboard/vendor/$vendorId",
+        "/vendor/$vendorId/evaluation-form"
+>>>>>>> main
       ]
     },
     "/": {
@@ -262,6 +333,7 @@ export const routeTree = rootRoute
     "/vendor": {
       "filePath": "vendor.tsx"
     },
+<<<<<<< HEAD
     "/email": {
       "filePath": "email.lazy.tsx"
     },
@@ -276,6 +348,13 @@ export const routeTree = rootRoute
     },
     "/dashboard/vendor/$vendorId": {
       "filePath": "dashboard.vendor.$vendorId.lazy.tsx"
+=======
+    "/dashboard/vendor/$vendorId": {
+      "filePath": "dashboard.vendor.$vendorId.tsx"
+    },
+    "/vendor/$vendorId/evaluation-form": {
+      "filePath": "vendor_.$vendorId.evaluation-form.tsx"
+>>>>>>> main
     }
   }
 }
