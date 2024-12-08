@@ -7,7 +7,7 @@ import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 import { waitForNoLoadingOverlay } from '@/lib/testing/wait-for.ts'
 
-import VendorDetailPage from '../dashboard.vendor.$vendorId.tsx'
+import VendorDetailPage from '../dashboard.vendor.$vendorId.lazy.tsx'
 
 const { mockGetProductsByVendorUseParams } = vi.hoisted(() => ({
   mockGetProductsByVendorUseParams: vi.fn(() => ({ vendorId: '2508' })),

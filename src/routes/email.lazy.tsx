@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 
 import { Input } from '@/components/atoms/input.tsx'
@@ -9,24 +9,21 @@ import { useLoadingOverlay } from '@/hooks/use-loading-overlay.ts'
 import { useGetEmailStatusesQuery } from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 
-export const Route = createFileRoute('/email')({
+export const Route = createLazyFileRoute('/email')({
   component: () => <EmailPage />,
 })
 
 export default function EmailPage() {
   const [page, setPage] = useState<number>(1)
   const [emailToFilter, setEmailToFilter] = useState('')
-  const [sortBy, setSortBy] = useState<'date_sent' | ''>('');
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [sortBy, setSortBy] = useState<'date_sent' | ''>('')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
   const handleSort = (column: 'date_sent' | '') => {
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
     setSortBy(column)
   }
   const { emails, metadata, isSuccess, error } = useGetEmailStatusesQuery(
-    { page, 
-      email_to: emailToFilter,
-      order_by: sortBy, 
-      order: sortOrder },
+    { page, email_to: emailToFilter, order_by: sortBy, order: sortOrder },
     {
       selectFromResult: result => ({
         emails: result.data?.email_status,

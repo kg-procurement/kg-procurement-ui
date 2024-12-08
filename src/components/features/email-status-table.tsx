@@ -26,8 +26,6 @@ interface EmailStatusTableProps {
   sortOrder: 'asc' | 'desc' | ''
 }
 
-
-
 export default function EmailStatusTable({
   emails,
   metadata,
@@ -35,7 +33,7 @@ export default function EmailStatusTable({
   setPage = noop,
   handleSort,
   sortBy,
-  sortOrder
+  sortOrder,
 }: EmailStatusTableProps) {
   const [updateEmailStatus] = useUpdateEmailStatusMutation()
 
@@ -61,7 +59,7 @@ export default function EmailStatusTable({
             <TableHead className="w-[160px]">Performance Score</TableHead>
             <TableHead
               className="cursor-pointer"
-              data-testid = "sort-date-sent"
+              data-testid="sort-date-sent"
               onClick={() => handleSort('date_sent')}
             >
               Date Sent
@@ -78,7 +76,7 @@ export default function EmailStatusTable({
                     <TableCell>{email.vendor_name}</TableCell>
                     <TableCell>{email.email_to}</TableCell>
                     <TableCell>{email.vendor_rating}</TableCell>
-                    
+
                     <TableCell>
                       {new Intl.DateTimeFormat('id-ID', {
                         timeZone: 'Asia/Jakarta',

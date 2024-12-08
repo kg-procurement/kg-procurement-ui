@@ -1,9 +1,17 @@
-import { createFileRoute, useNavigate, useParams } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router'
+import { useNavigate, useParams } from '@tanstack/react-router'
 import { useState } from 'react'
 
 import { Button } from '@/components/atoms/button.tsx'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/atoms/popover.tsx'
-import { RadioGroup, RadioGroupItem } from '@/components/atoms/radio-button.tsx'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/atoms/popover.tsx'
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from '@/components/atoms/radio-button.tsx'
 import {
   Table,
   TableBody,
@@ -16,11 +24,14 @@ import { Typography } from '@/components/atoms/typography.tsx'
 import PageHeader from '@/components/molecules/page-header.tsx'
 import { useLoadingOverlay } from '@/hooks/use-loading-overlay.ts'
 import { toast } from '@/hooks/use-toast.ts'
-import { useCreateVendorEvaluationMutation, useGetVendorByIdQuery } from '@/lib/redux/features/vendor/api.ts'
+import {
+  useCreateVendorEvaluationMutation,
+  useGetVendorByIdQuery,
+} from '@/lib/redux/features/vendor/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { toastForError } from '@/lib/redux/utils.tsx'
 
-export const Route = createFileRoute('/vendor/$vendorId/evaluation-form')({
+export const Route = createLazyFileRoute('/vendor/$vendorId/evaluation-form')({
   component: EvaluationFormPage,
 })
 
@@ -180,7 +191,9 @@ export default function EvaluationFormPage() {
           </div>
           <Popover open={togglePopover}>
             <PopoverTrigger asChild>
-              <Button onClick={handleSubmitEvaluationForm}>Submit Evaluation</Button>
+              <Button onClick={handleSubmitEvaluationForm}>
+                Submit Evaluation
+              </Button>
             </PopoverTrigger>
             <PopoverContent className="p-2">
               <Typography variant="body2" className="text-red-600">

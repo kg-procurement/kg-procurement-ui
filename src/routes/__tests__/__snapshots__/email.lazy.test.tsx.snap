@@ -1,0 +1,3 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<EmailPage /> > should render email status content properly 1`] = `"Vendor NameEmail ToPerformance ScoreDate SentStatusMulti Kharisma Solusindo, PTAndrewjeremy12345@gmail.com-1005 Des 2024, 06.19FailedSuccessIn ProgressCompletedMulti Kharisma Solusindo, PTAndrewjeremy12345@gmail.com-1005 Des 2024, 07.11FailedSuccessIn ProgressCompletedFors Fortis Indonesia, PTkiminonamaewa98@gmail.com05 Des 2024, 07.11FailedSuccessIn ProgressCompletedMulti Kharisma Solusindo, PTAndrewjeremy12345@gmail.com-1005 Des 2024, 07.11FailedSuccessIn ProgressCompleted"`;

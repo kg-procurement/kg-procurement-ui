@@ -1,11 +1,13 @@
-import { screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { http, HttpResponse } from 'msw'
 import { describe, expect, it } from 'vitest'
 
 import { API_BASE_URL } from '@/env.ts'
 import { mswServer } from '@/lib/msw/index.ts'
-import { renderRoute } from '@/lib/testing/router.tsx'
+import { withWrappers } from '@/lib/testing/utils.tsx'
+
+import RegisterPage from '../register.lazy.tsx'
 
 vi.mock('@tanstack/react-router', async importOriginal => ({
   ...(await importOriginal()),
@@ -14,26 +16,27 @@ vi.mock('@tanstack/react-router', async importOriginal => ({
 
 describe('RegisterPage', () => {
   it('should render the register account title', () => {
-    renderRoute('/register')
+    render(withWrappers(<RegisterPage />))
     expect(
       screen.getByRole('heading', { name: 'Register' }),
     ).toBeInTheDocument()
   })
 
   it('should render email input', () => {
-    renderRoute('/register')
+    render(withWrappers(<RegisterPage />))
     expect(screen.getByPlaceholderText('Email')).toBeInTheDocument()
   })
 
   it('should render register button', () => {
-    renderRoute('/register')
+    render(withWrappers(<RegisterPage />))
     expect(
       screen.getByRole('button', { name: 'Register' }),
     ).toBeInTheDocument()
   })
 
   it('should reset input value and render success toast after the register successful', async () => {
-    renderRoute('/register')
+    render(withWrappers(<RegisterPage />))
+
     const emailInput = screen.getByPlaceholderText('Email')
     const passwordInput = screen.getByPlaceholderText('Password')
     const registerButton = screen.getByRole('button', { name: 'Register' })
@@ -71,7 +74,8 @@ describe('RegisterPage', () => {
       ),
     )
 
-    renderRoute('/register')
+    render(withWrappers(<RegisterPage />))
+
     const emailInput = screen.getByPlaceholderText('Email')
     const passwordInput = screen.getByPlaceholderText('Password')
     const registerButton = screen.getByRole('button', { name: 'Register' })

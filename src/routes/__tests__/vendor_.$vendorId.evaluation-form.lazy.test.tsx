@@ -8,7 +8,7 @@ import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 import { waitForNoLoadingOverlay } from '@/lib/testing/wait-for.ts'
 
-import EvaluationFormPage from '../vendor_.$vendorId.evaluation-form.tsx'
+import EvaluationFormPage from '../vendor_.$vendorId.evaluation-form.lazy.tsx'
 
 const { mockGetProductsByVendorUseParams } = vi.hoisted(() => ({
   mockGetProductsByVendorUseParams: vi.fn(() => ({ vendorId: '2508' })),
@@ -72,7 +72,9 @@ describe('<EvaluationFormPage/>', () => {
 
     await userEvent.click(firstRadioButton)
 
-    const submitButton = screen.getByRole('button', { name: 'Submit Evaluation' })
+    const submitButton = screen.getByRole('button', {
+      name: 'Submit Evaluation',
+    })
     await userEvent.click(submitButton)
   })
 
@@ -108,7 +110,9 @@ describe('<EvaluationFormPage/>', () => {
     radioButton = within(radioGroups[44]).getByRole('radio')
     await userEvent.click(radioButton)
 
-    const submitButton = screen.getByRole('button', { name: 'Submit Evaluation' })
+    const submitButton = screen.getByRole('button', {
+      name: 'Submit Evaluation',
+    })
     await userEvent.click(submitButton)
 
     await waitFor(() => {
@@ -157,7 +161,9 @@ describe('<EvaluationFormPage/>', () => {
     radioButton = within(radioGroups[44]).getByRole('radio')
     await userEvent.click(radioButton)
 
-    const submitButton = screen.getByRole('button', { name: 'Submit Evaluation' })
+    const submitButton = screen.getByRole('button', {
+      name: 'Submit Evaluation',
+    })
     await userEvent.click(submitButton)
 
     await waitFor(() => {

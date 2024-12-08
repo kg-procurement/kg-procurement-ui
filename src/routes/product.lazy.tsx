@@ -1,5 +1,5 @@
 import { CheckedState } from '@radix-ui/react-checkbox'
-import { createFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 
 import { Input } from '@/components/atoms/input.tsx'
@@ -11,7 +11,7 @@ import { useGetProductVendorsQuery } from '@/lib/redux/features/product/api.ts'
 import { useQueryErrorHandler } from '@/lib/redux/hooks.ts'
 import { ProductVendor } from '@/schemas/product.ts'
 
-export const Route = createFileRoute('/product')({
+export const Route = createLazyFileRoute('/product')({
   component: ProductPage,
 })
 

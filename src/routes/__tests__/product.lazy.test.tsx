@@ -7,7 +7,7 @@ import { mswServer } from '@/lib/msw/index.ts'
 import { withWrappers } from '@/lib/testing/utils.tsx'
 import { waitForNoLoadingOverlay } from '@/lib/testing/wait-for.ts'
 
-import ProductPage from '../product.tsx'
+import ProductPage from '../product.lazy.tsx'
 
 describe('<ProductPage />', () => {
   it('should render the header section with the logo', () => {
