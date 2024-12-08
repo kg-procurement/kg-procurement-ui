@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<EvaluationFormPage/> > should render the form penilaian table content properly 1`] = `
+"Email Status
+Products
+Vendors
+Vendor PerformanceEvaluation Form
+Adriza Nikmah, PT
+Kriterian penilaian1234Kesesuaian produk/jasa dengan spesifikasiKualitas produk/jasaKetepatan waktu pengiriman/penyelesaianKompetitifitas hargaResponsivitas dan kemampuan komunikasiKemampuan dalam menangani masalah/keluhanKelengkapan Barang (Vendor Konvensional)Harga (Vendor Konvensional & Online)Term of Payment (Vendor Konvensional)Reputasi (Vendor Online)Ketersediaan Barang (Vendor Konvensional)Kualitas layanan after services* (jika ada?)Submit Evaluation
+© 2024 KOMPAS
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+Contact us (Email):"
+`;
